@@ -24,6 +24,12 @@ public partial class ScreenshotNode : Node
 		for (var i = 0; i < frames; i++)
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
+		if (args.Contains("grant"))
+		{
+			GameState.Instance.AddMaterial(Materials.Wood, 5);
+			GameState.Instance.AddMaterial(Materials.Stick, 5);
+		}
+
 		if (args.Contains("demo_talk"))
 		{
 			var npc = scene.GetNode<Npc>("World/Npc");
@@ -33,6 +39,15 @@ public partial class ScreenshotNode : Node
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 			scene.GetNode<RequestPanel>("UI/RequestPanel").Open(npc);
 			for (var i = 0; i < 5; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		if (args.Contains("demo_chop"))
+		{
+			var game = GD.Load<PackedScene>("res://scenes/minigames/TimingBarMiniGame.tscn").Instantiate<TimingBarMiniGame>();
+			game.Setup("Chop the tree", 3, 2);
+			scene.GetNode<CanvasLayer>("UI").AddChild(game);
+			for (var i = 0; i < 8; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 

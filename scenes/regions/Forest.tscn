@@ -1,0 +1,120 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Script" path="res://scripts/Region.cs" id="1_region"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/entities/ResourceNode.tscn" id="3_node"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/TimingBarMiniGame.tscn" id="4_mg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/stick.svg" id="5_stick"]
+[ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="6_js"]
+[ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="7_mh"]
+
+[node name="Forest" type="Node2D"]
+script = ExtResource("1_region")
+RegionId = "forest"
+ReturnScene = "res://scenes/RegionSelect.tscn"
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_left = -4000.0
+offset_top = -3000.0
+offset_right = 4000.0
+offset_bottom = 3000.0
+color = Color(0.404, 0.545, 0.353, 1)
+
+[node name="World" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(0, 200)
+
+[node name="Tree1" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-360, -110)
+MaterialId = "wood"
+ActionLabel = "Chop"
+MiniGameTitle = "Chop the tree"
+HitsNeeded = 3
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 25.0
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Tree2" parent="World" instance=ExtResource("3_node")]
+position = Vector2(300, -260)
+MaterialId = "wood"
+ActionLabel = "Chop"
+MiniGameTitle = "Chop the tree"
+HitsNeeded = 3
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 25.0
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Tree3" parent="World" instance=ExtResource("3_node")]
+position = Vector2(470, 130)
+MaterialId = "wood"
+ActionLabel = "Chop"
+MiniGameTitle = "Chop the tree"
+HitsNeeded = 4
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 25.0
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Stick1" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-180, 250)
+MaterialId = "stick"
+ActionLabel = "Pick up"
+MiniGameTitle = "Gather sticks"
+HitsNeeded = 2
+YieldAmount = 1
+HarvestsUntilDepleted = 1
+RespawnSeconds = 18.0
+NodeTexture = ExtResource("5_stick")
+SpriteOffset = Vector2(0, -16)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Stick2" parent="World" instance=ExtResource("3_node")]
+position = Vector2(150, -30)
+MaterialId = "stick"
+ActionLabel = "Pick up"
+MiniGameTitle = "Gather sticks"
+HitsNeeded = 2
+YieldAmount = 1
+HarvestsUntilDepleted = 1
+RespawnSeconds = 18.0
+NodeTexture = ExtResource("5_stick")
+SpriteOffset = Vector2(0, -16)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VirtualJoystick" parent="UI" instance=ExtResource("6_js")]
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 360.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 38
+text = "←  Regions"
+
+[node name="GatherButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -230.0
+offset_right = -60.0
+offset_bottom = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "Gather"
+
+[node name="MaterialsHud" parent="UI" instance=ExtResource("7_mh")]
+unique_name_in_owner = true

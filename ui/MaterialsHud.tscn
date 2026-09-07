@@ -1,0 +1,26 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://ui/MaterialsHud.cs" id="1_mh"]
+
+[node name="MaterialsHud" type="PanelContainer"]
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -360.0
+offset_top = 32.0
+offset_right = 360.0
+offset_bottom = 92.0
+grow_horizontal = 2
+script = ExtResource("1_mh")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 8
+
+[node name="Label" type="Label" parent="Margin"]
+layout_mode = 2
+text = "No materials yet"
+horizontal_alignment = 1
+vertical_alignment = 1

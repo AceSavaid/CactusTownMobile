@@ -34,6 +34,10 @@ position = Vector2(0, 260)
 
 [node name="Npc" parent="World" instance=ExtResource("3_npc")]
 position = Vector2(280, -60)
+RequiredMaterials = {
+"stick": 2,
+"wood": 3
+}
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -48,6 +52,15 @@ offset_right = 320.0
 offset_bottom = 152.0
 theme_override_font_sizes/font_size = 38
 text = "←  Home"
+
+[node name="RegionsButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 164.0
+offset_right = 320.0
+offset_bottom = 264.0
+theme_override_font_sizes/font_size = 34
+text = "Regions  →"
 
 [node name="TalkButton" type="Button" parent="UI"]
 unique_name_in_owner = true

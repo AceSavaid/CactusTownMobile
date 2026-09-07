@@ -64,6 +64,32 @@ public partial class GameState : Node
 		SaveGame();
 	}
 
+	/// <summary>All owned materials as id -> count (only positive entries).</summary>
+	public Dictionary GetMaterials() => _data["materials"].AsGodotDictionary();
+
+	public bool HasMaterials(Dictionary required)
+	{
+		foreach (var (id, count) in required)
+		{
+			if (GetMaterial(id.AsString()) < count.AsInt32())
+				return false;
+		}
+		return true;
+	}
+
+	public bool SpendMaterials(Dictionary required)
+	{
+		if (!HasMaterials(required))
+			return false;
+		var materials = _data["materials"].AsGodotDictionary();
+		foreach (var (id, count) in required)
+			materials[id] = materials[id].AsInt32() - count.AsInt32();
+		_data["materials"] = materials;
+		EmitSignal(SignalName.MaterialsChanged);
+		SaveGame();
+		return true;
+	}
+
 	// --- Plant ----------------------------------------------------------
 
 	public Dictionary GetPlant() => _data["plant"].AsGodotDictionary();
@@ -103,6 +129,21 @@ public partial class GameState : Node
 	}
 
 	public bool IsObjectFixed(string objectId) => GetObjectState(objectId) == "fixed";
+
+	// --- Regions -------------------------------------------------------
+
+	public void MarkRegionVisited(string regionId)
+	{
+		var regions = _data["regions"].AsGodotDictionary();
+		if (regions.ContainsKey(regionId))
+			return;
+		regions[regionId] = new Dictionary { { "visited", true } };
+		_data["regions"] = regions;
+		SaveGame();
+	}
+
+	public bool IsRegionVisited(string regionId) =>
+		_data["regions"].AsGodotDictionary().ContainsKey(regionId);
 
 	// --- Persistence --------------------------------------------------
 

@@ -9,6 +9,7 @@ namespace CactusTown;
 public partial class Town : Node2D
 {
 	private const string HouseScene = "res://scenes/House.tscn";
+	private const string RegionSelectScene = "res://scenes/RegionSelect.tscn";
 
 	private Npc? _activeNpc;
 
@@ -29,6 +30,7 @@ public partial class Town : Node2D
 		_joystick.DirectionChanged += _player.SetMoveDirection;
 		_talkButton.Pressed += OnTalkPressed;
 		GetNode<Button>("%BackButton").Pressed += () => Router.Instance.GotoScene(HouseScene);
+		GetNode<Button>("%RegionsButton").Pressed += () => Router.Instance.GotoScene(RegionSelectScene);
 		_requestPanel.Closed += OnRequestPanelClosed;
 
 		foreach (var child in _world.GetChildren())

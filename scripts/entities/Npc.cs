@@ -1,4 +1,5 @@
 using Godot;
+using Godot.Collections;
 
 namespace CactusTown;
 
@@ -21,6 +22,9 @@ public partial class Npc : Area2D
 	[Export(PropertyHint.MultilineText)] public string RequestText = "The old plaza bench is falling apart. Fancy giving it a fix?";
 	[Export(PropertyHint.MultilineText)] public string ThanksText = "You fixed it up beautifully. The whole plaza feels warmer.";
 	[Export] public int RewardCoins = 25;
+
+	/// <summary>Materials consumed to complete the request: material id -> count.</summary>
+	[Export] public Dictionary RequiredMaterials = new();
 
 	private Node2D _prompt = null!;
 
@@ -50,10 +54,13 @@ public partial class Npc : Area2D
 
 	public bool IsDone() => GameState.Instance.IsObjectFixed(ObjectId);
 
+	public bool CanComplete() => GameState.Instance.HasMaterials(RequiredMaterials);
+
 	public void CompleteRequest()
 	{
-		if (IsDone())
+		if (IsDone() || !CanComplete())
 			return;
+		GameState.Instance.SpendMaterials(RequiredMaterials);
 		GameState.Instance.SetObjectState(ObjectId, "fixed");
 		GameState.Instance.AddCoins(RewardCoins);
 		_prompt.Hide();

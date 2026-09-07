@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/ResourceNode.cs" id="1_rn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/tree.svg" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
+radius = 115.0
+
+[node name="ResourceNode" type="Area2D"]
+script = ExtResource("1_rn")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -87)
+texture = ExtResource("2_tex")
+
+[node name="Detect" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_detect")
+
+[node name="Prompt" type="Node2D" parent="."]
+position = Vector2(0, -170)
+
+[node name="Label" type="Label" parent="Prompt"]
+offset_left = -60.0
+offset_top = -34.0
+offset_right = 60.0
+offset_bottom = 18.0
+theme_override_font_sizes/font_size = 40
+text = "!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Respawn" type="Timer" parent="."]
+one_shot = true
