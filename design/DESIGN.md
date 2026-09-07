@@ -1,6 +1,8 @@
 # Cactus Town Mobile — Design
 
 Casual game about caring for a plant and restoring a town.
+**Landscape**, C#, Godot 4.4.1. Every character in the game is a cactus in a pot
+(the player and all NPCs).
 
 ## Core loop
 
@@ -38,9 +40,19 @@ Casual game about caring for a plant and restoring a town.
 - `objects`: list of repairable object ids
 - `complete` = every object `fixed`
 
-### Region
+### Regions (4)
+Reached from the town. Each has its own gatherable materials.
+
+| Region | Materials | Gathering |
+|---|---|---|
+| **Forest** | wood (from trees), sticks (from the ground) | chop trees / pick up |
+| **Flower Field** | flowers (several kinds) | pick |
+| **River** | water (buckets, from the river), stones (from the ground) | scoop / pick up |
+| **Cave** | ores — iron, gold (more later) | mine rocks |
+
 - `id`, `display_name`, `unlocked`
-- yields a set of materials (gathering minigame / node harvesting — TBD)
+- Contains resource nodes; each node yields a material, may have a respawn timer.
+- Exact gathering feel (tap, hold, timed minigame, energy?) — TBD.
 
 ### Player wallet & inventory
 - `coins`
@@ -59,10 +71,15 @@ House ──▶ Town ──▶ Town Subsection (repair requests, customise)
   └─ Plant Stats
 ```
 
+## Decisions made
+
+- Town render: top-down free 2D movement with iso-styled art + Y-sort (not a real iso TileMap).
+- Plant stats: cosmetic / progress readout, no live-decay care mechanic.
+- Orientation: landscape. Language: C#.
+
 ## Open questions
 
-- Isometric: true isometric TileMap (diamond) vs 2.5D top-down with iso-styled art on a square grid?
-- Plant stats: live care mechanic (water/light decay in real time) or cosmetic?
-- Save: single slot, autosave on scene change (assumed) — confirm.
-- Regions: how is gathering done — timed minigame, tap-to-harvest nodes, energy system?
+- Save: single slot, autosave on every mutation (current behaviour) — confirm that's fine.
+- Regions: how is gathering done — tap-to-harvest nodes, hold, timed minigame, energy system?
+- Do requests consume materials from inventory, and does the request UI show a checklist?
 - Mini-games: how many at launch, what kind?

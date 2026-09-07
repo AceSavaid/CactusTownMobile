@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3]
 
-[ext_resource type="Script" path="res://ui/VirtualJoystick.gd" id="1_js"]
+[ext_resource type="Script" path="res://ui/VirtualJoystick.cs" id="1_js"]
 [ext_resource type="Texture2D" path="res://assets/sprites/joystick_base.svg" id="2_base"]
 [ext_resource type="Texture2D" path="res://assets/sprites/joystick_handle.svg" id="3_handle"]
 
@@ -18,10 +18,10 @@ script = ExtResource("1_js")
 layout_mode = 1
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 110.0
-offset_top = -360.0
-offset_right = 350.0
-offset_bottom = -120.0
+offset_left = 100.0
+offset_top = -300.0
+offset_right = 340.0
+offset_bottom = -60.0
 grow_vertical = 0
 mouse_filter = 2
 texture = ExtResource("2_base")

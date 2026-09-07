@@ -27,3 +27,6 @@ export.cfg
 Thumbs.db
 desktop.ini
 *~
+
+# Godot csproj rewrite backups
+*.csproj.old

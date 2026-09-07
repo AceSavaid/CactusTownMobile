@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cjc0etqw1v1o2"
-path="res://.godot/imported/npc_villager.svg-2784af14604c34e88af42a5c02cc55f4.ctex"
+uid="uid://tbsbdujp35oq"
+path="res://.godot/imported/npc_cactus.svg-9bd8c8b6470a066136356bdaae0ee41f.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/sprites/npc_villager.svg"
-dest_files=["res://.godot/imported/npc_villager.svg-2784af14604c34e88af42a5c02cc55f4.ctex"]
+source_file="res://assets/sprites/npc_cactus.svg"
+dest_files=["res://.godot/imported/npc_cactus.svg-9bd8c8b6470a066136356bdaae0ee41f.ctex"]
 
 [params]
 

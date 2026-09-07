@@ -1,75 +1,85 @@
 # Cactus Town Mobile
 
-A 2D mobile game built in **Godot 4.4.1 (mono build)**, GDScript.
-Target: Android (portrait, 1080×1920 design resolution). iOS export is not
+A 2D mobile game built in **Godot 4.4.1 (mono build)**, **C#**.
+Target: Android, **landscape**, 1920×1080 design resolution. iOS export is not
 possible from this Windows machine.
 
 ## Engine / tooling
 
 - Godot editor: `C:\Users\alann\OneDrive\Desktop\Games\Sources\Godot_v4.4.1-stable_mono_win64\Godot_v4.4.1-stable_mono_win64.exe`
-- Run headless / import from CLI with `--headless`, run a scene with `--path . scenes/Foo.tscn`.
+- .NET SDK 8/9/10 installed (`C:\Program Files\dotnet\dotnet.exe`). Godot targets **net8.0**.
+- Build C# before running: `dotnet build CactusTownMobile.csproj` (or let the editor build).
+  `CactusTownMobile.csproj` is engine-managed — Godot rewrites it; don't hand-edit beyond PropertyGroup basics.
 - The project lives inside OneDrive. If the import cache corrupts or files lock
   mid-edit, pause OneDrive sync for this folder (or move it to `C:\dev\`).
 
-## Language
+## Language — C#
 
-- **GDScript** by default. C# is available (mono build) but avoid mixing unless
-  a feature clearly needs it — flag it first.
-- Use **typed GDScript**: `var speed: float = 0.0`, typed params and return types,
-  `-> void` on functions that return nothing.
-- `class_name` only when the type is referenced from other scripts or the editor.
+- All gameplay code is C#. Namespace `CactusTown`. `<Nullable>enable</Nullable>` —
+  respect it (`null!` for node fields set in `_Ready`, `?` where genuinely nullable).
+- One `.cs` file per class, file name = class name.
+- Godot idioms:
+  - `[Export] public float Foo = 1f;` for inspector fields.
+  - `[Signal] public delegate void ThingHappenedEventHandler(int value);`
+    emit with `EmitSignal(SignalName.ThingHappened, value)`, subscribe with the
+    generated C# event: `node.ThingHappened += Handler;` (unsubscribe in `_ExitTree`).
+  - `GetNode<T>("%UniqueName")` / `GetNode<T>("Path")`.
+  - Autoloads accessed via their static `Instance` (`GameState.Instance`, `Router.Instance`).
+- Connect signals in code, not the editor.
 
 ## Conventions
 
-- **Files**: scenes `PascalCase.tscn`, scripts `PascalCase.gd` matching their
-  root node. Reusable non-node scripts `snake_case.gd`.
+- **Files**: scenes `PascalCase.tscn`; scripts `PascalCase.cs` matching the class /
+  scene root node.
 - **Nodes**: `PascalCase` in the scene tree.
-- **Vars / funcs**: `snake_case`. **Constants / enums**: `CONSTANT_CASE`.
-- **Signals**: named as past-tense events — `died`, `health_changed`,
-  `wave_completed`. Connect in code, not the editor, unless it's purely visual.
-- **Private** members prefixed `_`.
-- One `_ready()` responsibility per node; push shared logic into autoloads or
-  components.
+- **C#**: `PascalCase` members/methods, `_camelCase` private fields, `const`/`static readonly` for constants.
+- **Signals**: past-tense events — `Died`, `HealthChanged`, `PlayerEntered`.
+- One `_Ready()` responsibility per node; shared logic → autoloads or components.
 
 ## Project layout
 
 ```
-scenes/    composed .tscn files (levels, entities, screens)
-scripts/   .gd attached to scenes, plus pure logic modules
-ui/        HUD, menus, overlays
+scenes/    composed .tscn files (levels, entities, screens); scenes/dev/ is dev-only
+scripts/   .cs attached to scenes; scripts/globals/ autoloads; scripts/entities/; scripts/dev/
+ui/        HUD, menus, overlays (.tscn + .cs)
 assets/    sprites/  audio/  fonts/   (imported art — keep source-of-truth here)
-design/    reference screenshots / mockups pasted into chat, saved for context
+design/    DESIGN.md + reference mockups pasted into chat, saved for context
 ```
 
 ## Autoloads / globals
 
-None yet. When added, document each here with its responsibility (e.g.
-`GameState` — run progress & save data; `Audio` — bus + one-shot SFX).
+- `GameState` (`scripts/globals/GameState.cs`) — wallet, materials, plant, town
+  object repair-state; single JSON save slot at `user://cactus_town_save.json`
+  with forward-migration. Signals: `CoinsChanged`, `MaterialsChanged`, `PlantChanged`.
+- `Router` (`scripts/globals/Router.cs`) — `GotoScene(path)` fade transition,
+  `Toast(msg)`. `ProcessMode = Always` so it works while the tree is paused.
 
 ## Mobile specifics
 
-- Stretch mode `canvas_items`, aspect `expand`. Build UI with anchors/containers,
-  never absolute positions.
-- Input: touch is emulated from mouse in-editor. Use `_input` /
+- Landscape. Stretch mode `canvas_items`, aspect `expand`. Build UI with
+  anchors/containers, never absolute positions.
+- Input: touch is emulated from mouse in-editor. Use `_Input` /
   `InputEventScreenTouch` / `InputEventScreenDrag`; register actions in the
   Input Map rather than hardcoding keys.
 - Renderer is `mobile`. Avoid features that force the `forward_plus` backend.
-- Keep textures power-of-two friendly; ETC2/ASTC compression is on.
+- Modal dialogues pause the tree (`GetTree().Paused = true`); give always-on
+  nodes `ProcessMode = WhenPaused`/`Always` as needed.
 
 ## Git
 
 - Default branch `main`. Feature branches `feature/<slug>`, `fix/<slug>`.
-- `.godot/` and `export_presets.cfg` are gitignored — never force-add them.
+- `.godot/`, `bin/`, `obj/`, `export_presets.cfg` are gitignored — never force-add.
+- `CactusTownMobile.csproj` and any generated `.sln` ARE committed.
 - Commit messages: imperative summary, why in the body when non-obvious.
 
 ## Testing / running
 
 - Close the Godot editor before running CLI commands (OneDrive + a held import
   lock is the one thing that bites here).
-- Headless import + error check:
+- Build + import + error check:
+  `dotnet build CactusTownMobile.csproj`
   `godot --headless --import --path .`
   `godot --headless --path . scenes/<Scene>.tscn --quit-after 3`
-- **Screenshots** (windowed render, autoloads active) — dev-only, in
-  `scenes/dev/` + `scripts/dev/`:
-  `godot --path . scenes/dev/Screenshot.tscn --resolution 1080x1920 -- res://scenes/Town.tscn <out.png> [frames] [demo_talk]`
-- No unit-test framework yet. If one is added (GUT / GdUnit4), note the command here.
+- **Screenshots** (windowed render, autoloads + C# active) — dev-only:
+  `godot --path . scenes/dev/Screenshot.tscn --resolution 1920x1080 -- res://scenes/Town.tscn <out.png> [frames] [demo_talk]`
+- No unit-test framework yet. If one is added (GUT / GdUnit4 / xUnit), note the command here.

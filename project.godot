@@ -13,21 +13,25 @@ config_version=5
 config/name="Cactus Town Mobile"
 config/version="0.1.0"
 run/main_scene="res://scenes/House.tscn"
-config/features=PackedStringArray("4.4", "Mobile")
+config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-GameState="*res://scripts/globals/game_state.gd"
-Router="*res://scripts/globals/router.gd"
+GameState="*res://scripts/globals/GameState.cs"
+Router="*res://scripts/globals/Router.cs"
+
+[dotnet]
+
+project/assembly_name="CactusTownMobile"
 
 [display]
 
-window/size/viewport_width=1080
-window/size/viewport_height=1920
+window/size/viewport_width=1920
+window/size/viewport_height=1080
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/handheld/orientation="portrait"
+window/handheld/orientation="landscape"
 
 [input_devices]
 
