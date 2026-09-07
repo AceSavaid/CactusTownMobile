@@ -1,0 +1,29 @@
+# Godot 4+ engine cache / import data
+.godot/
+.import/
+
+# Mono / .NET build output
+.mono/
+data_*/
+mono_crash.*.json
+*.csproj.user
+[Bb]in/
+[Oo]bj/
+
+# Exported builds
+/build/
+/exports/
+/android/build/
+
+# Export presets can contain keystore paths/passwords — keep local
+export_presets.cfg
+export.cfg
+
+# Auto-generated translations
+*.translation
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+desktop.ini
+*~
