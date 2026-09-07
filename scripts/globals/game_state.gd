@@ -68,6 +68,25 @@ func set_plant_customisation(slot: String, variant: String) -> void:
 	save_game()
 
 
+# --- Repairable objects -----------------------------------------------------
+
+func get_object_state(object_id: String) -> String:
+	return String(data.get("objects", {}).get(object_id, {}).get("state", "broken"))
+
+
+func set_object_state(object_id: String, state: String) -> void:
+	var objects: Dictionary = data.get("objects", {})
+	var entry: Dictionary = objects.get(object_id, {})
+	entry["state"] = state
+	objects[object_id] = entry
+	data["objects"] = objects
+	save_game()
+
+
+func is_object_fixed(object_id: String) -> bool:
+	return get_object_state(object_id) == "fixed"
+
+
 # --- Persistence -------------------------------------------------------------
 
 func new_game() -> void:

@@ -11,6 +11,7 @@ var _busy := false
 
 
 func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 	layer = 128
 	_fade = ColorRect.new()
 	_fade.color = Color.BLACK

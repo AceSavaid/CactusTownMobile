@@ -64,6 +64,12 @@ None yet. When added, document each here with its responsibility (e.g.
 
 ## Testing / running
 
-- Ask before assuming the game runs — this machine can import/run via CLI but
-  confirm the editor isn't holding a lock.
-- No test framework yet. If one is added (GUT / GdUnit4), note the command here.
+- Close the Godot editor before running CLI commands (OneDrive + a held import
+  lock is the one thing that bites here).
+- Headless import + error check:
+  `godot --headless --import --path .`
+  `godot --headless --path . scenes/<Scene>.tscn --quit-after 3`
+- **Screenshots** (windowed render, autoloads active) — dev-only, in
+  `scenes/dev/` + `scripts/dev/`:
+  `godot --path . scenes/dev/Screenshot.tscn --resolution 1080x1920 -- res://scenes/Town.tscn <out.png> [frames] [demo_talk]`
+- No unit-test framework yet. If one is added (GUT / GdUnit4), note the command here.
