@@ -12,9 +12,14 @@ config_version=5
 
 config/name="Cactus Town Mobile"
 config/version="0.1.0"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/House.tscn"
 config/features=PackedStringArray("4.4", "Mobile")
 config/icon="res://icon.svg"
+
+[autoload]
+
+GameState="*res://scripts/globals/game_state.gd"
+Router="*res://scripts/globals/router.gd"
 
 [display]
 
