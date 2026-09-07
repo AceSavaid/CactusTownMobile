@@ -76,10 +76,15 @@ House ──▶ Town ──▶ Town Subsection (repair requests, customise)
 - Town render: top-down free 2D movement with iso-styled art + Y-sort (not a real iso TileMap).
 - Plant stats: cosmetic / progress readout, no live-decay care mechanic.
 - Orientation: landscape. Language: C#.
+- Gathering: a **mini-game per region** (`ResourceNode` launches it, `MiniGame` base).
+  Forest = timing bar, Flower Field = button mash, River = hold-and-release,
+  Cave = tap-the-target. No hard fail — leaving early pays out proportionally.
+- Requests **consume materials**: `RequestPanel` shows a checklist, "Fix it" locked
+  until the player has them, consumed on completion.
 
 ## Open questions
 
 - Save: single slot, autosave on every mutation (current behaviour) — confirm that's fine.
-- Regions: how is gathering done — tap-to-harvest nodes, hold, timed minigame, energy system?
-- Do requests consume materials from inventory, and does the request UI show a checklist?
-- Mini-games: how many at launch, what kind?
+- Region unlocking — all open from the start now; should some be gated behind town progress?
+- Energy / stamina limit on gathering, or unlimited?
+- Mini-games (the House pillar) — separate from gathering games; how many, what kind?

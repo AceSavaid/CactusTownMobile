@@ -16,7 +16,7 @@ public partial class ResourceNode : Area2D
 	[Export] public string MaterialId = Materials.Wood;
 	[Export] public string ActionLabel = "Chop";
 	[Export] public string MiniGameTitle = "Chop the tree";
-	[Export] public int HitsNeeded = 3;
+	[Export] public int Difficulty = 3;
 	[Export] public int YieldAmount = 2;
 	[Export] public int HarvestsUntilDepleted = 1;
 	[Export] public float RespawnSeconds = 25f;
@@ -70,8 +70,7 @@ public partial class ResourceNode : Area2D
 		if (MiniGameScene == null)
 			return null;
 		var game = MiniGameScene.Instantiate<MiniGame>();
-		if (game is TimingBarMiniGame timing)
-			timing.Setup(MiniGameTitle, HitsNeeded, YieldAmount);
+		game.Configure(MiniGameTitle, YieldAmount, Difficulty);
 		return game;
 	}
 

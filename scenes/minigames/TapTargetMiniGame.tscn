@@ -1,0 +1,97 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://scripts/minigames/TapTargetMiniGame.cs" id="1_tt"]
+
+[node name="TapTargetMiniGame" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_tt")
+
+[node name="Dimmer" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.08, 0.09, 0.11, 0.92)
+
+[node name="Title" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 70.0
+offset_bottom = 150.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 56
+text = "Mine the rock"
+horizontal_alignment = 1
+
+[node name="Progress" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 60.0
+offset_top = 160.0
+offset_right = 460.0
+offset_bottom = 210.0
+theme_override_font_sizes/font_size = 34
+text = "Ore:  0 / 4"
+
+[node name="Timer" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -460.0
+offset_top = 160.0
+offset_right = -60.0
+offset_bottom = 210.0
+grow_horizontal = 0
+theme_override_font_sizes/font_size = 34
+text = "9.0s"
+horizontal_alignment = 2
+
+[node name="Area" type="Control" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -300.0
+offset_right = 640.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Frame" type="ColorRect" parent="Area"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.19, 0.17, 0.16, 1)
+
+[node name="Target" type="Button" parent="Area"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(150, 150)
+offset_right = 150.0
+offset_bottom = 150.0
+theme_override_font_sizes/font_size = 40
+text = "⛏"
+
+[node name="GiveUpButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 48.0
+offset_right = 240.0
+offset_bottom = 132.0
+theme_override_font_sizes/font_size = 30
+text = "Leave"

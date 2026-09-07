@@ -46,6 +46,20 @@ assets/    sprites/  audio/  fonts/   (imported art — keep source-of-truth her
 design/    DESIGN.md + reference mockups pasted into chat, saved for context
 ```
 
+## Regions & gathering
+
+- `scenes/regions/*.tscn` each use `Region.cs`: a `World` (Y-sorted) with a
+  `Player` instance + `ResourceNode` instances, and a `UI` CanvasLayer
+  (`%VirtualJoystick`, `%BackButton`, `%GatherButton`, `MaterialsHud`).
+- `ResourceNode` (`scenes/entities/ResourceNode.tscn`) is fully data-driven via
+  exports — set `MaterialId`, `YieldAmount`, `Difficulty`, `HarvestsUntilDepleted`,
+  `RespawnSeconds`, `NodeTexture`, `SpriteOffset`, `MiniGameScene`.
+- Mini-games extend `MiniGame` (pauses the tree; root `process_mode = 3`), get
+  `Configure(title, reward, difficulty)` before entering the tree, and call
+  `Finish(success, amount)`. To add one: new `.cs` + `.tscn`, point a
+  `ResourceNode.MiniGameScene` at it.
+- To add a region: new scene from the pattern above + wire its button in `RegionSelect.cs`.
+
 ## Autoloads / globals
 
 - `GameState` (`scripts/globals/GameState.cs`) — wallet, materials, plant, town

@@ -42,12 +42,14 @@ public partial class ScreenshotNode : Node
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 
-		if (args.Contains("demo_chop"))
+		foreach (var arg in args)
 		{
-			var game = GD.Load<PackedScene>("res://scenes/minigames/TimingBarMiniGame.tscn").Instantiate<TimingBarMiniGame>();
-			game.Setup("Chop the tree", 3, 2);
+			if (!arg.StartsWith("mg="))
+				continue;
+			var game = GD.Load<PackedScene>($"res://scenes/minigames/{arg[3..]}.tscn").Instantiate<MiniGame>();
+			game.Configure("Gather the thing", 3, 4);
 			scene.GetNode<CanvasLayer>("UI").AddChild(game);
-			for (var i = 0; i < 8; i++)
+			for (var i = 0; i < 10; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 

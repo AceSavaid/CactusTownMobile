@@ -1,0 +1,114 @@
+[gd_scene load_steps=9 format=3]
+
+[ext_resource type="Script" path="res://scripts/Region.cs" id="1_region"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/entities/ResourceNode.tscn" id="3_node"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/TapTargetMiniGame.tscn" id="4_mg"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rock_iron.svg" id="5_iron"]
+[ext_resource type="Texture2D" path="res://assets/sprites/rock_gold.svg" id="6_gold"]
+[ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="7_js"]
+[ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="8_mh"]
+
+[node name="Cave" type="Node2D"]
+script = ExtResource("1_region")
+RegionId = "cave"
+ReturnScene = "res://scenes/RegionSelect.tscn"
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_left = -4000.0
+offset_top = -3000.0
+offset_right = 4000.0
+offset_bottom = 3000.0
+color = Color(0.235, 0.212, 0.204, 1)
+
+[node name="World" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(0, 230)
+
+[node name="Iron1" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-350, -110)
+MaterialId = "iron_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the iron"
+Difficulty = 4
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 26.0
+NodeTexture = ExtResource("5_iron")
+SpriteOffset = Vector2(0, -36)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Iron2" parent="World" instance=ExtResource("3_node")]
+position = Vector2(300, -240)
+MaterialId = "iron_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the iron"
+Difficulty = 4
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 26.0
+NodeTexture = ExtResource("5_iron")
+SpriteOffset = Vector2(0, -36)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Iron3" parent="World" instance=ExtResource("3_node")]
+position = Vector2(180, 120)
+MaterialId = "iron_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the iron"
+Difficulty = 5
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 26.0
+NodeTexture = ExtResource("5_iron")
+SpriteOffset = Vector2(0, -36)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Gold1" parent="World" instance=ExtResource("3_node")]
+position = Vector2(480, 60)
+MaterialId = "gold_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the gold vein"
+Difficulty = 7
+YieldAmount = 1
+HarvestsUntilDepleted = 1
+RespawnSeconds = 45.0
+NodeTexture = ExtResource("6_gold")
+SpriteOffset = Vector2(0, -36)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VirtualJoystick" parent="UI" instance=ExtResource("7_js")]
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 360.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 38
+text = "←  Regions"
+
+[node name="GatherButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -230.0
+offset_right = -60.0
+offset_bottom = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "Gather"
+
+[node name="MaterialsHud" parent="UI" instance=ExtResource("8_mh")]
+unique_name_in_owner = true
