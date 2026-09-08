@@ -66,6 +66,22 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One
   catch-up event no matter how many days passed.
 
+## House arcade mini-games
+
+- `scenes/ArcadeGallery.tscn` (`ArcadeGallery.cs`) — House → Mini-Games. A
+  scrolling card grid built from `ArcadeCatalog.All`; pick a card → difficulty
+  panel (Easy/Medium/Hard = 1/2/3 coin reward) → the game loads into `%GameHost`.
+- Games extend `ArcadeGame` (`scripts/arcade/`): `Configure(difficulty)` before
+  entering the tree; call `ReportResult(1|0|-1)` when a round ends (a win pays
+  `Difficulty` coins there) and `Close()` when the player leaves.
+- End-of-round overlay: instance `ui/ArcadeResult.tscn`, wire its `PlayAgain` /
+  `Leave` signals, call `ShowResult(result, Difficulty)`.
+- **Adding a game**: entry in `ArcadeCatalog.All` (id, name, `SceneFile`,
+  `IconFile`) + a scene extending `ArcadeGame` + a ~200px icon at
+  `assets/sprites/arcade/<IconFile>.svg`. The grid grows on its own; unbuilt
+  entries show "(soon)".
+- Built: Tic-Tac-Toe (minimax AI), Pong (speed-scaled AI paddle).
+
 ## Regions & gathering
 
 - `scenes/regions/*.tscn` each use `Region.cs`: a `World` (Y-sorted) with a

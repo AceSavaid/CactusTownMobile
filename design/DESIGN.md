@@ -42,8 +42,13 @@ extensible per object) and swap the object's sprite when selected.
 
 ### Plant
 - Cosmetic customisation (pot, species look, accessories).
-- Stats shown in the house. *(Open: are stats a live care mechanic with decay over
-  time, or cosmetic/progress readouts? — TBD)*
+- Stats shown in the house — cosmetic / progress readout, no live decay.
+
+### Mini-games (the "arcade", from the house)
+- A card gallery (image + name), extensible via `ArcadeCatalog`.
+- Each game: pick Easy / Medium / Hard; a win pays 1 / 2 / 3 coins (every win).
+- Launch set: Tic-Tac-Toe, Pong (both vs AI), Match the Pairs (vs AI), Minesweeper
+  (solo, difficulty = board size/mines). AI difficulty scales per game.
 
 ### Repairable object
 - `id`, `area_id`, `type` (lamp, fountain, bench, …)

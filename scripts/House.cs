@@ -9,6 +9,7 @@ namespace CactusTown;
 public partial class House : Control
 {
 	private const string TownScene = "res://scenes/TownMap.tscn";
+	private const string ArcadeScene = "res://scenes/ArcadeGallery.tscn";
 
 	private Label _plantName = null!;
 
@@ -17,7 +18,7 @@ public partial class House : Control
 		_plantName = GetNode<Label>("%PlantName");
 
 		GetNode<Button>("%CustomisePlantButton").Pressed += () => Router.Instance.Toast("Plant customisation — coming soon");
-		GetNode<Button>("%MiniGamesButton").Pressed += () => Router.Instance.Toast("Mini-games — coming soon");
+		GetNode<Button>("%MiniGamesButton").Pressed += () => Router.Instance.GotoScene(ArcadeScene);
 		GetNode<Button>("%PlantStatsButton").Pressed += () => Router.Instance.Toast("Plant stats — coming soon");
 		GetNode<Button>("%GoToTownButton").Pressed += () => Router.Instance.GotoScene(TownScene);
 

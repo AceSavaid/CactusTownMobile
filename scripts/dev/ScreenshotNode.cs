@@ -69,6 +69,40 @@ public partial class ScreenshotNode : Node
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 
+		if (args.Contains("showdiff"))
+		{
+			scene.GetNode<Label>("%DifficultyTitle").Text = "Tic-Tac-Toe";
+			scene.GetNode<Control>("%DifficultyPanel").Show();
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		foreach (var arg in args)
+		{
+			if (!arg.StartsWith("arcade="))
+				continue;
+			var diff = 2;
+			foreach (var a in args)
+				if (a.StartsWith("diff="))
+					diff = int.Parse(a["diff=".Length..]);
+			var g = GD.Load<PackedScene>($"res://scenes/arcade/{arg["arcade=".Length..]}.tscn").Instantiate<ArcadeGame>();
+			g.Configure(diff);
+			scene.GetNode<Control>("%GameHost").AddChild(g);
+			for (var i = 0; i < 12; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+
+			if (args.Contains("play") && g is TicTacToe)
+			{
+				var board = g.GetNode("%Board");
+				foreach (var move in new[] { 0, 4, 8 })
+				{
+					((Button)board.GetChild(move)).EmitSignal(BaseButton.SignalName.Pressed);
+					for (var i = 0; i < 40; i++)
+						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+				}
+			}
+		}
+
 		var image = GetViewport().GetTexture().GetImage();
 		var error = image.SavePng(outPath);
 		GD.Print($"screenshot {scenePath} -> {outPath} ({image.GetSize()}) err={error}");
