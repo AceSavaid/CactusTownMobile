@@ -117,8 +117,9 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   3, others first to 5), Match the Pairs (AI with difficulty-capped memory, or
   solo), Minesweeper (solo; size/mines scale), Snake (solo; swipe/arrows, speed +
   target length scale), Sudoku (solo; unique-solution generator, clue count
-  scales, 3 mistakes = loss), Blackjack (vs dealer over Easy 3 / Medium 5 /
-  Hard 7 hands; most hands won takes it).
+  scales, 3 mistakes = loss), Blackjack (vs dealer, closest to 21; each hand
+  stakes a chip, start on 5, reach the target stack — Easy 7 / Medium 9 /
+  Hard 11 — to win, zero to lose).
 - Games run standalone for dev, so give board-size fields real default values
   (Configure overrides them).
 

@@ -39,7 +39,7 @@ offset_top = 90.0
 offset_bottom = 136.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 32
-text = "Hand 1 / 5      You 0 - 0 Dealer"
+text = "Chips: 5  ·  reach 9 to win"
 horizontal_alignment = 1
 
 [node name="DealerCards" type="Label" parent="."]
@@ -72,7 +72,7 @@ offset_top = 560.0
 offset_bottom = 620.0
 grow_horizontal = 2
 theme_override_font_sizes/font_size = 38
-text = "Your move"
+text = "Hit or stand?"
 horizontal_alignment = 1
 
 [node name="Buttons" type="HBoxContainer" parent="."]

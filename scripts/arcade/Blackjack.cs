@@ -4,9 +4,10 @@ using Godot;
 namespace CactusTown;
 
 /// <summary>
-/// Blackjack vs the dealer over a short match. Hit or stand; the dealer draws to
-/// 17. Win more hands than the dealer across the match to win. Difficulty sets
-/// how many hands are played (Easy 3, Medium 5, Hard 7).
+/// Blackjack vs the dealer. Get closer to 21 than the dealer without going over;
+/// the dealer draws to 17. Every hand stakes one chip: win to grow your stack,
+/// bust or lose and it shrinks. You start on 5 — reach the target stack to win
+/// the game, hit zero and it's over. Difficulty sets the target.
 /// </summary>
 public partial class Blackjack : ArcadeGame
 {
@@ -14,17 +15,18 @@ public partial class Blackjack : ArcadeGame
 		{ "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K" };
 	private static readonly string[] Suits = { "♠", "♥", "♦", "♣" };
 
-	private int _handsInMatch = 5;
+	private const int StartChips = 5;
+
+	private int _target = 9;
+	private int _chips;
 
 	private readonly List<int> _deck = new();
 	private readonly List<int> _player = new();
 	private readonly List<int> _dealer = new();
 
-	private int _handNo;
-	private int _playerWins, _dealerWins;
 	private bool _dealerHidden = true;
 	private bool _handActive;
-	private bool _matchOver;
+	private bool _gameOver;
 
 	private Label _status = null!;
 	private Label _message = null!;
@@ -37,7 +39,7 @@ public partial class Blackjack : ArcadeGame
 	public override void Configure(int difficulty)
 	{
 		base.Configure(difficulty);
-		_handsInMatch = difficulty switch { 1 => 3, 2 => 5, _ => 7 };
+		_target = difficulty switch { 1 => 7, 2 => 9, _ => 11 };
 	}
 
 	public override void _Ready()
@@ -51,26 +53,24 @@ public partial class Blackjack : ArcadeGame
 		_standButton = GetNode<Button>("%StandButton");
 		_result = GetNode<ArcadeResult>("%Result");
 
-		_result.PlayAgain += NewMatch;
+		_result.PlayAgain += NewGame;
 		_result.Leave += Close;
 		GetNode<Button>("%LeaveButton").Pressed += Close;
 		_hitButton.Pressed += OnHit;
 		_standButton.Pressed += OnStand;
 
-		NewMatch();
+		NewGame();
 	}
 
-	private void NewMatch()
+	private void NewGame()
 	{
-		_handNo = 0;
-		_playerWins = _dealerWins = 0;
-		_matchOver = false;
+		_chips = StartChips;
+		_gameOver = false;
 		DealHand();
 	}
 
 	private void DealHand()
 	{
-		_handNo++;
 		_player.Clear();
 		_dealer.Clear();
 		BuildDeck();
@@ -87,13 +87,16 @@ public partial class Blackjack : ArcadeGame
 		if (playerBj || dealerBj)
 		{
 			_dealerHidden = false;
-			Settle(playerBj && !dealerBj ? 1 : dealerBj && !playerBj ? -1 : 0,
-				playerBj && dealerBj ? "Both blackjack — push"
-				: playerBj ? "Blackjack!" : "Dealer blackjack");
+			if (playerBj && dealerBj)
+				Settle(0, "Both blackjack — push");
+			else if (playerBj)
+				Settle(2, "Blackjack!");
+			else
+				Settle(-1, "Dealer blackjack");
 			return;
 		}
 
-		_message.Text = "Your move";
+		_message.Text = "Hit or stand?";
 		Redraw();
 	}
 
@@ -131,40 +134,43 @@ public partial class Blackjack : ArcadeGame
 
 		var pv = HandValue(_player);
 		var dv = HandValue(_dealer);
-		var outcome = dv > 21 || pv > dv ? 1 : pv < dv ? -1 : 0;
-		Settle(outcome,
-			dv > 21 ? "Dealer busts — you win"
-			: outcome > 0 ? "You win the hand"
-			: outcome < 0 ? "Dealer wins the hand"
-			: "Push");
+		if (dv > 21)
+			Settle(1, "Dealer busts — you win");
+		else if (pv > dv)
+			Settle(1, "Closer to 21 — you win");
+		else if (pv < dv)
+			Settle(-1, "Dealer wins the hand");
+		else
+			Settle(0, "Push");
 	}
 
-	private async void Settle(int outcome, string note)
+	/// <summary>chipDelta: +2 natural blackjack, +1 win, 0 push, -1 loss.</summary>
+	private async void Settle(int chipDelta, string note)
 	{
 		_handActive = false;
 		SetButtons(false);
-		if (outcome > 0) _playerWins++;
-		else if (outcome < 0) _dealerWins++;
-
+		_chips += chipDelta;
 		_message.Text = note;
 		Redraw();
-		Audio.Instance?.PlaySfx(outcome > 0 ? "confirm" : "cancel");
+		Audio.Instance?.PlaySfx(chipDelta > 0 ? "confirm" : chipDelta < 0 ? "cancel" : "click");
 
 		await ToSignal(GetTree().CreateTimer(1.4), SceneTreeTimer.SignalName.Timeout);
 
-		var handsLeft = _handNo < _handsInMatch;
-		var decided = _playerWins > _handsInMatch / 2 || _dealerWins > _handsInMatch / 2;
-		if (handsLeft && !decided)
-		{
+		if (_chips <= 0)
+			EndGame(false, "Out of chips");
+		else if (_chips >= _target)
+			EndGame(true, "Target reached!");
+		else
 			DealHand();
-			return;
-		}
+	}
 
-		_matchOver = true;
-		var result = _playerWins > _dealerWins ? 1 : _playerWins < _dealerWins ? -1 : 0;
-		UpdateStatus();
-		ReportResult(result);
-		_result.ShowResult(result, Difficulty);
+	private void EndGame(bool won, string note)
+	{
+		_gameOver = true;
+		_message.Text = note;
+		Redraw();
+		ReportResult(won ? 1 : -1);
+		_result.ShowResult(won ? 1 : -1, Difficulty);
 	}
 
 	private void Redraw()
@@ -174,11 +180,10 @@ public partial class Blackjack : ArcadeGame
 		UpdateStatus();
 	}
 
-	private void UpdateStatus()
-	{
-		var stage = _matchOver ? "Match over" : $"Hand {_handNo} / {_handsInMatch}";
-		_status.Text = $"{stage}      You {_playerWins} – {_dealerWins} Dealer";
-	}
+	private void UpdateStatus() =>
+		_status.Text = _gameOver
+			? $"Chips: {Mathf.Max(0, _chips)}"
+			: $"Chips: {_chips}  ·  reach {_target} to win";
 
 	private void SetButtons(bool on)
 	{
