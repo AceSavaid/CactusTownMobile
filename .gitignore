@@ -13,7 +13,13 @@ mono_crash.*.json
 # Exported builds
 /build/
 /exports/
-/android/build/
+
+# Godot Android gradle build template (regenerate via Project > Install Android Build Template)
+/android/
+
+# Keystores — never commit
+*.keystore
+*.jks
 
 # Export presets can contain keystore paths/passwords — keep local
 export_presets.cfg
