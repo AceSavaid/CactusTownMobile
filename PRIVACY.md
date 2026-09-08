@@ -59,4 +59,4 @@ accept the revised policy.
 
 ## Contact
 
-Questions about this policy can be sent to **acetotheworld123@gmail.com**.
+Questions about this policy can be sent to **gamedev@acesavaid.anonaddy.com**.
