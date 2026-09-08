@@ -14,6 +14,22 @@ public partial class ScreenshotNode : Node
 	public override async void _Ready()
 	{
 		var args = OS.GetCmdlineUserArgs();
+
+		if (args.Length > 0 && args[0] == "bake_audio")
+		{
+			var dir = args.Length > 1 ? args[1] : "user://audio_preview";
+			DirAccess.MakeDirRecursiveAbsolute(dir);
+			foreach (var (name, stream) in SfxBank.Build())
+				if (stream is AudioStreamWav wav)
+					wav.SaveToWav($"{dir}/sfx_{name}.wav");
+			foreach (var track in new[] { "home", "town", "region", "arcade" })
+				if (MusicBank.Track(track) is AudioStreamWav music)
+					music.SaveToWav($"{dir}/music_{track}.wav");
+			GD.Print($"baked audio to {dir}");
+			GetTree().Quit();
+			return;
+		}
+
 		var scenePath = args.Length > 0 ? args[0] : "res://scenes/House.tscn";
 		var outPath = args.Length > 1 ? args[1] : "user://shot.png";
 		var frames = args.Length > 2 ? int.Parse(args[2]) : 20;
@@ -102,6 +118,13 @@ public partial class ScreenshotNode : Node
 				_ => "%PotTab",
 			};
 			scene.GetNode<Button>(tab).EmitSignal(BaseButton.SignalName.Pressed);
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		if (args.Contains("audio_settings"))
+		{
+			scene.GetNode<AudioSettings>("%AudioSettings").Open();
 			for (var i = 0; i < 4; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}

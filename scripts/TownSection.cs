@@ -61,6 +61,7 @@ public partial class TownSection : Node2D
 		if (_complete && !GameState.Instance.IsSectionCompletedOnce(SectionId))
 		{
 			GameState.Instance.SetSectionCompletedOnce(SectionId);
+			Audio.Instance?.PlaySfx("fanfare");
 			Router.Instance.Toast($"{SectionName} restored!");
 		}
 

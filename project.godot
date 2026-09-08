@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 
 GameState="*res://scripts/globals/GameState.cs"
 Router="*res://scripts/globals/Router.cs"
+Audio="*res://scripts/globals/Audio.cs"
+
+[audio]
+
+buses/default_bus_layout="res://default_bus_layout.tres"
 
 [dotnet]
 

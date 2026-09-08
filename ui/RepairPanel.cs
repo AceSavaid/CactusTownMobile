@@ -65,6 +65,7 @@ public partial class RepairPanel : Control
 		if (_obj == null)
 			return;
 		_obj.Repair();
+		Audio.Instance?.PlaySfx("repair");
 		Router.Instance.Toast($"Repaired!  +{_obj.RepairReward} coins");
 		ShowThanks();
 	}

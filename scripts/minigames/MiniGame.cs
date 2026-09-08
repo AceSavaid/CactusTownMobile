@@ -34,6 +34,7 @@ public partial class MiniGame : Control
 	protected void Finish(bool success, int amount)
 	{
 		GetTree().Paused = false;
+		Audio.Instance?.PlaySfx(success ? "gather" : "click");
 		EmitSignal(SignalName.Finished, success, amount);
 		QueueFree();
 	}

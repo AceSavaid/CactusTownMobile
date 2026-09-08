@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://scripts/House.cs" id="1_house"]
 [ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://ui/PlantView.tscn" id="3_pv"]
+[ext_resource type="PackedScene" path="res://ui/AudioSettings.tscn" id="4_audio"]
 
 [node name="House" type="Control"]
 layout_mode = 3
@@ -109,4 +110,17 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 44
 text = "Go to Town  →"
 
+[node name="AudioButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 260.0
+offset_bottom = 128.0
+theme_override_font_sizes/font_size = 32
+text = "Audio"
+
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]
+
+[node name="AudioSettings" parent="." instance=ExtResource("4_audio")]
+unique_name_in_owner = true
+

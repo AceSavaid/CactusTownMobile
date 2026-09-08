@@ -63,6 +63,8 @@ public partial class Router : CanvasLayer
 		var error = GetTree().ChangeSceneToFile(scenePath);
 		if (error != Error.Ok)
 			GD.PushError($"Failed to load scene: {scenePath} ({error})");
+		else
+			Audio.Instance?.PlayMusicForScene(scenePath);
 
 		var outTween = CreateTween();
 		outTween.TweenProperty(_fade, "modulate:a", 0.0, FadeTime);

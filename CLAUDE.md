@@ -124,6 +124,17 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   with forward-migration. Signals: `CoinsChanged`, `MaterialsChanged`, `PlantChanged`.
 - `Router` (`scripts/globals/Router.cs`) — `GotoScene(path)` fade transition,
   `Toast(msg)`. `ProcessMode = Always` so it works while the tree is paused.
+- `Audio` (`scripts/globals/Audio.cs`) — Master / Music / SFX buses
+  (`default_bus_layout.tres`). `Audio.Instance?.PlaySfx("name")`,
+  `PlayMusicForScene(path)` (Router calls it on every transition), volume API +
+  `user://audio.cfg` persistence. Every `BaseButton` gets a click sound
+  automatically (`NodeAdded` hook); coins-up plays "coin". Placeholder sounds are
+  synthesised in `SfxBank` / `MusicBank`; a real file at
+  `assets/audio/sfx/<name>.wav|ogg|mp3` or `assets/audio/music/<name>.ogg|mp3|wav`
+  overrides that name. SFX names: click, toggle, coin, confirm, repair, fanfare,
+  win, lose, gather, page. Music tracks: home, town, region, arcade.
+  Dev preview: `godot --headless --path . scenes/dev/Screenshot.tscn -- bake_audio <dir>`.
+  Windowed dev screenshots need `--audio-driver Dummy` (real driver hangs on scripted quit).
 - `TownSections` (`scripts/globals/TownSections.cs`) — static config of the six
   subsections (name, unlock chain, object ids, scene).
 - `Materials` (`scripts/globals/Materials.cs`) — material id constants + names.
