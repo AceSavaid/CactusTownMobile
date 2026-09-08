@@ -16,6 +16,13 @@ public partial class ArcadeGame : Control
 	/// <summary>1 = easy, 2 = medium, 3 = hard. Also the coin reward for a win.</summary>
 	public int Difficulty { get; private set; } = 1;
 
+	/// <summary>
+	/// Set by the gallery before <see cref="Configure"/> for games that offer a
+	/// solo variant (see <c>ArcadeCatalog.Entry.SupportsSolo</c>). Games that
+	/// ignore it always play their default mode.
+	/// </summary>
+	public bool SoloMode { get; set; }
+
 	protected int LastResult { get; private set; }
 
 	public virtual void Configure(int difficulty)

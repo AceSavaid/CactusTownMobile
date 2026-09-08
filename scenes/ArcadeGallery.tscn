@@ -125,6 +125,13 @@ theme_override_font_sizes/font_size = 44
 text = "Tic-Tac-Toe"
 horizontal_alignment = 1
 
+[node name="ModeToggle" type="CheckButton" parent="DifficultyPanel/Panel/Margin/VBox"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 88)
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Single player"
+
 [node name="EasyButton" type="Button" parent="DifficultyPanel/Panel/Margin/VBox"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 104)

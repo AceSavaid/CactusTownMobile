@@ -152,6 +152,18 @@ public partial class ScreenshotNode : Node
 
 		foreach (var arg in args)
 		{
+			if (!arg.StartsWith("card="))
+				continue;
+			var grid = scene.GetNode("%Grid");
+			var n = int.Parse(arg["card=".Length..]);
+			if (n < grid.GetChildCount())
+				((Button)grid.GetChild(n)).EmitSignal(BaseButton.SignalName.Pressed);
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		foreach (var arg in args)
+		{
 			if (!arg.StartsWith("arcade="))
 				continue;
 			var diff = 2;

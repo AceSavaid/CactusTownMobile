@@ -16,6 +16,7 @@ public partial class ArcadeGallery : Control
 	private GridContainer _grid = null!;
 	private Control _difficultyPanel = null!;
 	private Label _difficultyTitle = null!;
+	private CheckButton _modeToggle = null!;
 	private Control _gameHost = null!;
 
 	public override void _Ready()
@@ -23,6 +24,7 @@ public partial class ArcadeGallery : Control
 		_grid = GetNode<GridContainer>("%Grid");
 		_difficultyPanel = GetNode<Control>("%DifficultyPanel");
 		_difficultyTitle = GetNode<Label>("%DifficultyTitle");
+		_modeToggle = GetNode<CheckButton>("%ModeToggle");
 		_gameHost = GetNode<Control>("%GameHost");
 		_difficultyPanel.Hide();
 
@@ -85,6 +87,8 @@ public partial class ArcadeGallery : Control
 		}
 		_pending = entry;
 		_difficultyTitle.Text = entry.Name;
+		_modeToggle.Visible = entry.SupportsSolo;
+		_modeToggle.ButtonPressed = false;
 		_difficultyPanel.Show();
 	}
 
@@ -95,6 +99,7 @@ public partial class ArcadeGallery : Control
 			return;
 
 		var game = GD.Load<PackedScene>(_pending.ScenePath).Instantiate<ArcadeGame>();
+		game.SoloMode = _pending.SupportsSolo && _modeToggle.ButtonPressed;
 		game.Configure(difficulty);
 		_gameHost.AddChild(game);
 	}

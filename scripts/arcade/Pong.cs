@@ -3,14 +3,15 @@ using Godot;
 namespace CactusTown;
 
 /// <summary>
-/// Pong vs an AI paddle. Drag anywhere to move your paddle (left). First to five.
-/// Easy / Medium / Hard change the AI paddle's speed; Hard also predicts bounces.
+/// Pong vs an AI paddle. Drag anywhere to move your paddle (left). Easy is best
+/// of three (first to 2); Medium and Hard are first to five. Easy / Medium / Hard
+/// also change the AI paddle's speed; Hard additionally predicts bounces.
 /// </summary>
 public partial class Pong : ArcadeGame
 {
-	private const int WinScore = 5;
 	private const float PaddleH = 170f, PaddleW = 22f, BallSize = 26f, Inset = 44f;
 
+	private int _winScore = 5;
 	private float _aiSpeed = 300f;
 	private bool _aiPredicts;
 
@@ -34,6 +35,7 @@ public partial class Pong : ArcadeGame
 		base.Configure(difficulty);
 		_aiSpeed = difficulty switch { 1 => 300f, 2 => 480f, _ => 720f };
 		_aiPredicts = difficulty == 3;
+		_winScore = difficulty == 1 ? 2 : 5;
 	}
 
 	public override void _Ready()
@@ -166,9 +168,9 @@ public partial class Pong : ArcadeGame
 			_aiScore++;
 		UpdateScore();
 
-		if (_playerScore >= WinScore)
+		if (_playerScore >= _winScore)
 			EndMatch(1);
-		else if (_aiScore >= WinScore)
+		else if (_aiScore >= _winScore)
 			EndMatch(-1);
 		else
 			ResetBall(playerScored ? -1f : 1f);

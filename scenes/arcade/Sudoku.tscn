@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/arcade/Sudoku.cs" id="1_su"]
+[ext_resource type="PackedScene" path="res://ui/ArcadeResult.tscn" id="2_res"]
+
+[node name="Sudoku" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_su")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.16, 0.17, 0.21, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 22.0
+offset_bottom = 80.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 44
+text = "Sudoku"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 84.0
+offset_bottom = 128.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 30
+text = "Mistakes: 0 / 3"
+horizontal_alignment = 1
+
+[node name="BoardWrap" type="CenterContainer" parent="."]
+layout_mode = 1
+anchor_top = 0.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 140.0
+offset_right = 1120.0
+offset_bottom = -30.0
+grow_vertical = 2
+
+[node name="Grid" type="GridContainer" parent="BoardWrap"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 3
+theme_override_constants/v_separation = 3
+columns = 9
+
+[node name="PadWrap" type="CenterContainer" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -760.0
+offset_top = 140.0
+offset_right = -40.0
+offset_bottom = -30.0
+grow_horizontal = 0
+grow_vertical = 2
+
+[node name="Pad" type="GridContainer" parent="PadWrap"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 14
+theme_override_constants/v_separation = 14
+columns = 5
+
+[node name="LeaveButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 40.0
+offset_top = 32.0
+offset_right = 220.0
+offset_bottom = 104.0
+theme_override_font_sizes/font_size = 28
+text = "Leave"
+
+[node name="Result" parent="." instance=ExtResource("2_res")]
+unique_name_in_owner = true

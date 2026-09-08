@@ -5,9 +5,13 @@ using Godot;
 namespace CactusTown;
 
 /// <summary>
-/// Memory / match-the-pairs vs the AI. Players alternate flipping two cards; a
-/// match scores a point and an extra go. The AI remembers cards it has seen up
-/// to a cap that grows with difficulty (Hard = perfect recall). Most pairs wins.
+/// Memory / match-the-pairs. Default mode is vs the AI: players alternate
+/// flipping two cards, a match scores a point and an extra go, and the AI
+/// remembers cards it has seen up to a difficulty-scaled cap (Hard = perfect
+/// recall). Most pairs wins.
+///
+/// In <see cref="ArcadeGame.SoloMode"/> there is no AI — clear the whole board
+/// before running out of your (difficulty-scaled) mismatch allowance.
 /// </summary>
 public partial class MatchPairs : ArcadeGame
 {
@@ -18,6 +22,7 @@ public partial class MatchPairs : ArcadeGame
 	};
 
 	private int _cols = 4, _rows = 4, _pairs = 8, _memoryCap = 8;
+	private int _missBudget = 8, _missesLeft;
 
 	private int[] _face = System.Array.Empty<int>();
 	private bool[] _matched = System.Array.Empty<bool>();
@@ -48,6 +53,8 @@ public partial class MatchPairs : ArcadeGame
 			_ => (4, 4, 999),
 		};
 		_pairs = _cols * _rows / 2;
+		// Solo: a mismatch allowance that tightens with difficulty.
+		_missBudget = difficulty switch { 1 => _pairs + 4, 2 => _pairs, _ => Mathf.Max(3, _pairs - 3) };
 	}
 
 	public override void _Ready()
@@ -109,6 +116,7 @@ public partial class MatchPairs : ArcadeGame
 		_roundOver = false;
 		_playerTurn = true;
 		_playerScore = _aiScore = 0;
+		_missesLeft = _missBudget;
 
 		for (var i = 0; i < count; i++)
 		{
@@ -160,9 +168,22 @@ public partial class MatchPairs : ArcadeGame
 		{
 			HideCard(a);
 			HideCard(b);
+			if (SoloMode && byPlayer)
+				_missesLeft--;
 		}
 
 		_busy = false;
+
+		if (SoloMode)
+		{
+			if (_playerScore >= _pairs)
+				EndSolo(true);
+			else if (_missesLeft <= 0)
+				EndSolo(false);
+			else
+				UpdateStatus();
+			return;
+		}
 
 		if (_playerScore + _aiScore >= _pairs)
 		{
@@ -272,6 +293,11 @@ public partial class MatchPairs : ArcadeGame
 
 	private void UpdateStatus()
 	{
+		if (SoloMode)
+		{
+			_status.Text = $"Pairs {_playerScore} / {_pairs}      Misses left: {Mathf.Max(0, _missesLeft)}";
+			return;
+		}
 		var who = _roundOver ? "" : _playerTurn ? "Your turn" : "AI's turn";
 		_status.Text = $"{who}      You {_playerScore} : {_aiScore} AI";
 	}
@@ -280,6 +306,15 @@ public partial class MatchPairs : ArcadeGame
 	{
 		_roundOver = true;
 		var result = _playerScore > _aiScore ? 1 : _playerScore < _aiScore ? -1 : 0;
+		UpdateStatus();
+		ReportResult(result);
+		_result.ShowResult(result, Difficulty);
+	}
+
+	private void EndSolo(bool cleared)
+	{
+		_roundOver = true;
+		var result = cleared ? 1 : -1;
 		UpdateStatus();
 		ReportResult(result);
 		_result.ShowResult(result, Difficulty);

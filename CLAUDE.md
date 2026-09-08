@@ -98,14 +98,23 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 - Games extend `ArcadeGame` (`scripts/arcade/`): `Configure(difficulty)` before
   entering the tree; call `ReportResult(1|0|-1)` when a round ends (a win pays
   `Difficulty` coins there) and `Close()` when the player leaves.
+- `ArcadeCatalog.Entry.SupportsSolo` + `ArcadeGame.SoloMode`: for games with a
+  "single player" alternative to their default mode. The gallery shows a
+  `%ModeToggle` CheckButton on the difficulty screen and sets `SoloMode` before
+  `Configure`. Only `MatchPairs` uses it so far (solo = clear the board within a
+  difficulty-scaled mismatch allowance).
 - End-of-round overlay: instance `ui/ArcadeResult.tscn`, wire its `PlayAgain` /
   `Leave` signals, call `ShowResult(result, Difficulty)`.
 - **Adding a game**: entry in `ArcadeCatalog.All` (id, name, `SceneFile`,
   `IconFile`) + a scene extending `ArcadeGame` + a ~200px icon at
   `assets/sprites/arcade/<IconFile>.svg`. The grid grows on its own; unbuilt
   entries show "(soon)".
-- Built: Tic-Tac-Toe (minimax AI), Pong (speed-scaled AI paddle), Match the
-  Pairs (AI with difficulty-capped memory), Minesweeper (solo; size/mines scale).
+- Built: Tic-Tac-Toe (minimax AI), Pong (speed-scaled AI paddle; Easy is best of
+  3, others first to 5), Match the Pairs (AI with difficulty-capped memory, or
+  solo), Minesweeper (solo; size/mines scale), Snake (solo; swipe/arrows, speed +
+  target length scale), Sudoku (solo; unique-solution generator, clue count
+  scales, 3 mistakes = loss), Blackjack (vs dealer over Easy 3 / Medium 5 /
+  Hard 7 hands; most hands won takes it).
 - Games run standalone for dev, so give board-size fields real default values
   (Configure overrides them).
 

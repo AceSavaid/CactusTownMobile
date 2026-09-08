@@ -1,0 +1,117 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/arcade/Blackjack.cs" id="1_bj"]
+[ext_resource type="PackedScene" path="res://ui/ArcadeResult.tscn" id="2_res"]
+
+[node name="Blackjack" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_bj")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.13, 0.2, 0.16, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 24.0
+offset_bottom = 84.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 44
+text = "Blackjack"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 90.0
+offset_bottom = 136.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "Hand 1 / 5      You 0 - 0 Dealer"
+horizontal_alignment = 1
+
+[node name="DealerCards" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 250.0
+offset_bottom = 330.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 56
+text = "Dealer:  ??  ??"
+horizontal_alignment = 1
+
+[node name="PlayerCards" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 430.0
+offset_bottom = 510.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 56
+text = "You:  ??  ??"
+horizontal_alignment = 1
+
+[node name="Message" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 560.0
+offset_bottom = 620.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 38
+text = "Your move"
+horizontal_alignment = 1
+
+[node name="Buttons" type="HBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -360.0
+offset_top = -190.0
+offset_right = 360.0
+offset_bottom = -70.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 48
+alignment = 1
+
+[node name="HitButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 116)
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Hit"
+
+[node name="StandButton" type="Button" parent="Buttons"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(320, 116)
+layout_mode = 2
+theme_override_font_sizes/font_size = 42
+text = "Stand"
+
+[node name="LeaveButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 36.0
+offset_right = 232.0
+offset_bottom = 110.0
+theme_override_font_sizes/font_size = 28
+text = "Leave"
+
+[node name="Result" parent="." instance=ExtResource("2_res")]
+unique_name_in_owner = true
