@@ -6,4 +6,11 @@
     <LangVersion>latest</LangVersion>
     <RootNamespace>CactusTown</RootNamespace>
   </PropertyGroup>
+
+  <!-- The Android export copies every asset (incl. .cs files) into android/build/**.
+       Keep those copies out of the compile so the source generators don't see duplicates. -->
+  <ItemGroup>
+    <Compile Remove="android/**/*.cs" />
+    <Compile Remove="build/**/*.cs" />
+  </ItemGroup>
 </Project>
