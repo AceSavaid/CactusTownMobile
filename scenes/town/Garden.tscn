@@ -1,0 +1,131 @@
+[gd_scene load_steps=18 format=3]
+
+[ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/entities/RepairableObject.tscn" id="3_obj"]
+[ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="4_js"]
+[ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="5_mh"]
+[ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="6_hud"]
+[ext_resource type="PackedScene" path="res://ui/RepairPanel.tscn" id="7_rp"]
+[ext_resource type="PackedScene" path="res://ui/CustomizePanel.tscn" id="8_cp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bed_mixed.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bed_roses.svg" id="10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bed_tulips.svg" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/trellis_plain.svg" id="12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/trellis_vine.svg" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/trellis_white.svg" id="14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pond_plain.svg" id="15"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pond_lily.svg" id="16"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pond_koi.svg" id="17"]
+
+[node name="Garden" type="Node2D"]
+script = ExtResource("1_sec")
+SectionId = "garden"
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_left = -4000.0
+offset_top = -3000.0
+offset_right = 4000.0
+offset_bottom = 3000.0
+color = Color(0.51, 0.639, 0.42, 1)
+
+[node name="Path" type="ColorRect" parent="."]
+offset_left = -120.0
+offset_top = -600.0
+offset_right = 120.0
+offset_bottom = 600.0
+color = Color(0.678, 0.6, 0.45, 1)
+
+[node name="World" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(0, 320)
+
+[node name="Flowerbed" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-360, -60)
+ObjectId = "garden_flowerbed"
+DisplayName = "Flower Bed"
+Variants = Array[Texture2D]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
+RequiredMaterials = {
+"flower_red": 3,
+"flower_yellow": 2
+}
+RepairReward = 25
+NpcName = "Fen"
+RequestText = "The bed's gone to weeds. Fresh flowers would bring the bees back."
+ThanksText = "Look at them! The whole garden smells sweet now."
+SpriteOffset = Vector2(0, -40)
+
+[node name="Trellis" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(360, -120)
+ObjectId = "garden_trellis"
+DisplayName = "Garden Trellis"
+Variants = Array[Texture2D]([ExtResource("12"), ExtResource("13"), ExtResource("14")])
+RequiredMaterials = {
+"wood": 4,
+"stick": 3
+}
+RepairReward = 25
+NpcName = "Fen"
+RequestText = "Half the trellis has rotted through. Some wood to rebuild the frame?"
+ThanksText = "The climbing roses will love this. Thank you."
+SpriteOffset = Vector2(0, -63)
+
+[node name="Pond" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(60, 200)
+ObjectId = "garden_pond"
+DisplayName = "Garden Pond"
+Variants = Array[Texture2D]([ExtResource("15"), ExtResource("16"), ExtResource("17")])
+RequiredMaterials = {
+"water": 4,
+"stone": 3
+}
+RepairReward = 30
+NpcName = "Fen"
+RequestText = "The pond's near dry and the edge stones have scattered. Water and stone?"
+ThanksText = "Still water again — the garden has its mirror back."
+SpriteOffset = Vector2(0, -37)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VirtualJoystick" parent="UI" instance=ExtResource("4_js")]
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 340.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 38
+text = "←  Town"
+
+[node name="ActionButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -230.0
+offset_right = -60.0
+offset_bottom = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "Repair"
+
+[node name="MaterialsHud" parent="UI" instance=ExtResource("5_mh")]
+unique_name_in_owner = true
+
+[node name="CoinHud" parent="UI" instance=ExtResource("6_hud")]
+unique_name_in_owner = true
+
+[node name="RepairPanel" parent="UI" instance=ExtResource("7_rp")]
+unique_name_in_owner = true
+
+[node name="CustomizePanel" parent="UI" instance=ExtResource("8_cp")]
+unique_name_in_owner = true

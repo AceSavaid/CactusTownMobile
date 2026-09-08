@@ -2,13 +2,13 @@
 .godot/
 .import/
 
-# Mono / .NET build output
+# Mono / .NET build output (anchored to project root — do not match asset dirs)
 .mono/
 data_*/
 mono_crash.*.json
 *.csproj.user
-[Bb]in/
-[Oo]bj/
+/bin/
+/obj/
 
 # Exported builds
 /build/

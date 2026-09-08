@@ -1,8 +1,8 @@
 [gd_scene load_steps=2 format=3]
 
-[ext_resource type="Script" path="res://ui/RequestPanel.cs" id="1_panel"]
+[ext_resource type="Script" path="res://ui/RepairPanel.cs" id="1_panel"]
 
-[node name="RequestPanel" type="Control"]
+[node name="RepairPanel" type="Control"]
 process_mode = 2
 layout_mode = 3
 anchors_preset = 15
@@ -49,7 +49,7 @@ theme_override_constants/separation = 26
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 48
-text = "Rosa"
+text = "Fountain"
 
 [node name="Body" type="Label" parent="Panel/Margin/VBox"]
 unique_name_in_owner = true
@@ -70,7 +70,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 116)
 layout_mode = 2
 theme_override_font_sizes/font_size = 38
-text = "Help out"
+text = "Repair"
 
 [node name="DismissButton" type="Button" parent="Panel/Margin/VBox"]
 unique_name_in_owner = true

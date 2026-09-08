@@ -1,4 +1,3 @@
-using System;
 using System.Linq;
 using Godot;
 
@@ -7,7 +6,8 @@ namespace CactusTown;
 /// <summary>
 /// Dev-only screenshotter. Runs as a normal scene so autoloads are present.
 /// Usage:
-///   godot --path . scenes/dev/Screenshot.tscn --resolution 1920x1080 -- &lt;res://scene&gt; &lt;out.png&gt; [frames] [demo_talk]
+///   godot --path . scenes/dev/Screenshot.tscn --resolution 1920x1080 -- &lt;res://scene&gt; &lt;out.png&gt; [frames] [flags...]
+/// Flags: grant  complete  demo_repair  demo_customize  mg=&lt;MiniGameScene&gt;
 /// </summary>
 public partial class ScreenshotNode : Node
 {
@@ -18,27 +18,43 @@ public partial class ScreenshotNode : Node
 		var outPath = args.Length > 1 ? args[1] : "user://shot.png";
 		var frames = args.Length > 2 ? int.Parse(args[2]) : 20;
 
-		var scene = GD.Load<PackedScene>(scenePath).Instantiate<Node>();
-		AddChild(scene);
+		if (args.Contains("grant"))
+		{
+			GameState.Instance.AddCoins(400);
+			foreach (var m in new[] { Materials.Wood, Materials.Stick, Materials.Stone, Materials.Water, Materials.FlowerRed, Materials.FlowerYellow, Materials.IronOre })
+				GameState.Instance.AddMaterial(m, 20);
+		}
 
+		foreach (var arg in args)
+			if (arg.StartsWith("unlock="))
+				GameState.Instance.SetSectionCompletedOnce(arg["unlock=".Length..]);
+
+		var scene = GD.Load<PackedScene>(scenePath).Instantiate<Node>();
+		var objects = scene.FindChildren("*", recursive: true).OfType<RepairableObject>().ToList();
+
+		if ((args.Contains("complete") || args.Contains("demo_customize")) && objects.Count > 0)
+		{
+			foreach (var o in objects)
+				GameState.Instance.SetObjectState(o.ObjectId, "fixed");
+			GameState.Instance.SetSectionCompletedOnce(objects[0].ObjectId.Split('_')[0] == "square" ? "main_square" : "garden");
+		}
+
+		AddChild(scene);
 		for (var i = 0; i < frames; i++)
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
-		if (args.Contains("grant"))
+		if ((args.Contains("demo_repair") || args.Contains("demo_customize")) && objects.Count > 0)
 		{
-			GameState.Instance.AddMaterial(Materials.Wood, 5);
-			GameState.Instance.AddMaterial(Materials.Stick, 5);
-		}
-
-		if (args.Contains("demo_talk"))
-		{
-			var npc = scene.GetNode<Npc>("World/Npc");
-			var player = scene.GetNode<Node2D>("World/Player");
-			player.GlobalPosition = npc.GlobalPosition + new Vector2(0f, 70f);
+			var obj = objects[0];
+			var player = scene.GetNode<Node2D>("%Player");
+			player.GlobalPosition = obj.GlobalPosition + new Vector2(0f, 95f);
 			for (var i = 0; i < 15; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
-			scene.GetNode<RequestPanel>("UI/RequestPanel").Open(npc);
-			for (var i = 0; i < 5; i++)
+			if (args.Contains("demo_customize"))
+				scene.GetNode<CustomizePanel>("%CustomizePanel").Open(obj);
+			else
+				scene.GetNode<RepairPanel>("%RepairPanel").Open(obj);
+			for (var i = 0; i < 6; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 

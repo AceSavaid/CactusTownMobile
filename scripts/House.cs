@@ -8,7 +8,7 @@ namespace CactusTown;
 /// </summary>
 public partial class House : Control
 {
-	private const string TownScene = "res://scenes/Town.tscn";
+	private const string TownScene = "res://scenes/TownMap.tscn";
 
 	private Label _plantName = null!;
 

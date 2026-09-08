@@ -1,3 +1,4 @@
+using System.Linq;
 using Godot;
 using Godot.Collections;
 
@@ -15,6 +16,7 @@ public partial class GameState : Node
 	[Signal] public delegate void CoinsChangedEventHandler(int total);
 	[Signal] public delegate void MaterialsChangedEventHandler();
 	[Signal] public delegate void PlantChangedEventHandler();
+	[Signal] public delegate void ObjectsChangedEventHandler();
 
 	public static GameState Instance { get; private set; } = null!;
 
@@ -24,6 +26,7 @@ public partial class GameState : Node
 	{
 		Instance = this;
 		LoadGame();
+		RunTownDecay();
 	}
 
 	// --- Wallet -----------------------------------------------------------
@@ -130,6 +133,143 @@ public partial class GameState : Node
 
 	public bool IsObjectFixed(string objectId) => GetObjectState(objectId) == "fixed";
 
+	private Dictionary ObjectEntry(string objectId)
+	{
+		var objects = _data["objects"].AsGodotDictionary();
+		var entry = objects.TryGetValue(objectId, out var existing)
+			? existing.AsGodotDictionary()
+			: new Dictionary();
+		objects[objectId] = entry;
+		_data["objects"] = objects;
+		return entry;
+	}
+
+	// --- Object customisation -----------------------------------------
+
+	public int GetObjectVariant(string objectId)
+	{
+		var objects = _data["objects"].AsGodotDictionary();
+		if (!objects.TryGetValue(objectId, out var e))
+			return 0;
+		return e.AsGodotDictionary().TryGetValue("variant", out var v) ? v.AsInt32() : 0;
+	}
+
+	public void SetObjectVariant(string objectId, int index)
+	{
+		var entry = ObjectEntry(objectId);
+		entry["variant"] = index;
+		SaveGame();
+		EmitSignal(SignalName.ObjectsChanged);
+	}
+
+	public bool OwnsVariant(string objectId, int index)
+	{
+		if (index <= 0)
+			return true;
+		var objects = _data["objects"].AsGodotDictionary();
+		if (!objects.TryGetValue(objectId, out var e) ||
+			!e.AsGodotDictionary().TryGetValue("owned", out var owned))
+			return false;
+		return owned.AsGodotArray().Any(o => o.AsInt32() == index);
+	}
+
+	/// <summary>Unlock a variant by paying its cost. Returns false if already owned-check passes but coins fall short.</summary>
+	public bool BuyVariant(string objectId, int index, int cost)
+	{
+		if (OwnsVariant(objectId, index))
+			return true;
+		if (!SpendCoins(cost))
+			return false;
+		var entry = ObjectEntry(objectId);
+		var owned = entry.TryGetValue("owned", out var o) ? o.AsGodotArray() : new Array();
+		owned.Add(index);
+		entry["owned"] = owned;
+		SaveGame();
+		EmitSignal(SignalName.ObjectsChanged);
+		return true;
+	}
+
+	// --- Town subsections --------------------------------------------
+
+	public bool IsSectionUnlocked(string sectionId)
+	{
+		var cfg = TownSections.Find(sectionId);
+		if (cfg == null || string.IsNullOrEmpty(cfg.UnlockedBy))
+			return true;
+		return IsSectionCompletedOnce(cfg.UnlockedBy);
+	}
+
+	public bool IsSectionCompletedOnce(string sectionId)
+	{
+		var town = _data["town"].AsGodotDictionary();
+		return town.TryGetValue(sectionId, out var e)
+			&& e.AsGodotDictionary().TryGetValue("completed_once", out var c) && c.AsBool();
+	}
+
+	public void SetSectionCompletedOnce(string sectionId)
+	{
+		var town = _data["town"].AsGodotDictionary();
+		var entry = town.TryGetValue(sectionId, out var ex) ? ex.AsGodotDictionary() : new Dictionary();
+		entry["completed_once"] = true;
+		if (!entry.ContainsKey("last_decay_day"))
+			entry["last_decay_day"] = EstToday();
+		town[sectionId] = entry;
+		_data["town"] = town;
+		SaveGame();
+	}
+
+	/// <summary>Today's date in the US Eastern zone (fixed UTC-5), as "YYYY-MM-DD".</summary>
+	public static string EstToday()
+	{
+		var estUnix = Time.GetUnixTimeFromSystem() - 5 * 3600.0;
+		var dt = Time.GetDatetimeDictFromUnixTime((long)estUnix);
+		return $"{dt["year"].AsInt32():0000}-{dt["month"].AsInt32():00}-{dt["day"].AsInt32():00}";
+	}
+
+	/// <summary>
+	/// For each fully-restored section, if a new EST day has started, break one
+	/// object (25% chance two, 5% chance three). One catch-up event regardless of
+	/// how many days passed.
+	/// </summary>
+	public void RunTownDecay()
+	{
+		var today = EstToday();
+		var town = _data["town"].AsGodotDictionary();
+		var changed = false;
+
+		foreach (var section in TownSections.All)
+		{
+			if (!IsSectionCompletedOnce(section.Id))
+				continue;
+			var entry = town[section.Id].AsGodotDictionary();
+			if ((entry.TryGetValue("last_decay_day", out var last) ? last.AsString() : "") == today)
+				continue;
+
+			var fixedIds = section.ObjectIds.Where(IsObjectFixed).ToList();
+			if (fixedIds.Count > 0)
+			{
+				var roll = GD.Randf();
+				var count = roll < 0.05f ? 3 : roll < 0.30f ? 2 : 1;
+				count = Mathf.Min(count, fixedIds.Count);
+				for (var i = 0; i < count; i++)
+				{
+					var pick = (int)(GD.Randi() % (uint)fixedIds.Count);
+					SetObjectState(fixedIds[pick], "broken");
+					fixedIds.RemoveAt(pick);
+				}
+				changed = true;
+			}
+
+			entry["last_decay_day"] = today;
+			town[section.Id] = entry;
+		}
+
+		_data["town"] = town;
+		SaveGame();
+		if (changed)
+			EmitSignal(SignalName.ObjectsChanged);
+	}
+
 	// --- Regions -------------------------------------------------------
 
 	public void MarkRegionVisited(string regionId)
@@ -224,5 +364,6 @@ public partial class GameState : Node
 		{ "areas", new Dictionary() },
 		{ "objects", new Dictionary() },
 		{ "regions", new Dictionary() },
+		{ "town", new Dictionary() },
 	};
 }

@@ -15,11 +15,28 @@ Casual game about caring for a plant and restoring a town.
 7. Fixed objects have a chance to **decay** back to a worn state → follow-up repair request → more coins.
 8. **Regions** (reached from the town) — gather the **materials** needed to complete repairs.
 
-## Areas
+## Subsections
 
-- The town has several **subsections**, each travelled to from the town.
-- Each subsection has its own set of **repairable objects**.
-- An area is **complete** when all its objects are fixed → unlocks customisation for that area's objects.
+Six, reached from the town map, gated by an unlock chain (complete one for the
+first time to open the next):
+
+- **Main Square** (open) → Garden, Shopping District
+- **Garden** → Park
+- **Shopping District** → Housing → Business Quarter
+
+Each has 4–6 worn objects; a cactus by each gives the repair task. A section is
+**complete** when every object is fixed → its objects become customisable, its
+first completion unlocks the next section(s), and daily decay begins.
+
+### Decay
+Reference clock: **US Eastern (fixed UTC-5)**. For each completed section, on a
+new EST day: 1 object breaks, 25% chance 2, 5% chance 3. Broken objects reopen
+their repair task. (One catch-up event per return, not per day missed.)
+
+### Object customisation
+After a section is complete, interact with a fixed object → styling picker.
+Index 0 is the original (free); further styles cost coins (50, 100, … —
+extensible per object) and swap the object's sprite when selected.
 
 ## Entities & state
 

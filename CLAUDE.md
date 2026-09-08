@@ -46,6 +46,26 @@ assets/    sprites/  audio/  fonts/   (imported art — keep source-of-truth her
 design/    DESIGN.md + reference mockups pasted into chat, saved for context
 ```
 
+## Town subsections
+
+- `scenes/TownMap.tscn` (`TownMap.cs`) is the hub — House → here. Buttons built
+  from `TownSections.All`; locked until their `UnlockedBy` section is completed once.
+- Section scenes `scenes/town/*.tscn` use `TownSection.cs` (same shape as `Region`):
+  `%Player`, `%VirtualJoystick`, `%ActionButton`, `%BackButton`, `%RepairPanel`,
+  `%CustomizePanel`, `MaterialsHud`, `CoinHud`, and a Y-sorted `%World` of
+  `RepairableObject` instances.
+- `RepairableObject` (`scenes/entities/RepairableObject.tscn`) — data-driven:
+  `ObjectId`, `DisplayName`, `Variants` (Array[Texture2D]; [0] free, rest cost
+  `VariantCosts`), `RequiredMaterials`, `RepairReward`, request/thanks text,
+  `SpriteOffset`. Worn = default sprite tinted grimy + a cactus NPC beside it.
+- **Adding a section**: entry in `TownSections.All` (id, name, `UnlockedBy`,
+  `SceneFile`, `ObjectIds`) + a scene from the pattern above. `ObjectIds` must
+  match the scene's `RepairableObject.ObjectId`s (decay reads the config).
+- **Decay**: `GameState.RunTownDecay()` (called from `GameState._Ready`, `TownMap`,
+  and each section `_Ready`). For every section completed once, on a new EST day
+  (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One
+  catch-up event no matter how many days passed.
+
 ## Regions & gathering
 
 - `scenes/regions/*.tscn` each use `Region.cs`: a `World` (Y-sorted) with a
@@ -67,6 +87,9 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   with forward-migration. Signals: `CoinsChanged`, `MaterialsChanged`, `PlantChanged`.
 - `Router` (`scripts/globals/Router.cs`) — `GotoScene(path)` fade transition,
   `Toast(msg)`. `ProcessMode = Always` so it works while the tree is paused.
+- `TownSections` (`scripts/globals/TownSections.cs`) — static config of the six
+  subsections (name, unlock chain, object ids, scene).
+- `Materials` (`scripts/globals/Materials.cs`) — material id constants + names.
 
 ## Mobile specifics
 

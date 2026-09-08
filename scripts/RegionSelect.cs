@@ -5,7 +5,7 @@ namespace CactusTown;
 /// <summary>Menu of gathering regions, reached from the town.</summary>
 public partial class RegionSelect : Control
 {
-	private const string TownScene = "res://scenes/Town.tscn";
+	private const string TownScene = "res://scenes/TownMap.tscn";
 
 	public override void _Ready()
 	{

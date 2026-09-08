@@ -1,24 +1,28 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=3 format=3]
 
-[ext_resource type="Script" path="res://scripts/entities/Npc.cs" id="1_npc"]
-[ext_resource type="Texture2D" path="res://assets/sprites/npc_cactus.svg" id="2_tex"]
+[ext_resource type="Script" path="res://scripts/entities/RepairableObject.cs" id="1_ro"]
+[ext_resource type="Texture2D" path="res://assets/sprites/npc_cactus.svg" id="2_npc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
-radius = 120.0
+radius = 125.0
 
-[node name="Npc" type="Area2D"]
-script = ExtResource("1_npc")
+[node name="RepairableObject" type="Area2D"]
+script = ExtResource("1_ro")
 
 [node name="Sprite" type="Sprite2D" parent="."]
 texture_filter = 1
-position = Vector2(0, -56)
-texture = ExtResource("2_tex")
+position = Vector2(0, -60)
+
+[node name="Npc" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(96, -52)
+texture = ExtResource("2_npc")
 
 [node name="Detect" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_detect")
 
 [node name="Prompt" type="Node2D" parent="."]
-position = Vector2(0, -140)
+position = Vector2(0, -158)
 
 [node name="Label" type="Label" parent="Prompt"]
 offset_left = -110.0
@@ -26,6 +30,6 @@ offset_top = -34.0
 offset_right = 110.0
 offset_bottom = 20.0
 theme_override_font_sizes/font_size = 30
-text = "!  tap Talk"
+text = "Repair"
 horizontal_alignment = 1
 vertical_alignment = 1

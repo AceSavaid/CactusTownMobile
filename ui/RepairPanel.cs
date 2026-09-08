@@ -4,16 +4,15 @@ using Godot;
 namespace CactusTown;
 
 /// <summary>
-/// Modal request dialogue. Feed it an <see cref="Npc"/>; it shows the greeting +
-/// request and a materials checklist. "Fix it" unlocks once the player has the
-/// materials; completing consumes them, pays coins, and shows the thank-you line.
-/// Pauses the tree while open.
+/// Modal repair dialogue for a <see cref="RepairableObject"/>. Shows the cactus's
+/// request and a materials checklist; "Repair" unlocks once the player has the
+/// materials, consumes them, pays coins, then shows the thank-you line.
 /// </summary>
-public partial class RequestPanel : Control
+public partial class RepairPanel : Control
 {
 	[Signal] public delegate void ClosedEventHandler();
 
-	private Npc? _npc;
+	private RepairableObject? _obj;
 
 	private Label _name = null!;
 	private Label _body = null!;
@@ -34,23 +33,25 @@ public partial class RequestPanel : Control
 		_dismiss.Pressed += Close;
 	}
 
-	public void Open(Npc npc)
+	public void Open(RepairableObject obj)
 	{
-		_npc = npc;
-		_name.Text = npc.NpcName;
+		_obj = obj;
+		_name.Text = obj.DisplayName;
 
-		if (npc.IsDone())
+		if (obj.IsFixed)
 		{
 			ShowThanks();
 		}
 		else
 		{
-			_body.Text = $"{npc.Greeting}\n\n{npc.RequestText}";
-			_requirements.Text = BuildChecklist(npc);
-			_requirements.Visible = npc.RequiredMaterials.Count > 0;
-			var ready = npc.CanComplete();
+			_body.Text = string.IsNullOrEmpty(obj.NpcName)
+				? obj.RequestText
+				: $"{obj.NpcName}: {obj.RequestText}";
+			_requirements.Text = BuildChecklist(obj);
+			_requirements.Visible = obj.RequiredMaterials.Count > 0;
+			var ready = obj.CanRepair();
 			_accept.Disabled = !ready;
-			_accept.Text = ready ? $"Fix it  (+{npc.RewardCoins} coins)" : "Fix it  (need materials)";
+			_accept.Text = ready ? $"Repair  (+{obj.RepairReward} coins)" : "Repair  (need materials)";
 			_accept.Show();
 			_dismiss.Text = "Not now";
 		}
@@ -61,16 +62,16 @@ public partial class RequestPanel : Control
 
 	private void OnAccept()
 	{
-		if (_npc == null)
+		if (_obj == null)
 			return;
-		_npc.CompleteRequest();
-		Router.Instance.Toast($"Request complete!  +{_npc.RewardCoins} coins");
+		_obj.Repair();
+		Router.Instance.Toast($"Repaired!  +{_obj.RepairReward} coins");
 		ShowThanks();
 	}
 
 	private void ShowThanks()
 	{
-		_body.Text = _npc!.ThanksText;
+		_body.Text = _obj!.ThanksText;
 		_requirements.Hide();
 		_accept.Hide();
 		_dismiss.Text = "Close";
@@ -79,24 +80,23 @@ public partial class RequestPanel : Control
 	private void Close()
 	{
 		Hide();
-		_npc = null;
+		_obj = null;
 		GetTree().Paused = false;
 		EmitSignal(SignalName.Closed);
 	}
 
-	private static string BuildChecklist(Npc npc)
+	private static string BuildChecklist(RepairableObject obj)
 	{
-		if (npc.RequiredMaterials.Count == 0)
+		if (obj.RequiredMaterials.Count == 0)
 			return "";
 
 		var lines = new List<string> { "Needs:" };
-		foreach (var (id, count) in npc.RequiredMaterials)
+		foreach (var (id, count) in obj.RequiredMaterials)
 		{
 			var key = id.AsString();
 			var need = count.AsInt32();
 			var have = GameState.Instance.GetMaterial(key);
-			var mark = have >= need ? "✓" : "•";
-			lines.Add($"   {mark}  {Materials.DisplayName(key)}   {have} / {need}");
+			lines.Add($"   {(have >= need ? "✓" : "•")}  {Materials.DisplayName(key)}   {have} / {need}");
 		}
 		return string.Join("\n", lines);
 	}
