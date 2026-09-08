@@ -65,6 +65,8 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 - **Adding a section**: entry in `TownSections.All` (id, name, `UnlockedBy`,
   `SceneFile`, `ObjectIds`) + a scene from the pattern above. `ObjectIds` must
   match the scene's `RepairableObject.ObjectId`s (decay reads the config).
+- Each section scene has a `Backdrop` Node2D (behind `World`, not Y-sorted) with
+  vector building sprites from `assets/sprites/buildings/` for skyline scenery.
 - **Decay**: `GameState.RunTownDecay()` (called from `GameState._Ready`, `TownMap`,
   and each section `_Ready`). For every section completed once, on a new EST day
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One

@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_blue.svg" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop.svg" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="6"]
+
+[sub_resource type="Environment" id="e"]
+
+[node name="BuildingPreview" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Bg" type="ColorRect" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.729, 0.647, 0.478, 1)
+
+[node name="Row" type="HBoxContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 40.0
+offset_top = 300.0
+offset_right = -40.0
+offset_bottom = -200.0
+alignment = 1
+theme_override_constants/separation = 24
+
+[node name="A" type="TextureRect" parent="Row"]
+layout_mode = 2
+texture = ExtResource("1")
+stretch_mode = 3
+
+[node name="B" type="TextureRect" parent="Row"]
+layout_mode = 2
+texture = ExtResource("2")
+stretch_mode = 3
+
+[node name="C" type="TextureRect" parent="Row"]
+layout_mode = 2
+texture = ExtResource("3")
+stretch_mode = 3
+
+[node name="D" type="TextureRect" parent="Row"]
+layout_mode = 2
+texture = ExtResource("4")
+stretch_mode = 3
+
+[node name="E" type="TextureRect" parent="Row"]
+layout_mode = 2
+texture = ExtResource("5")
+stretch_mode = 3
+
+[node name="F" type="TextureRect" parent="Row"]
+layout_mode = 2
+texture = ExtResource("6")
+stretch_mode = 3

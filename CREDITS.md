@@ -10,8 +10,9 @@ free for commercial use, crediting optional. Files live under `assets/kenney/`.
 - Puzzle Assets 1.1 — mini-game pieces (`assets/kenney/puzzle/`)
 - UI Pack — green button / control set (`assets/kenney/ui-green/`)
 
-All other art (the cactus, pots, town props, region nodes, store graphics) is
-original to this project.
+All other art — the cactus, pots, town props, **town buildings**
+(`assets/sprites/buildings/`), region nodes, store graphics — is original to
+this project.
 
 ## Audio
 

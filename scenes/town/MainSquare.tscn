@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3]
+[gd_scene load_steps=25 format=3]
 
 [ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
@@ -20,6 +20,10 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/props/bench_wood.svg" id="18"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/bench_red.svg" id="19"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/bench_stone.svg" id="20"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="bld_townhall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="bld_house_clay"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="bld_house_sage"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="bld_apartment"]
 
 [node name="MainSquare" type="Node2D"]
 script = ExtResource("1_sec")
@@ -38,6 +42,32 @@ offset_top = -520.0
 offset_right = 820.0
 offset_bottom = 620.0
 color = Color(0.678, 0.588, 0.42, 1)
+
+[node name="Backdrop" type="Node2D" parent="."]
+
+[node name="B0" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-230, -250)
+scale = Vector2(1.45, 1.45)
+texture = ExtResource("bld_townhall")
+
+[node name="B1" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-680, -215)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("bld_house_clay")
+
+[node name="B2" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(560, -215)
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("bld_house_sage")
+
+[node name="B3" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(760, -260)
+scale = Vector2(1.35, 1.35)
+texture = ExtResource("bld_apartment")
 
 [node name="World" type="Node2D" parent="."]
 unique_name_in_owner = true
