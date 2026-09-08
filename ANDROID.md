@@ -10,7 +10,7 @@ Already in place:
 | Tool | Location |
 |---|---|
 | JDK 17 | `C:\Program Files\Eclipse Adoptium\jdk-17.0.19.10-hotspot` |
-| Android SDK | `C:\Users\alann\AppData\Local\Android\Sdk` — cmdline-tools, platform-tools, build-tools 35.0.0, platforms;android-35, **NDK 23.2.8568313** |
+| Android SDK | `C:\Users\alann\AppData\Local\Android\Sdk` — cmdline-tools, platform-tools, build-tools 35.0.0/36.1.0, platforms;android-34/35/36, **NDK 23.2.8568313** |
 | Godot .NET export templates | `%APPDATA%\Godot\export_templates\4.4.1.stable.mono\` |
 | Android build template | `android/build/` (gradle project — gitignored, regenerate via **Project → Install Android Build Template**) |
 | Godot editor settings | `export/android/android_sdk_path`, `java_sdk_path` set |
@@ -41,6 +41,34 @@ keystore/release_password="<your password>"
 
 Back the `.jks` up somewhere safe. If you lose it you can't ship updates under
 Play App Signing's upload key (recoverable, but a hassle).
+
+## Target API 36 patch (Google Play requirement)
+
+Play requires new/updated apps to target **API level 36**. Godot 4.4.1's Android
+build template ships pinned to compile/target SDK 34 (AGP 8.2.0). The template
+lives in `android/build/` — **gitignored and regenerated** by *Project → Install
+Android Build Template*, so this patch must be re-applied after any regenerate.
+
+1. `android/build/config.gradle` — in `ext.versions`:
+   ```
+   compileSdk : 36      // was 34
+   targetSdk  : 36      // was 34
+   buildTools : '35.0.0' // was '34.0.0'
+   ```
+   (AGP stays `8.2.0`, Gradle wrapper stays `8.2` — no bump needed.)
+2. `android/build/gradle.properties` — add:
+   ```
+   android.suppressUnsupportedCompileSdk=36
+   ```
+   (AGP 8.2 refuses an unknown compileSdk without this flag.)
+3. `export_presets.cfg` (both presets) already set `gradle_build/target_sdk="36"`.
+
+Verify after export — the merged manifest must show `targetSdkVersion="36"`:
+```
+grep -A2 uses-sdk android/build/build/intermediates/merged_manifest/monoRelease/AndroidManifest.xml
+```
+
+Bump `version/code` in `export_presets.cfg` for every Play upload (currently `2`).
 
 ## Build
 
