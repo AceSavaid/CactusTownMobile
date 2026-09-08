@@ -32,3 +32,6 @@ vertical_alignment = 1
 
 [node name="Respawn" type="Timer" parent="."]
 one_shot = true
+
+[node name="Cooldown" type="Timer" parent="."]
+one_shot = true

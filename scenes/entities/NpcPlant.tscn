@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/NpcPlant.cs" id="1_npc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/plant/pot_clay.svg" id="2_pot"]
+[ext_resource type="Texture2D" path="res://assets/sprites/plant/plant_cactus.svg" id="3_plant"]
+
+[node name="NpcPlant" type="Node2D"]
+script = ExtResource("1_npc")
+
+[node name="Pot" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -66)
+texture = ExtResource("2_pot")
+
+[node name="Plant" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -172)
+texture = ExtResource("3_plant")
+
+[node name="Accessory" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -172)
+visible = false

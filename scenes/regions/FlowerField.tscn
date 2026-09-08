@@ -1,14 +1,15 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=11 format=3]
 
 [ext_resource type="Script" path="res://scripts/Region.cs" id="1_region"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/entities/ResourceNode.tscn" id="3_node"]
-[ext_resource type="PackedScene" path="res://scenes/minigames/MashMiniGame.tscn" id="4_mg"]
+[ext_resource type="PackedScene" path="res://scenes/minigames/FlowerPickMiniGame.tscn" id="4_mg"]
 [ext_resource type="Texture2D" path="res://assets/sprites/flowers_red.svg" id="5_red"]
 [ext_resource type="Texture2D" path="res://assets/sprites/flowers_yellow.svg" id="6_yellow"]
 [ext_resource type="Texture2D" path="res://assets/sprites/flowers_blue.svg" id="7_blue"]
 [ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="8_js"]
 [ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="9_mh"]
+[ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="98_hud"]
 
 [node name="FlowerField" type="Node2D"]
 script = ExtResource("1_region")
@@ -35,7 +36,7 @@ position = Vector2(-340, -110)
 MaterialId = "flower_red"
 ActionLabel = "Pick"
 MiniGameTitle = "Pick the red flowers"
-Difficulty = 7
+Difficulty = 5
 YieldAmount = 3
 HarvestsUntilDepleted = 2
 RespawnSeconds = 22.0
@@ -48,7 +49,7 @@ position = Vector2(280, -230)
 MaterialId = "flower_yellow"
 ActionLabel = "Pick"
 MiniGameTitle = "Pick the yellow flowers"
-Difficulty = 7
+Difficulty = 5
 YieldAmount = 3
 HarvestsUntilDepleted = 2
 RespawnSeconds = 22.0
@@ -74,7 +75,7 @@ position = Vector2(-160, 250)
 MaterialId = "flower_red"
 ActionLabel = "Pick"
 MiniGameTitle = "Pick the red flowers"
-Difficulty = 7
+Difficulty = 5
 YieldAmount = 2
 HarvestsUntilDepleted = 2
 RespawnSeconds = 22.0
@@ -87,7 +88,7 @@ position = Vector2(-520, 60)
 MaterialId = "flower_yellow"
 ActionLabel = "Pick"
 MiniGameTitle = "Pick the yellow flowers"
-Difficulty = 7
+Difficulty = 5
 YieldAmount = 3
 HarvestsUntilDepleted = 2
 RespawnSeconds = 22.0
@@ -113,7 +114,7 @@ position = Vector2(560, -70)
 MaterialId = "flower_red"
 ActionLabel = "Pick"
 MiniGameTitle = "Pick the red flowers"
-Difficulty = 7
+Difficulty = 5
 YieldAmount = 3
 HarvestsUntilDepleted = 2
 RespawnSeconds = 22.0
@@ -126,7 +127,7 @@ position = Vector2(400, 330)
 MaterialId = "flower_yellow"
 ActionLabel = "Pick"
 MiniGameTitle = "Pick the yellow flowers"
-Difficulty = 7
+Difficulty = 5
 YieldAmount = 2
 HarvestsUntilDepleted = 2
 RespawnSeconds = 22.0
@@ -164,4 +165,7 @@ theme_override_font_sizes/font_size = 42
 text = "Gather"
 
 [node name="MaterialsHud" parent="UI" instance=ExtResource("9_mh")]
+unique_name_in_owner = true
+
+[node name="CoinHud" parent="UI" instance=ExtResource("98_hud")]
 unique_name_in_owner = true

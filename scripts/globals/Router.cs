@@ -41,11 +41,15 @@ public partial class Router : CanvasLayer
 			AnchorRight = 0.5f,
 			AnchorTop = 1.0f,
 			AnchorBottom = 1.0f,
-			OffsetLeft = -400,
-			OffsetRight = 400,
-			OffsetTop = -150,
-			OffsetBottom = -90,
+			OffsetLeft = -640,
+			OffsetRight = 640,
+			OffsetTop = -190,
+			OffsetBottom = -96,
 		};
+		_toast.AddThemeFontSizeOverride("font_size", 46);
+		_toast.AddThemeColorOverride("font_color", new Color(1f, 0.97f, 0.86f));
+		_toast.AddThemeColorOverride("font_outline_color", new Color(0.06f, 0.05f, 0.08f));
+		_toast.AddThemeConstantOverride("outline_size", 10);
 		AddChild(_toast);
 	}
 

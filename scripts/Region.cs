@@ -11,6 +11,9 @@ public partial class Region : Node2D
 	[Export] public string RegionId = "forest";
 	[Export] public string ReturnScene = "res://scenes/RegionSelect.tscn";
 
+	/// <summary>Half-size of the walkable area (px). Invisible walls are built at this edge.</summary>
+	[Export] public Vector2 PlayHalfExtents = new(1180, 820);
+
 	private ResourceNode? _activeNode;
 
 	private Player _player = null!;
@@ -32,6 +35,7 @@ public partial class Region : Node2D
 		GetNode<Button>("%BackButton").Pressed += () => Router.Instance.GotoScene(ReturnScene);
 
 		GameState.Instance.MarkRegionVisited(RegionId);
+		BuildBarriers();
 
 		foreach (var child in _world.GetChildren())
 		{
@@ -60,7 +64,7 @@ public partial class Region : Node2D
 
 	private void OnGatherPressed()
 	{
-		if (_activeNode == null)
+		if (_activeNode is not { IsDepleted: false, IsOnCooldown: false })
 			return;
 
 		var game = _activeNode.CreateMiniGame();
@@ -78,9 +82,34 @@ public partial class Region : Node2D
 		RefreshGatherButton();
 	}
 
+	/// <summary>Ring the walkable area with invisible static walls so the player can't roam off the map.</summary>
+	private void BuildBarriers()
+	{
+		var container = new Node2D { Name = "Barriers" };
+		AddChild(container);
+
+		const float thickness = 240f;
+		var ext = PlayHalfExtents;
+		var spans = new (Vector2 pos, Vector2 halfSize)[]
+		{
+			(new Vector2(0, -ext.Y - thickness * 0.5f), new Vector2(ext.X + thickness, thickness * 0.5f)), // top
+			(new Vector2(0, ext.Y + thickness * 0.5f), new Vector2(ext.X + thickness, thickness * 0.5f)),  // bottom
+			(new Vector2(-ext.X - thickness * 0.5f, 0), new Vector2(thickness * 0.5f, ext.Y + thickness)),  // left
+			(new Vector2(ext.X + thickness * 0.5f, 0), new Vector2(thickness * 0.5f, ext.Y + thickness)),   // right
+		};
+
+		foreach (var (pos, halfSize) in spans)
+		{
+			var body = new StaticBody2D { Position = pos };
+			var shape = new CollisionShape2D { Shape = new RectangleShape2D { Size = halfSize * 2f } };
+			body.AddChild(shape);
+			container.AddChild(body);
+		}
+	}
+
 	private void RefreshGatherButton()
 	{
-		var showIt = _activeNode is { IsDepleted: false } && !GetTree().Paused;
+		var showIt = _activeNode is { IsDepleted: false, IsOnCooldown: false } && !GetTree().Paused;
 		_gatherButton.Visible = showIt;
 		if (showIt)
 			_gatherButton.Text = _activeNode!.ActionLabel;

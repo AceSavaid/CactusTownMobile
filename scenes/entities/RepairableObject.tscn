@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://scripts/entities/RepairableObject.cs" id="1_ro"]
-[ext_resource type="Texture2D" path="res://assets/sprites/npc_cactus.svg" id="2_npc"]
+[ext_resource type="PackedScene" path="res://scenes/entities/NpcPlant.tscn" id="2_npc"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_detect"]
 radius = 125.0
@@ -13,10 +13,8 @@ script = ExtResource("1_ro")
 texture_filter = 1
 position = Vector2(0, -60)
 
-[node name="Npc" type="Sprite2D" parent="."]
-texture_filter = 1
-position = Vector2(96, -52)
-texture = ExtResource("2_npc")
+[node name="Npc" parent="." instance=ExtResource("2_npc")]
+position = Vector2(118, -6)
 
 [node name="Detect" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_detect")

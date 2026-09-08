@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/Region.cs" id="1_region"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
@@ -7,6 +7,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/stick.svg" id="5_stick"]
 [ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="6_js"]
 [ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="7_mh"]
+[ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="98_hud"]
 
 [node name="Forest" type="Node2D"]
 script = ExtResource("1_region")
@@ -174,4 +175,7 @@ theme_override_font_sizes/font_size = 42
 text = "Gather"
 
 [node name="MaterialsHud" parent="UI" instance=ExtResource("7_mh")]
+unique_name_in_owner = true
+
+[node name="CoinHud" parent="UI" instance=ExtResource("98_hud")]
 unique_name_in_owner = true

@@ -57,7 +57,11 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 - `RepairableObject` (`scenes/entities/RepairableObject.tscn`) — data-driven:
   `ObjectId`, `DisplayName`, `Variants` (Array[Texture2D]; [0] free, rest cost
   `VariantCosts`), `RequiredMaterials`, `RepairReward`, request/thanks text,
-  `SpriteOffset`. Worn = default sprite tinted grimy + a cactus NPC beside it.
+  `SpriteOffset`. Worn = default sprite tinted grimy + an NPC beside it (hidden once fixed).
+- NPC look: `scenes/entities/NpcPlant.tscn` (`NpcPlant.cs`) — a pot+plant+accessory
+  composite like the player's, but `Randomize(seed)` rolls species / accessory /
+  pot+plant colour tints deterministically from the `ObjectId` so each townsfolk
+  cactus looks different and stays stable between visits.
 - **Adding a section**: entry in `TownSections.All` (id, name, `UnlockedBy`,
   `SceneFile`, `ObjectIds`) + a scene from the pattern above. `ObjectIds` must
   match the scene's `RepairableObject.ObjectId`s (decay reads the config).
@@ -79,7 +83,7 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 - Accessory anchors ("hat"/"face"/"neck"/"pot") are pixel offsets, tuned for the
   cactus and approximate for taller species (aloe). "aura" is UI-only.
 - Started repair tasks: `RepairPanel` calls `GameState.RecordTask`; `TasksPanel`
-  (`ui/TasksPanel.tscn`, opened from the TownMap "Tasks" button) lists
+  (`ui/TasksPanel.tscn`, opened from the "Tasks" button on both TownMap and RegionSelect) lists
   `GameState.OpenTasks()` — seen-but-unfixed objects (incl. decayed) with checklists.
 - `scenes/PlantCustomize.tscn` — Pot / Plant / Accessory tabs, buy + equip cards.
 - `scenes/PlantStats.tscn` — rename field + a code-built stat list (section
@@ -122,14 +126,21 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 
 - `scenes/regions/*.tscn` each use `Region.cs`: a `World` (Y-sorted) with a
   `Player` instance + `ResourceNode` instances, and a `UI` CanvasLayer
-  (`%VirtualJoystick`, `%BackButton`, `%GatherButton`, `MaterialsHud`).
+  (`%VirtualJoystick`, `%BackButton`, `%GatherButton`, `MaterialsHud`, `CoinHud`).
+- `Region.cs` rings the map with invisible `StaticBody2D` walls at
+  `PlayHalfExtents` (exported, default 1180×820) so the player can't walk off.
 - `ResourceNode` (`scenes/entities/ResourceNode.tscn`) is fully data-driven via
   exports — set `MaterialId`, `YieldAmount`, `Difficulty`, `HarvestsUntilDepleted`,
-  `RespawnSeconds`, `NodeTexture`, `SpriteOffset`, `MiniGameScene`.
+  `RespawnSeconds`, `CooldownSeconds` (pause after a non-depleting harvest),
+  `NodeTexture`, `SpriteOffset`, `MiniGameScene`.
 - Mini-games extend `MiniGame` (pauses the tree; root `process_mode = 3`), get
   `Configure(title, reward, difficulty)` before entering the tree, and call
   `Finish(success, amount)`. To add one: new `.cs` + `.tscn`, point a
-  `ResourceNode.MiniGameScene` at it.
+  `ResourceNode.MiniGameScene` at it. Built: `TimingBarMiniGame` (Forest wood),
+  `HoldGaugeMiniGame` (River water), `TapTargetMiniGame` (Cave ore),
+  `FlowerPickMiniGame` (Flower Field — tap the flower whose colour the prompt
+  names, `Difficulty` good picks to win). `MashMiniGame` exists but is unused.
+- `RegionSelect.cs` — region menu; also has a `%TasksButton` → `%TasksPanel` and a `CoinHud`.
 - To add a region: new scene from the pattern above + wire its button in `RegionSelect.cs`.
 
 ## Autoloads / globals

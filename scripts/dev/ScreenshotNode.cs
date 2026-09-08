@@ -8,6 +8,7 @@ namespace CactusTown;
 /// Usage:
 ///   godot --path . scenes/dev/Screenshot.tscn --resolution 1920x1080 -- &lt;res://scene&gt; &lt;out.png&gt; [frames] [flags...]
 /// Flags: grant  complete  demo_repair  demo_customize  mg=&lt;MiniGameScene&gt;
+///        card=&lt;n&gt; (open a gallery card's difficulty panel)  walk=&lt;x&gt;,&lt;y&gt; (drive %Player each frame)
 /// </summary>
 public partial class ScreenshotNode : Node
 {
@@ -67,8 +68,23 @@ public partial class ScreenshotNode : Node
 		}
 
 		AddChild(scene);
+
+		Vector2 walk = Vector2.Zero;
+		foreach (var arg in args)
+			if (arg.StartsWith("walk="))
+			{
+				var p = arg["walk=".Length..].Split(',');
+				walk = new Vector2(float.Parse(p[0]), float.Parse(p[1]));
+			}
+
 		for (var i = 0; i < frames; i++)
+		{
+			if (walk != Vector2.Zero && scene.HasNode("%Player"))
+				scene.GetNode<Player>("%Player").SetMoveDirection(walk);
 			await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+		if (walk != Vector2.Zero && scene.HasNode("%Player"))
+			GD.Print($"player_pos={scene.GetNode<Node2D>("%Player").GlobalPosition}");
 
 		if ((args.Contains("demo_repair") || args.Contains("demo_customize")) && objects.Count > 0)
 		{

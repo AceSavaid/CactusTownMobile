@@ -14,5 +14,6 @@ public partial class RegionSelect : Control
 		GetNode<Button>("%RiverButton").Pressed += () => Router.Instance.GotoScene("res://scenes/regions/River.tscn");
 		GetNode<Button>("%CaveButton").Pressed += () => Router.Instance.GotoScene("res://scenes/regions/Cave.tscn");
 		GetNode<Button>("%BackButton").Pressed += () => Router.Instance.GotoScene(TownScene);
+		GetNode<Button>("%TasksButton").Pressed += () => GetNode<TasksPanel>("%TasksPanel").Open();
 	}
 }

@@ -5,22 +5,26 @@
 [node name="CoinHud" type="PanelContainer"]
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = -280.0
-offset_top = 32.0
+offset_left = -340.0
+offset_top = 30.0
 offset_right = -40.0
-offset_bottom = 100.0
+offset_bottom = 108.0
 grow_horizontal = 0
 script = ExtResource("1_hud")
 
 [node name="Margin" type="MarginContainer" parent="."]
 layout_mode = 2
-theme_override_constants/margin_left = 24
-theme_override_constants/margin_top = 10
-theme_override_constants/margin_right = 24
-theme_override_constants/margin_bottom = 10
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 12
 
 [node name="Label" type="Label" parent="Margin"]
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.968, 0.855, 1)
+theme_override_colors/font_outline_color = Color(0.06, 0.05, 0.08, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 36
 text = "0 coins"
 horizontal_alignment = 1
 vertical_alignment = 1

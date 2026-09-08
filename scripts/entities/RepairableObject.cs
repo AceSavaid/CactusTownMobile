@@ -34,7 +34,7 @@ public partial class RepairableObject : Area2D
 	private bool _playerNear;
 
 	private Sprite2D _sprite = null!;
-	private Sprite2D _npc = null!;
+	private NpcPlant _npc = null!;
 	private Node2D _prompt = null!;
 	private Label _promptLabel = null!;
 
@@ -47,10 +47,11 @@ public partial class RepairableObject : Area2D
 	public override void _Ready()
 	{
 		_sprite = GetNode<Sprite2D>("Sprite");
-		_npc = GetNode<Sprite2D>("Npc");
+		_npc = GetNode<NpcPlant>("Npc");
 		_prompt = GetNode<Node2D>("Prompt");
 		_promptLabel = GetNode<Label>("Prompt/Label");
 		_sprite.Position = SpriteOffset;
+		_npc.Randomize(string.IsNullOrEmpty(ObjectId) ? Name : ObjectId);
 
 		BodyEntered += OnBodyEntered;
 		BodyExited += OnBodyExited;
