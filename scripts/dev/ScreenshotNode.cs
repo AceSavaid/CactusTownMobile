@@ -91,13 +91,22 @@ public partial class ScreenshotNode : Node
 			for (var i = 0; i < 12; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 
-			if (args.Contains("play") && g is TicTacToe)
+			if (args.Contains("play"))
 			{
-				var board = g.GetNode("%Board");
-				foreach (var move in new[] { 0, 4, 8 })
+				var boardName = g is Minesweeper or MatchPairs ? "%Grid" : "%Board";
+				var board = g.GetNode(boardName);
+				var moves = g switch
 				{
-					((Button)board.GetChild(move)).EmitSignal(BaseButton.SignalName.Pressed);
-					for (var i = 0; i < 40; i++)
+					TicTacToe => new[] { 0, 4, 8 },
+					MatchPairs => new[] { 0, 1, 4 },
+					Minesweeper => new[] { board.GetChildCount() / 2 + 2 },
+					_ => System.Array.Empty<int>(),
+				};
+				foreach (var move in moves)
+				{
+					if (move < board.GetChildCount())
+						((Button)board.GetChild(move)).EmitSignal(BaseButton.SignalName.Pressed);
+					for (var i = 0; i < 60; i++)
 						await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 				}
 			}

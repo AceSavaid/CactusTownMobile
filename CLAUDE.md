@@ -80,7 +80,10 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   `IconFile`) + a scene extending `ArcadeGame` + a ~200px icon at
   `assets/sprites/arcade/<IconFile>.svg`. The grid grows on its own; unbuilt
   entries show "(soon)".
-- Built: Tic-Tac-Toe (minimax AI), Pong (speed-scaled AI paddle).
+- Built: Tic-Tac-Toe (minimax AI), Pong (speed-scaled AI paddle), Match the
+  Pairs (AI with difficulty-capped memory), Minesweeper (solo; size/mines scale).
+- Games run standalone for dev, so give board-size fields real default values
+  (Configure overrides them).
 
 ## Regions & gathering
 

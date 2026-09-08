@@ -1,0 +1,72 @@
+[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://scripts/arcade/MatchPairs.cs" id="1_mp"]
+[ext_resource type="PackedScene" path="res://ui/ArcadeResult.tscn" id="2_res"]
+
+[node name="MatchPairs" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_mp")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.2, 0.22, 0.28, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 28.0
+offset_bottom = 92.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 48
+text = "Match the Pairs"
+horizontal_alignment = 1
+
+[node name="Status" type="Label" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 96.0
+offset_bottom = 148.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 34
+text = "Your turn      You 0 : 0 AI"
+horizontal_alignment = 1
+
+[node name="BoardWrap" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 160.0
+offset_bottom = -110.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Grid" type="GridContainer" parent="BoardWrap"]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+columns = 4
+
+[node name="LeaveButton" type="Button" parent="."]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 40.0
+offset_right = 232.0
+offset_bottom = 118.0
+theme_override_font_sizes/font_size = 28
+text = "Leave"
+
+[node name="Result" parent="." instance=ExtResource("2_res")]
+unique_name_in_owner = true
