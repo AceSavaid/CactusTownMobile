@@ -81,7 +81,8 @@ godot --headless --path . --export-release "Android"           build/CactusTownM
 
 - **APK preset** — arm64 + x86_64, format APK, for `adb install` / emulator.
 - **Android** preset — arm64 only, **AAB**, signed, for Play. `version/code` must
-  increase on every upload; `version/name` is the human string.
+  increase on every upload; `version/name` is the human string. (Currently
+  code `3`, name `0.2.0`.)
 
 ## Test on a device
 
@@ -100,10 +101,21 @@ adb install -r build/CactusTownMobile.apk
    `.jks` is only the upload key).
 5. Complete the required forms before the release can go live: content rating
    questionnaire, Data safety (the game collects nothing — all local save data),
-   target audience & content, ads declaration (none), privacy policy URL
-   (only strictly required if targeting children or declaring certain data — a
-   simple hosted page is fine).
+   target audience & content, ads declaration (none), privacy policy URL.
 6. Add internal testers by email, roll out, install via the opt-in link.
+
+### Privacy policy
+
+`PRIVACY.md` (repo root) and `docs/privacy.html` are the policy text. Host one and
+give Play the URL:
+
+- **GitHub Pages** — repo Settings → Pages → Source: "Deploy from a branch",
+  branch `main`, folder `/docs`. The page then lives at
+  `https://acesavaid.github.io/CactusTownMobile/privacy.html`.
+- Or paste `PRIVACY.md` into a GitHub Gist / any static host.
+
+Update the "Last updated" date and re-host whenever the policy text changes
+(e.g. if the game ever gains an online feature).
 
 `package/unique_name` (`acesavaid.cactustown`) is **permanent** once the app
 is created on Play — change it in `export_presets.cfg` first if you want
