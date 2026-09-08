@@ -31,7 +31,7 @@ Create an **upload keystore** — pick a strong password, answer the name prompt
 ```
 
 Then fill these in `export_presets.cfg` under `[preset.0.options]` (the file is
-gitignored — the password stays local):
+gitignored — the password stays local). The keys already exist there empty:
 
 ```
 keystore/release="C:/Users/alann/keys/cactustown-upload.jks"
@@ -77,6 +77,6 @@ adb install -r build/CactusTownMobile.apk
    simple hosted page is fine).
 6. Add internal testers by email, roll out, install via the opt-in link.
 
-`package/unique_name` (`com.acesavaid.cactustown`) is **permanent** once the app
+`package/unique_name` (`acesavaid.cactustown`) is **permanent** once the app
 is created on Play — change it in `export_presets.cfg` first if you want
 something else.
