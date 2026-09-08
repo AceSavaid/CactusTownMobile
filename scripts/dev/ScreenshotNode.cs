@@ -31,6 +31,33 @@ public partial class ScreenshotNode : Node
 			return;
 		}
 
+		if (args.Length > 0 && args[0] == "store_assets")
+		{
+			DirAccess.MakeDirRecursiveAbsolute("res://store");
+			DirAccess.MakeDirRecursiveAbsolute("res://assets/icons");
+			var jobs = new (string Src, string Out, float Scale)[]
+			{
+				("res://assets/store/src/icon.svg", "res://store/icon-512.png", 1f),
+				("res://assets/store/src/feature_graphic.svg", "res://store/feature-graphic-1024x500.png", 1f),
+				("res://assets/store/src/icon.svg", "res://assets/icons/launcher-192.png", 192f / 512f),
+				("res://assets/store/src/icon_foreground.svg", "res://assets/icons/adaptive-foreground-432.png", 1f),
+				("res://assets/store/src/icon_background.svg", "res://assets/icons/adaptive-background-432.png", 1f),
+			};
+			foreach (var (src, dest, scale) in jobs)
+			{
+				var img = new Image();
+				var err = img.LoadSvgFromString(FileAccess.GetFileAsString(src), scale);
+				if (err != Error.Ok)
+				{
+					GD.PushError($"{src}: {err}");
+					continue;
+				}
+				GD.Print($"{dest}  {img.GetSize()}  err={img.SavePng(dest)}");
+			}
+			GetTree().Quit();
+			return;
+		}
+
 		var scenePath = args.Length > 0 ? args[0] : "res://scenes/House.tscn";
 		var outPath = args.Length > 1 ? args[1] : "user://shot.png";
 		var frames = args.Length > 2 ? int.Parse(args[2]) : 20;
@@ -106,7 +133,8 @@ public partial class ScreenshotNode : Node
 			if (!arg.StartsWith("mg="))
 				continue;
 			var game = GD.Load<PackedScene>($"res://scenes/minigames/{arg[3..]}.tscn").Instantiate<MiniGame>();
-			game.Configure("Gather the thing", 3, 4);
+			var mgTitle = args.FirstOrDefault(a => a.StartsWith("mgtitle="))?["mgtitle=".Length..] ?? "Gather the thing";
+			game.Configure(mgTitle, 3, 4);
 			scene.GetNode<CanvasLayer>("UI").AddChild(game);
 			for (var i = 0; i < 10; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);

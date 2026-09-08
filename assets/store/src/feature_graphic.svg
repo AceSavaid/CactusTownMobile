@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="500" viewBox="0 0 1024 500">
+  <defs>
+    <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#f2d296"/>
+      <stop offset="1" stop-color="#e6b972"/>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="500" fill="url(#sky)"/>
+  <circle cx="602" cy="86" r="42" fill="#f7dc93"/>
+
+  <!-- ground -->
+  <path d="M0 380 Q 512 350 1024 384 V500 H0 Z" fill="#cf9f57"/>
+  <path d="M0 410 Q 512 388 1024 414 V500 H0 Z" fill="#c1904b"/>
+
+  <!-- distant town -->
+  <g fill="#d9a862" opacity="0.8">
+    <rect x="410" y="312" width="60" height="72" rx="6"/>
+    <rect x="480" y="290" width="48" height="94" rx="6"/>
+    <path d="M480 290 l24 -22 l24 22 z"/>
+    <rect x="640" y="320" width="42" height="64" rx="6"/>
+  </g>
+
+  <!-- hero cactus, right -->
+  <g transform="translate(720 40)">
+    <ellipse cx="150" cy="360" rx="150" ry="30" fill="#000" opacity="0.10"/>
+    <rect x="118" y="120" width="66" height="228" rx="33" fill="#4a9d6a"/>
+    <rect x="46" y="188" width="52" height="132" rx="26" fill="#4a9d6a"/>
+    <rect x="46" y="188" width="52" height="52" rx="26" fill="#4a9d6a"/>
+    <rect x="204" y="160" width="52" height="150" rx="26" fill="#4a9d6a"/>
+    <rect x="204" y="160" width="52" height="52" rx="26" fill="#4a9d6a"/>
+    <g stroke="#3c8d5b" stroke-width="6" stroke-linecap="round">
+      <path d="M151 150 V330 M72 226 V300 M230 196 V290"/>
+    </g>
+    <circle cx="98" cy="92" r="22" fill="#f2b5d4"/>
+    <circle cx="98" cy="92" r="9" fill="#f6d976"/>
+    <circle cx="136" cy="210" r="9" fill="#123321"/>
+    <circle cx="166" cy="210" r="9" fill="#123321"/>
+    <path d="M134 238 q17 16 34 0" stroke="#123321" stroke-width="8" fill="none" stroke-linecap="round"/>
+    <path d="M66 316 h170 l-21 116 a10 10 0 0 1 -10 8 h-108 a10 10 0 0 1 -10 -8 z" fill="#c96f3b"/>
+    <rect x="52" y="298" width="198" height="30" rx="7" fill="#d98153"/>
+  </g>
+</svg>

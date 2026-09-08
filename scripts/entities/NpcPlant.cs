@@ -20,18 +20,30 @@ public partial class NpcPlant : Node2D
 		{ "pot", new Vector2(0, 24) },
 	};
 
+	// Applied as Modulate on the base sprites — every NPC gets a visible tint (no
+	// pass-through white) so even two same-species cacti read as different people.
 	private static readonly Color[] PlantTints =
 	{
-		new(1.00f, 1.00f, 1.00f), new(0.82f, 1.02f, 0.86f), new(0.72f, 0.96f, 1.00f),
-		new(1.05f, 0.98f, 0.72f), new(0.94f, 0.86f, 1.05f), new(1.08f, 0.82f, 0.80f),
-		new(0.80f, 1.10f, 0.78f), new(1.02f, 1.00f, 0.90f),
+		new(0.72f, 1.12f, 0.78f), // bright green
+		new(0.60f, 1.02f, 0.92f), // teal
+		new(1.02f, 1.10f, 0.62f), // chartreuse
+		new(0.80f, 0.90f, 1.05f), // blue-green
+		new(1.10f, 0.86f, 0.74f), // warm olive
+		new(0.78f, 1.06f, 0.64f), // lime
+		new(0.58f, 0.86f, 0.66f), // deep pine
+		new(1.00f, 0.92f, 0.72f), // golden green
 	};
 
 	private static readonly Color[] PotTints =
 	{
-		new(1.00f, 1.00f, 1.00f), new(0.78f, 0.86f, 1.02f), new(1.08f, 0.90f, 0.72f),
-		new(0.80f, 1.04f, 0.86f), new(1.10f, 0.78f, 0.74f), new(0.96f, 0.80f, 1.06f),
-		new(1.06f, 1.00f, 0.82f), new(0.86f, 0.94f, 0.98f),
+		new(0.62f, 0.78f, 1.14f), // blue
+		new(1.16f, 0.72f, 0.58f), // terracotta+
+		new(0.64f, 1.10f, 0.78f), // mint
+		new(1.20f, 0.64f, 0.66f), // rose
+		new(0.90f, 0.70f, 1.16f), // violet
+		new(1.14f, 1.02f, 0.60f), // sand-gold
+		new(0.70f, 0.84f, 0.90f), // slate
+		new(1.10f, 0.86f, 0.66f), // clay
 	};
 
 	private Sprite2D _pot = null!;
@@ -56,6 +68,7 @@ public partial class NpcPlant : Node2D
 		}
 
 		var rng = new RandomNumberGenerator { Seed = SeedFrom(seed) };
+		rng.Randi(); // warm up — PCG's first draw correlates for nearby seeds
 
 		var pots = PlantCatalog.InSlot(PlantCatalog.Slot.Pot).ToArray();
 		var plants = PlantCatalog.InSlot(PlantCatalog.Slot.Plant).ToArray();
@@ -67,7 +80,7 @@ public partial class NpcPlant : Node2D
 		var accessories = PlantCatalog.InSlot(PlantCatalog.Slot.Accessory)
 			.Where(a => a.HasTexture && AnchorOffset.ContainsKey(a.Anchor))
 			.ToArray();
-		if (accessories.Length > 0 && rng.Randf() < 0.4f)
+		if (accessories.Length > 0 && rng.Randf() < 0.33f)
 		{
 			var acc = accessories[rng.RandiRange(0, accessories.Length - 1)];
 			_accessory.Texture = GD.Load<Texture2D>(acc.TexturePath);
@@ -97,6 +110,12 @@ public partial class NpcPlant : Node2D
 			hash ^= c;
 			hash *= 1099511628211UL;
 		}
+		// murmur3 finalizer — avalanche so similar ids ("square_lamp"/"square_bench") diverge
+		hash ^= hash >> 33;
+		hash *= 0xff51afd7ed558ccdUL;
+		hash ^= hash >> 33;
+		hash *= 0xc4ceb9fe1a85ec53UL;
+		hash ^= hash >> 33;
 		return hash;
 	}
 }

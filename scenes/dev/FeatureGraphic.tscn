@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Texture2D" path="res://assets/store/src/feature_graphic.svg" id="1_bg"]
+
+[node name="FeatureGraphic" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Bg" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource("1_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="Title" type="Label" parent="."]
+offset_left = 64.0
+offset_top = 54.0
+offset_right = 680.0
+offset_bottom = 340.0
+theme_override_colors/font_color = Color(0.235, 0.345, 0.235, 1)
+theme_override_colors/font_outline_color = Color(0.235, 0.345, 0.235, 1)
+theme_override_constants/outline_size = 12
+theme_override_constants/line_spacing = -6
+theme_override_font_sizes/font_size = 110
+text = "Cactus
+Town"
+
+[node name="Tagline" type="Label" parent="."]
+offset_left = 68.0
+offset_top = 348.0
+offset_right = 720.0
+offset_bottom = 406.0
+theme_override_colors/font_color = Color(0.451, 0.333, 0.176, 1)
+theme_override_colors/font_outline_color = Color(0.451, 0.333, 0.176, 1)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 33
+text = "Grow a plant. Fix up a town."
