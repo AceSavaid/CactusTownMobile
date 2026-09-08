@@ -1,0 +1,168 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/entities/RepairableObject.tscn" id="3_obj"]
+[ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="4_js"]
+[ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="5_mh"]
+[ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="6_hud"]
+[ext_resource type="PackedScene" path="res://ui/RepairPanel.tscn" id="7_rp"]
+[ext_resource type="PackedScene" path="res://ui/CustomizePanel.tscn" id="8_cp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bizdoors_glass.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bizdoors_brass.svg" id="10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bizdoors_dark.svg" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bizsign_plain.svg" id="12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bizsign_lit.svg" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bizsign_gold.svg" id="14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/planters_concrete.svg" id="15"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/planters_wood.svg" id="16"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/planters_tall.svg" id="17"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bench_wood.svg" id="18"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bench_red.svg" id="19"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/bench_stone.svg" id="20"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/clock_iron.svg" id="21"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/clock_gold.svg" id="22"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/clock_blue.svg" id="23"]
+
+[node name="Business" type="Node2D"]
+script = ExtResource("1_sec")
+SectionId = "business"
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_left = -4000.0
+offset_top = -3000.0
+offset_right = 4000.0
+offset_bottom = 3000.0
+color = Color(0.596, 0.6, 0.616, 1)
+
+[node name="Plaza" type="ColorRect" parent="."]
+offset_left = -900.0
+offset_top = -500.0
+offset_right = 900.0
+offset_bottom = 640.0
+color = Color(0.53, 0.541, 0.557, 1)
+
+[node name="World" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(0, 340)
+
+[node name="Doors" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-400, -160)
+ObjectId = "biz_doors"
+DisplayName = "Office Doors"
+Variants = Array[Texture2D]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
+RequiredMaterials = {
+"iron_ore": 4,
+"stone": 3
+}
+RepairReward = 35
+NpcName = "Merit"
+RequestText = "The front doors are jammed half-open. Ironwork and stone for the threshold."
+ThanksText = "Swings shut like a bank vault now. Impressive."
+SpriteOffset = Vector2(0, -67)
+
+[node name="BizSign" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(360, -230)
+ObjectId = "biz_sign"
+DisplayName = "Company Sign"
+Variants = Array[Texture2D]([ExtResource("12"), ExtResource("13"), ExtResource("14")])
+RequiredMaterials = {
+"wood": 3,
+"iron_ore": 3
+}
+RepairReward = 25
+NpcName = "Merit"
+RequestText = "Our sign lost three letters in the wind. A new panel, mounted properly."
+ThanksText = "Clients can find us on the first try. Good work."
+SpriteOffset = Vector2(0, -62)
+
+[node name="Planters" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(150, 150)
+ObjectId = "biz_planters"
+DisplayName = "Entrance Planters"
+Variants = Array[Texture2D]([ExtResource("15"), ExtResource("16"), ExtResource("17")])
+RequiredMaterials = {
+"stone": 3,
+"flower_yellow": 3
+}
+RepairReward = 20
+NpcName = "Merit"
+RequestText = "The planters by the door are cracked and full of cigarette ends. Fresh stone and flowers."
+ThanksText = "First thing anyone sees. Much better."
+SpriteOffset = Vector2(0, -47)
+
+[node name="BizBench" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-150, 240)
+ObjectId = "biz_bench"
+DisplayName = "Courtyard Bench"
+Variants = Array[Texture2D]([ExtResource("18"), ExtResource("19"), ExtResource("20")])
+RequiredMaterials = {
+"wood": 4,
+"stone": 2
+}
+RepairReward = 20
+NpcName = "Merit"
+RequestText = "Staff eat lunch on the steps because the bench collapsed. Sort it out?"
+ThanksText = "The courtyard's actually pleasant now. Thank you."
+SpriteOffset = Vector2(0, -38)
+
+[node name="Clock" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(430, 280)
+ObjectId = "biz_clock"
+DisplayName = "Plaza Clock"
+Variants = Array[Texture2D]([ExtResource("21"), ExtResource("22"), ExtResource("23")])
+RequiredMaterials = {
+"iron_ore": 5,
+"gold_ore": 1,
+"wood": 3
+}
+RepairReward = 40
+NpcName = "Merit"
+RequestText = "The plaza clock stopped years ago. It's a proper job — ironwork, a gilt face, timber for the case."
+ThanksText = "The whole quarter sets its watch by it again. Remarkable."
+SpriteOffset = Vector2(0, -72)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VirtualJoystick" parent="UI" instance=ExtResource("4_js")]
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 340.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 38
+text = "←  Town"
+
+[node name="ActionButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -230.0
+offset_right = -60.0
+offset_bottom = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "Repair"
+
+[node name="MaterialsHud" parent="UI" instance=ExtResource("5_mh")]
+unique_name_in_owner = true
+
+[node name="CoinHud" parent="UI" instance=ExtResource("6_hud")]
+unique_name_in_owner = true
+
+[node name="RepairPanel" parent="UI" instance=ExtResource("7_rp")]
+unique_name_in_owner = true
+
+[node name="CustomizePanel" parent="UI" instance=ExtResource("8_cp")]
+unique_name_in_owner = true

@@ -1,0 +1,160 @@
+[gd_scene load_steps=24 format=3]
+
+[ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
+[ext_resource type="PackedScene" path="res://scenes/entities/RepairableObject.tscn" id="3_obj"]
+[ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="4_js"]
+[ext_resource type="PackedScene" path="res://ui/MaterialsHud.tscn" id="5_mh"]
+[ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="6_hud"]
+[ext_resource type="PackedScene" path="res://ui/RepairPanel.tscn" id="7_rp"]
+[ext_resource type="PackedScene" path="res://ui/CustomizePanel.tscn" id="8_cp"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pavilion_wood.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pavilion_white.svg" id="10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pavilion_stone.svg" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/swings_plain.svg" id="12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/swings_bright.svg" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/swings_canopy.svg" id="14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pond_plain.svg" id="15"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pond_lily.svg" id="16"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/pond_koi.svg" id="17"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/path_dirt.svg" id="18"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/path_paved.svg" id="19"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/path_brick.svg" id="20"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/sign_plain.svg" id="21"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/sign_carved.svg" id="22"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/sign_painted.svg" id="23"]
+
+[node name="Park" type="Node2D"]
+script = ExtResource("1_sec")
+SectionId = "park"
+
+[node name="Ground" type="ColorRect" parent="."]
+offset_left = -4000.0
+offset_top = -3000.0
+offset_right = 4000.0
+offset_bottom = 3000.0
+color = Color(0.451, 0.612, 0.408, 1)
+
+[node name="World" type="Node2D" parent="."]
+unique_name_in_owner = true
+y_sort_enabled = true
+
+[node name="Player" parent="World" instance=ExtResource("2_player")]
+unique_name_in_owner = true
+position = Vector2(0, 340)
+
+[node name="Pavilion" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-430, -140)
+ObjectId = "park_pavilion"
+DisplayName = "Park Pavilion"
+Variants = Array[Texture2D]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
+RequiredMaterials = {
+"stone": 3,
+"wood": 5
+}
+RepairReward = 30
+NpcName = "Ivy"
+RequestText = "The pavilion roof caved in last winter. Wood for the frame, stone for the footings."
+ThanksText = "Folks can picnic under cover again. You're a marvel."
+SpriteOffset = Vector2(0, -68)
+
+[node name="Swings" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(360, -230)
+ObjectId = "park_swings"
+DisplayName = "Swing Set"
+Variants = Array[Texture2D]([ExtResource("12"), ExtResource("13"), ExtResource("14")])
+RequiredMaterials = {
+"wood": 3,
+"iron_ore": 3
+}
+RepairReward = 25
+NpcName = "Ivy"
+RequestText = "The swing chains have rusted through. Iron for the chains, wood for the seats."
+ThanksText = "Listen to them laugh. Thank you."
+SpriteOffset = Vector2(0, -62)
+
+[node name="Pond" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(150, 140)
+ObjectId = "park_pond"
+DisplayName = "Duck Pond"
+Variants = Array[Texture2D]([ExtResource("15"), ExtResource("16"), ExtResource("17")])
+RequiredMaterials = {
+"water": 4,
+"stone": 3
+}
+RepairReward = 30
+NpcName = "Ivy"
+RequestText = "The pond's silted up and the edge is crumbling. Water and stone."
+ThanksText = "The ducks are back already!"
+SpriteOffset = Vector2(0, -37)
+
+[node name="ParkPath" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-140, 210)
+ObjectId = "park_path"
+DisplayName = "Garden Path"
+Variants = Array[Texture2D]([ExtResource("18"), ExtResource("19"), ExtResource("20")])
+RequiredMaterials = {
+"stone": 5,
+"water": 2
+}
+RepairReward = 20
+NpcName = "Ivy"
+RequestText = "The main path is more mud than path. Stone to lay it properly."
+ThanksText = "No more muddy boots. Lovely."
+SpriteOffset = Vector2(0, -20)
+
+[node name="ParkSign" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-360, 300)
+ObjectId = "park_sign"
+DisplayName = "Park Sign"
+Variants = Array[Texture2D]([ExtResource("21"), ExtResource("22"), ExtResource("23")])
+RequiredMaterials = {
+"wood": 3,
+"stick": 2
+}
+RepairReward = 15
+NpcName = "Ivy"
+RequestText = "Nobody can read the old park sign any more. A fresh board?"
+ThanksText = "Now visitors know where they are. Grand."
+SpriteOffset = Vector2(0, -57)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="VirtualJoystick" parent="UI" instance=ExtResource("4_js")]
+unique_name_in_owner = true
+
+[node name="BackButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 44.0
+offset_right = 340.0
+offset_bottom = 152.0
+theme_override_font_sizes/font_size = 38
+text = "←  Town"
+
+[node name="ActionButton" type="Button" parent="UI"]
+unique_name_in_owner = true
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -520.0
+offset_top = -230.0
+offset_right = -60.0
+offset_bottom = -110.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 42
+text = "Repair"
+
+[node name="MaterialsHud" parent="UI" instance=ExtResource("5_mh")]
+unique_name_in_owner = true
+
+[node name="CoinHud" parent="UI" instance=ExtResource("6_hud")]
+unique_name_in_owner = true
+
+[node name="RepairPanel" parent="UI" instance=ExtResource("7_rp")]
+unique_name_in_owner = true
+
+[node name="CustomizePanel" parent="UI" instance=ExtResource("8_cp")]
+unique_name_in_owner = true
