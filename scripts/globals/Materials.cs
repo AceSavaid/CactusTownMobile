@@ -15,6 +15,11 @@ public static class Materials
 	public const string IronOre = "iron_ore";
 	public const string GoldOre = "gold_ore";
 
+	public static readonly string[] All =
+	{
+		Wood, Stick, FlowerRed, FlowerYellow, FlowerBlue, Water, Stone, IronOre, GoldOre,
+	};
+
 	private static readonly Dictionary<string, string> Names = new()
 	{
 		{ Wood, "Wood" },

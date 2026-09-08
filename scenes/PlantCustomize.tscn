@@ -1,0 +1,116 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/PlantCustomize.cs" id="1_pc"]
+[ext_resource type="PackedScene" path="res://ui/PlantView.tscn" id="2_pv"]
+[ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="3_hud"]
+
+[node name="PlantCustomize" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_pc")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.529, 0.686, 0.533, 1)
+
+[node name="Title" type="Label" parent="."]
+layout_mode = 1
+anchor_right = 1.0
+offset_top = 32.0
+offset_bottom = 108.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 60
+text = "Customise Plant"
+horizontal_alignment = 1
+
+[node name="PreviewFrame" type="PanelContainer" parent="."]
+layout_mode = 1
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 90.0
+offset_top = -240.0
+offset_right = 570.0
+offset_bottom = 240.0
+grow_vertical = 2
+
+[node name="Centre" type="CenterContainer" parent="PreviewFrame"]
+layout_mode = 2
+
+[node name="PlantView" parent="PreviewFrame/Centre" instance=ExtResource("2_pv")]
+layout_mode = 2
+
+[node name="RightPanel" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -1200.0
+offset_top = -300.0
+offset_right = -80.0
+offset_bottom = 320.0
+grow_horizontal = 0
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Tabs" type="HBoxContainer" parent="RightPanel"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="PotTab" type="Button" parent="RightPanel/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 96)
+layout_mode = 2
+toggle_mode = true
+theme_override_font_sizes/font_size = 34
+text = "Pot"
+
+[node name="PlantTab" type="Button" parent="RightPanel/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 96)
+layout_mode = 2
+toggle_mode = true
+theme_override_font_sizes/font_size = 34
+text = "Plant"
+
+[node name="AccessoryTab" type="Button" parent="RightPanel/Tabs"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(300, 96)
+layout_mode = 2
+toggle_mode = true
+theme_override_font_sizes/font_size = 34
+text = "Accessory"
+
+[node name="Scroll" type="ScrollContainer" parent="RightPanel"]
+layout_mode = 2
+size_flags_vertical = 3
+vertical_scroll_mode = 0
+
+[node name="Options" type="HBoxContainer" parent="RightPanel/Scroll"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 28
+
+[node name="BackButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 60.0
+offset_top = -160.0
+offset_right = 400.0
+offset_bottom = -50.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "←  Home"
+
+[node name="CoinHud" parent="." instance=ExtResource("3_hud")]

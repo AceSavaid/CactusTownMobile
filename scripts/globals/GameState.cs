@@ -95,17 +95,116 @@ public partial class GameState : Node
 
 	// --- Plant ----------------------------------------------------------
 
-	public Dictionary GetPlant() => _data["plant"].AsGodotDictionary();
+	public string PlantName => PlantField("name", "Spike");
+	public string PlantPot => PlantField("pot", "pot_clay");
+	public string PlantSpecies => PlantField("plant", "plant_cactus");
+	public string PlantAccessory => PlantField("accessory", "acc_none");
 
-	public void SetPlantCustomisation(string slot, string variant)
+	public string PlantSlotItem(PlantCatalog.Slot slot) => slot switch
 	{
-		var plant = GetPlant();
-		var custom = plant["customisation"].AsGodotDictionary();
-		custom[slot] = variant;
-		plant["customisation"] = custom;
+		PlantCatalog.Slot.Pot => PlantPot,
+		PlantCatalog.Slot.Plant => PlantSpecies,
+		_ => PlantAccessory,
+	};
+
+	private string PlantField(string key, string fallback)
+	{
+		var plant = _data["plant"].AsGodotDictionary();
+		return plant.TryGetValue(key, out var value) ? value.AsString() : fallback;
+	}
+
+	private void SetPlantField(string key, string value)
+	{
+		var plant = _data["plant"].AsGodotDictionary();
+		plant[key] = value;
 		_data["plant"] = plant;
-		EmitSignal(SignalName.PlantChanged);
 		SaveGame();
+		EmitSignal(SignalName.PlantChanged);
+	}
+
+	public void SetPlantName(string name)
+	{
+		var trimmed = name.Trim();
+		if (trimmed.Length > 16)
+			trimmed = trimmed[..16];
+		SetPlantField("name", trimmed.Length > 0 ? trimmed : "Spike");
+	}
+
+	public void EquipPlantItem(string itemId)
+	{
+		var item = PlantCatalog.Find(itemId);
+		if (item != null)
+			SetPlantField(PlantCatalog.SlotKey(item.Slot), itemId);
+	}
+
+	private Array PlantOwned()
+	{
+		var plant = _data["plant"].AsGodotDictionary();
+		if (plant.TryGetValue("owned", out var owned))
+			return owned.AsGodotArray();
+		var fresh = new Array();
+		plant["owned"] = fresh;
+		_data["plant"] = plant;
+		return fresh;
+	}
+
+	public bool OwnsPlantItem(string itemId)
+	{
+		if (PlantCatalog.Find(itemId) is { Cost: <= 0 })
+			return true;
+		return PlantOwned().Any(x => x.AsString() == itemId);
+	}
+
+	public bool BuyPlantItem(string itemId)
+	{
+		var item = PlantCatalog.Find(itemId);
+		if (item == null || OwnsPlantItem(itemId))
+			return item != null;
+		if (!SpendCoins(item.Cost))
+			return false;
+		var owned = PlantOwned();
+		owned.Add(itemId);
+		var plant = _data["plant"].AsGodotDictionary();
+		plant["owned"] = owned;
+		_data["plant"] = plant;
+		SaveGame();
+		EmitSignal(SignalName.PlantChanged);
+		return true;
+	}
+
+	public int PlantCustomizationsUnlocked => PlantOwned().Count;
+
+	// --- Stats --------------------------------------------------------
+
+	public int DaysOnApp
+	{
+		get
+		{
+			var first = _data.TryGetValue("first_day", out var f) ? f.AsString() : "";
+			if (string.IsNullOrEmpty(first))
+				return 1;
+			var a = Time.GetUnixTimeFromDatetimeString(first + "T00:00:00");
+			var b = Time.GetUnixTimeFromDatetimeString(EstToday() + "T00:00:00");
+			return Mathf.Max(1, (int)((b - a) / 86400.0 + 0.5) + 1);
+		}
+	}
+
+	public (int Fixed, int Total) SectionProgress(string sectionId)
+	{
+		var cfg = TownSections.Find(sectionId);
+		return cfg == null ? (0, 0) : (cfg.ObjectIds.Count(IsObjectFixed), cfg.ObjectIds.Length);
+	}
+
+	public int TownCustomizationsUnlocked
+	{
+		get
+		{
+			var total = 0;
+			foreach (var (_, entry) in _data["objects"].AsGodotDictionary())
+				if (entry.AsGodotDictionary().TryGetValue("owned", out var owned))
+					total += owned.AsGodotArray().Count;
+			return total;
+		}
 	}
 
 	// --- Repairable objects -------------------------------------------
@@ -345,22 +444,18 @@ public partial class GameState : Node
 	{
 		{ "version", SaveVersion },
 		{ "coins", 0 },
+		{ "first_day", EstToday() },
 		{
 			"plant", new Dictionary
 			{
 				{ "name", "Spike" },
-				{
-					"customisation", new Dictionary
-					{
-						{ "pot", "clay" },
-						{ "species", "cactus" },
-						{ "hat", "none" },
-					}
-				},
+				{ "pot", "pot_clay" },
+				{ "plant", "plant_cactus" },
+				{ "accessory", "acc_none" },
+				{ "owned", new Array() },
 			}
 		},
 		{ "materials", new Dictionary() },
-		{ "owned_customisations", new Array() },
 		{ "areas", new Dictionary() },
 		{ "objects", new Dictionary() },
 		{ "regions", new Dictionary() },

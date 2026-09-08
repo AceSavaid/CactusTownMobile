@@ -10,6 +10,8 @@ public partial class House : Control
 {
 	private const string TownScene = "res://scenes/TownMap.tscn";
 	private const string ArcadeScene = "res://scenes/ArcadeGallery.tscn";
+	private const string PlantCustomizeScene = "res://scenes/PlantCustomize.tscn";
+	private const string PlantStatsScene = "res://scenes/PlantStats.tscn";
 
 	private Label _plantName = null!;
 
@@ -17,9 +19,9 @@ public partial class House : Control
 	{
 		_plantName = GetNode<Label>("%PlantName");
 
-		GetNode<Button>("%CustomisePlantButton").Pressed += () => Router.Instance.Toast("Plant customisation — coming soon");
+		GetNode<Button>("%CustomisePlantButton").Pressed += () => Router.Instance.GotoScene(PlantCustomizeScene);
 		GetNode<Button>("%MiniGamesButton").Pressed += () => Router.Instance.GotoScene(ArcadeScene);
-		GetNode<Button>("%PlantStatsButton").Pressed += () => Router.Instance.Toast("Plant stats — coming soon");
+		GetNode<Button>("%PlantStatsButton").Pressed += () => Router.Instance.GotoScene(PlantStatsScene);
 		GetNode<Button>("%GoToTownButton").Pressed += () => Router.Instance.GotoScene(TownScene);
 
 		GameState.Instance.PlantChanged += RefreshPlant;
@@ -28,10 +30,5 @@ public partial class House : Control
 
 	public override void _ExitTree() => GameState.Instance.PlantChanged -= RefreshPlant;
 
-	private void RefreshPlant()
-	{
-		var plant = GameState.Instance.GetPlant();
-		var name = plant.TryGetValue("name", out var value) ? value.AsString() : "?";
-		_plantName.Text = $"Your plant: {name}";
-	}
+	private void RefreshPlant() => _plantName.Text = GameState.Instance.PlantName;
 }

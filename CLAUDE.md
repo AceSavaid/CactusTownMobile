@@ -66,6 +66,24 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One
   catch-up event no matter how many days passed.
 
+## Plant customisation & stats
+
+- `PlantCatalog` (`scripts/globals/PlantCatalog.cs`) — every pot / plant / accessory
+  item (id, slot, name, texture, cost, and for accessories an `Anchor`). Add an
+  entry + a sprite in `assets/sprites/plant/` to add an option.
+- `ui/PlantView.tscn` (`PlantView.cs`) — composites pot + plant + accessory from
+  `GameState`; self-updates on `PlantChanged`. Accessory anchors ("hat", "face",
+  "neck", "pot", "aura") are pixel positions in `PlantView.AnchorCentre` — tuned
+  for the default cactus, approximate for other species.
+- `scenes/PlantCustomize.tscn` — Pot / Plant / Accessory tabs, buy + equip cards.
+- `scenes/PlantStats.tscn` — rename field + a code-built stat list (section
+  progress, coins, days played, materials, customisations unlocked).
+- `GameState`: `PlantName/PlantPot/PlantSpecies/PlantAccessory`, `EquipPlantItem`,
+  `OwnsPlantItem/BuyPlantItem`, `SetPlantName`, `DaysOnApp`, `SectionProgress`,
+  `TownCustomizationsUnlocked`, `PlantCustomizationsUnlocked`. `first_day` (EST)
+  is stamped in `DefaultData`. Plant data shape is now
+  `plant: {name, pot, plant, accessory, owned[]}`.
+
 ## House arcade mini-games
 
 - `scenes/ArcadeGallery.tscn` (`ArcadeGallery.cs`) — House → Mini-Games. A

@@ -29,6 +29,17 @@ public partial class ScreenshotNode : Node
 			if (arg.StartsWith("unlock="))
 				GameState.Instance.SetSectionCompletedOnce(arg["unlock=".Length..]);
 
+		if (args.Contains("fixall"))
+			foreach (var section in TownSections.All)
+			{
+				foreach (var objectId in section.ObjectIds)
+				{
+					GameState.Instance.SetObjectState(objectId, "fixed");
+					GameState.Instance.BuyVariant(objectId, 1, 0);
+				}
+				GameState.Instance.SetSectionCompletedOnce(section.Id);
+			}
+
 		var scene = GD.Load<PackedScene>(scenePath).Instantiate<Node>();
 		var objects = scene.FindChildren("*", recursive: true).OfType<RepairableObject>().ToList();
 
@@ -66,6 +77,32 @@ public partial class ScreenshotNode : Node
 			game.Configure("Gather the thing", 3, 4);
 			scene.GetNode<CanvasLayer>("UI").AddChild(game);
 			for (var i = 0; i < 10; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		if (args.Contains("dressup"))
+		{
+			foreach (var id in new[] { "pot_slate", "plant_aloe", "acc_hat" })
+			{
+				GameState.Instance.BuyPlantItem(id);
+				GameState.Instance.EquipPlantItem(id);
+			}
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		foreach (var arg in args)
+		{
+			if (!arg.StartsWith("tab="))
+				continue;
+			var tab = arg["tab=".Length..] switch
+			{
+				"plant" => "%PlantTab",
+				"accessory" => "%AccessoryTab",
+				_ => "%PotTab",
+			};
+			scene.GetNode<Button>(tab).EmitSignal(BaseButton.SignalName.Pressed);
+			for (var i = 0; i < 4; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 

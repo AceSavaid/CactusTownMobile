@@ -41,8 +41,12 @@ extensible per object) and swap the object's sprite when selected.
 ## Entities & state
 
 ### Plant
-- Cosmetic customisation (pot, species look, accessories).
-- Stats shown in the house — cosmetic / progress readout, no live decay.
+- **Customise Plant** screen: three slots — pot, plant species, accessory.
+  Default item per slot is free; others cost coins and unlock permanently.
+  Accessories render at fixed anchors (hat, face, neck, pot, aura) — not movable.
+- **Plant Stats** screen: rename the plant; town restoration per section, coins,
+  days on the app (EST), materials collected, town + plant customisations unlocked.
+- The composited plant also shows on the House hub.
 
 ### Mini-games (the "arcade", from the house)
 - A card gallery (image + name), extensible via `ArcadeCatalog`.
