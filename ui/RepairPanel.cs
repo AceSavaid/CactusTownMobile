@@ -37,6 +37,8 @@ public partial class RepairPanel : Control
 	{
 		_obj = obj;
 		_name.Text = obj.DisplayName;
+		if (!obj.IsFixed)
+			GameState.Instance.RecordTask(obj.ObjectId, obj.DisplayName, obj.RequiredMaterials);
 
 		if (obj.IsFixed)
 		{

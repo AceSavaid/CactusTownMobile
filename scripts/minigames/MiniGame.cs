@@ -18,12 +18,19 @@ public partial class MiniGame : Control
 	/// <summary>Generic difficulty knob — meaning is per mini-game (hits, taps, targets…).</summary>
 	protected int Difficulty = 3;
 
-	public virtual void Configure(string title, int reward, int difficulty)
+	/// <summary>SFX name played on each successful gathering action (chop / mine / water…).</summary>
+	protected string ActionSound = "gather";
+
+	public virtual void Configure(string title, int reward, int difficulty, string actionSound = "gather")
 	{
 		TitleText = title;
 		Reward = Mathf.Max(1, reward);
 		Difficulty = Mathf.Max(1, difficulty);
+		if (!string.IsNullOrEmpty(actionSound))
+			ActionSound = actionSound;
 	}
+
+	protected void PlayActionSound() => Audio.Instance?.PlaySfx(ActionSound);
 
 	public override void _Ready()
 	{

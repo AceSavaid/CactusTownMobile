@@ -55,6 +55,7 @@ public partial class Router : CanvasLayer
 			return;
 		_busy = true;
 		_fade.MouseFilter = Control.MouseFilterEnum.Stop;
+		Audio.Instance?.PlaySfx("page");
 
 		var tween = CreateTween();
 		tween.TweenProperty(_fade, "modulate:a", 1.0, FadeTime);

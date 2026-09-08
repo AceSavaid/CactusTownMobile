@@ -3,8 +3,9 @@ using Godot;
 namespace CactusTown;
 
 /// <summary>
-/// Free-moving overworld character. Movement direction is fed in from outside
-/// (the virtual joystick), so this stays input-source agnostic.
+/// Free-moving overworld character — the player's customised plant. Movement
+/// direction is fed in from outside (the virtual joystick), so this stays
+/// input-source agnostic.
 /// </summary>
 public partial class Player : CharacterBody2D
 {
@@ -13,9 +14,15 @@ public partial class Player : CharacterBody2D
 	[Export] public float Friction = 3200f;
 
 	private Vector2 _moveDirection = Vector2.Zero;
-	private Sprite2D _sprite = null!;
+	private Node2D _avatar = null!;
+	private float _avatarScale = 0.62f;
+	private int _facing = 1;
 
-	public override void _Ready() => _sprite = GetNode<Sprite2D>("Sprite");
+	public override void _Ready()
+	{
+		_avatar = GetNode<Node2D>("Avatar");
+		_avatarScale = _avatar.Scale.X;
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
@@ -24,9 +31,10 @@ public partial class Player : CharacterBody2D
 		{
 			Velocity = Velocity.MoveToward(target, Acceleration * (float)delta);
 			if (target.X < -5f)
-				_sprite.FlipH = true;
+				_facing = -1;
 			else if (target.X > 5f)
-				_sprite.FlipH = false;
+				_facing = 1;
+			_avatar.Scale = new Vector2(_facing * _avatarScale, _avatarScale);
 		}
 		else
 		{

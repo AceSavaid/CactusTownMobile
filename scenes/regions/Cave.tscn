@@ -30,7 +30,7 @@ unique_name_in_owner = true
 position = Vector2(0, 230)
 
 [node name="Iron1" parent="World" instance=ExtResource("3_node")]
-position = Vector2(-350, -110)
+position = Vector2(-520, -140)
 MaterialId = "iron_ore"
 ActionLabel = "Mine"
 MiniGameTitle = "Mine the iron"
@@ -40,10 +40,11 @@ HarvestsUntilDepleted = 2
 RespawnSeconds = 26.0
 NodeTexture = ExtResource("5_iron")
 SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Iron2" parent="World" instance=ExtResource("3_node")]
-position = Vector2(300, -240)
+position = Vector2(-120, -280)
 MaterialId = "iron_ore"
 ActionLabel = "Mine"
 MiniGameTitle = "Mine the iron"
@@ -53,10 +54,11 @@ HarvestsUntilDepleted = 2
 RespawnSeconds = 26.0
 NodeTexture = ExtResource("5_iron")
 SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Iron3" parent="World" instance=ExtResource("3_node")]
-position = Vector2(180, 120)
+position = Vector2(320, -220)
 MaterialId = "iron_ore"
 ActionLabel = "Mine"
 MiniGameTitle = "Mine the iron"
@@ -66,10 +68,39 @@ HarvestsUntilDepleted = 2
 RespawnSeconds = 26.0
 NodeTexture = ExtResource("5_iron")
 SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Iron4" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-380, 240)
+MaterialId = "iron_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the iron"
+Difficulty = 4
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 26.0
+NodeTexture = ExtResource("5_iron")
+SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Iron5" parent="World" instance=ExtResource("3_node")]
+position = Vector2(180, 300)
+MaterialId = "iron_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the iron"
+Difficulty = 5
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 26.0
+NodeTexture = ExtResource("5_iron")
+SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Gold1" parent="World" instance=ExtResource("3_node")]
-position = Vector2(480, 60)
+position = Vector2(560, 40)
 MaterialId = "gold_ore"
 ActionLabel = "Mine"
 MiniGameTitle = "Mine the gold vein"
@@ -79,6 +110,21 @@ HarvestsUntilDepleted = 1
 RespawnSeconds = 45.0
 NodeTexture = ExtResource("6_gold")
 SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Gold2" parent="World" instance=ExtResource("3_node")]
+position = Vector2(620, 330)
+MaterialId = "gold_ore"
+ActionLabel = "Mine"
+MiniGameTitle = "Mine the gold vein"
+Difficulty = 8
+YieldAmount = 1
+HarvestsUntilDepleted = 1
+RespawnSeconds = 55.0
+NodeTexture = ExtResource("6_gold")
+SpriteOffset = Vector2(0, -36)
+ActionSound = "mine"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="UI" type="CanvasLayer" parent="."]

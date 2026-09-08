@@ -38,7 +38,7 @@ unique_name_in_owner = true
 position = Vector2(0, 220)
 
 [node name="Water1" parent="World" instance=ExtResource("3_node")]
-position = Vector2(-320, -150)
+position = Vector2(-460, -230)
 MaterialId = "water"
 ActionLabel = "Scoop"
 MiniGameTitle = "Fill the bucket"
@@ -48,10 +48,11 @@ HarvestsUntilDepleted = 3
 RespawnSeconds = 16.0
 NodeTexture = ExtResource("6_wtex")
 SpriteOffset = Vector2(0, -12)
+ActionSound = "water"
 MiniGameScene = ExtResource("4_water")
 
 [node name="Water2" parent="World" instance=ExtResource("3_node")]
-position = Vector2(300, -160)
+position = Vector2(-60, -260)
 MaterialId = "water"
 ActionLabel = "Scoop"
 MiniGameTitle = "Fill the bucket"
@@ -61,6 +62,35 @@ HarvestsUntilDepleted = 3
 RespawnSeconds = 16.0
 NodeTexture = ExtResource("6_wtex")
 SpriteOffset = Vector2(0, -12)
+ActionSound = "water"
+MiniGameScene = ExtResource("4_water")
+
+[node name="Water3" parent="World" instance=ExtResource("3_node")]
+position = Vector2(360, -250)
+MaterialId = "water"
+ActionLabel = "Scoop"
+MiniGameTitle = "Fill the bucket"
+Difficulty = 3
+YieldAmount = 2
+HarvestsUntilDepleted = 3
+RespawnSeconds = 16.0
+NodeTexture = ExtResource("6_wtex")
+SpriteOffset = Vector2(0, -12)
+ActionSound = "water"
+MiniGameScene = ExtResource("4_water")
+
+[node name="Water4" parent="World" instance=ExtResource("3_node")]
+position = Vector2(620, -230)
+MaterialId = "water"
+ActionLabel = "Scoop"
+MiniGameTitle = "Fill the bucket"
+Difficulty = 3
+YieldAmount = 3
+HarvestsUntilDepleted = 3
+RespawnSeconds = 16.0
+NodeTexture = ExtResource("6_wtex")
+SpriteOffset = Vector2(0, -12)
+ActionSound = "water"
 MiniGameScene = ExtResource("4_water")
 
 [node name="Stone1" parent="World" instance=ExtResource("3_node")]
@@ -91,6 +121,32 @@ MiniGameScene = ExtResource("5_stone")
 
 [node name="Stone3" parent="World" instance=ExtResource("3_node")]
 position = Vector2(470, 180)
+MaterialId = "stone"
+ActionLabel = "Pick up"
+MiniGameTitle = "Gather stones"
+Difficulty = 3
+YieldAmount = 3
+HarvestsUntilDepleted = 1
+RespawnSeconds = 20.0
+NodeTexture = ExtResource("7_stex")
+SpriteOffset = Vector2(0, -18)
+MiniGameScene = ExtResource("5_stone")
+
+[node name="Stone4" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-420, 340)
+MaterialId = "stone"
+ActionLabel = "Pick up"
+MiniGameTitle = "Gather stones"
+Difficulty = 3
+YieldAmount = 2
+HarvestsUntilDepleted = 1
+RespawnSeconds = 20.0
+NodeTexture = ExtResource("7_stex")
+SpriteOffset = Vector2(0, -18)
+MiniGameScene = ExtResource("5_stone")
+
+[node name="Stone5" parent="World" instance=ExtResource("3_node")]
+position = Vector2(600, 320)
 MaterialId = "stone"
 ActionLabel = "Pick up"
 MiniGameTitle = "Gather stones"

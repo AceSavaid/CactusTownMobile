@@ -42,6 +42,7 @@ public partial class TownMap : Control
 
 		GetNode<Button>("%RegionsButton").Pressed += () => Router.Instance.GotoScene(RegionSelectScene);
 		GetNode<Button>("%BackButton").Pressed += () => Router.Instance.GotoScene(HouseScene);
+		GetNode<Button>("%TasksButton").Pressed += () => GetNode<TasksPanel>("%TasksPanel").Open();
 	}
 
 	private static string UnlockedByName(TownSections.Config section) =>

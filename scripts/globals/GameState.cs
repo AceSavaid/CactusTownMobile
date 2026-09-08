@@ -232,6 +232,44 @@ public partial class GameState : Node
 
 	public bool IsObjectFixed(string objectId) => GetObjectState(objectId) == "fixed";
 
+	// --- Task log --------------------------------------------------
+
+	/// <summary>Remember that the player has taken on this repair task (talked to the cactus).</summary>
+	public void RecordTask(string objectId, string displayName, Dictionary requiredMaterials)
+	{
+		var entry = ObjectEntry(objectId);
+		entry["seen"] = true;
+		entry["name"] = displayName;
+		entry["needs"] = requiredMaterials.Duplicate(true);
+		SaveGame();
+	}
+
+	/// <summary>Started-but-unfinished repair tasks: {id, name, section, needs}.</summary>
+	public Array<Dictionary> OpenTasks()
+	{
+		var result = new Array<Dictionary>();
+		var objects = _data["objects"].AsGodotDictionary();
+		foreach (var section in TownSections.All)
+		{
+			foreach (var id in section.ObjectIds)
+			{
+				if (!objects.TryGetValue(id, out var raw))
+					continue;
+				var entry = raw.AsGodotDictionary();
+				if (!(entry.TryGetValue("seen", out var seen) && seen.AsBool()) || IsObjectFixed(id))
+					continue;
+				result.Add(new Dictionary
+				{
+					{ "id", id },
+					{ "name", entry.TryGetValue("name", out var nm) ? nm : id },
+					{ "section", section.Name },
+					{ "needs", entry.TryGetValue("needs", out var nd) ? nd : new Dictionary() },
+				});
+			}
+		}
+		return result;
+	}
+
 	private Dictionary ObjectEntry(string objectId)
 	{
 		var objects = _data["objects"].AsGodotDictionary();

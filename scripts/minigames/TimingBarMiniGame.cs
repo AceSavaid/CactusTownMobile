@@ -9,8 +9,8 @@ namespace CactusTown;
 /// </summary>
 public partial class TimingBarMiniGame : MiniGame
 {
-	[Export] public float SweepSpeed = 1.15f;
-	[Export] public float ZoneWidth = 130f;
+	[Export] public float SweepSpeed = 0.92f;
+	[Export] public float ZoneWidth = 220f;
 
 	private const float TrackWidth = 900f;
 
@@ -64,6 +64,7 @@ public partial class TimingBarMiniGame : MiniGame
 		if (!hit)
 			return;
 
+		PlayActionSound();
 		_hits++;
 		UpdateProgress();
 		if (_hits >= Difficulty)

@@ -71,10 +71,16 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 - `PlantCatalog` (`scripts/globals/PlantCatalog.cs`) — every pot / plant / accessory
   item (id, slot, name, texture, cost, and for accessories an `Anchor`). Add an
   entry + a sprite in `assets/sprites/plant/` to add an option.
-- `ui/PlantView.tscn` (`PlantView.cs`) — composites pot + plant + accessory from
-  `GameState`; self-updates on `PlantChanged`. Accessory anchors ("hat", "face",
-  "neck", "pot", "aura") are pixel positions in `PlantView.AnchorCentre` — tuned
-  for the default cactus, approximate for other species.
+- `ui/PlantView.tscn` (`PlantView.cs`) — UI composite of pot + plant + accessory
+  from `GameState`; self-updates on `PlantChanged`. Anchors in `AnchorCentre`.
+- `scripts/entities/PlantSprite.cs` on `Player.tscn`'s `Avatar` node — the same
+  composite as the in-world character, so customisation carries between scenes.
+  `Player` flips the `Avatar` node's `Scale.x` to face-turn.
+- Accessory anchors ("hat"/"face"/"neck"/"pot") are pixel offsets, tuned for the
+  cactus and approximate for taller species (aloe). "aura" is UI-only.
+- Started repair tasks: `RepairPanel` calls `GameState.RecordTask`; `TasksPanel`
+  (`ui/TasksPanel.tscn`, opened from the TownMap "Tasks" button) lists
+  `GameState.OpenTasks()` — seen-but-unfixed objects (incl. decayed) with checklists.
 - `scenes/PlantCustomize.tscn` — Pot / Plant / Accessory tabs, buy + equip cards.
 - `scenes/PlantStats.tscn` — rename field + a code-built stat list (section
   progress, coins, days played, materials, customisations unlocked).
@@ -131,8 +137,12 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   automatically (`NodeAdded` hook); coins-up plays "coin". Placeholder sounds are
   synthesised in `SfxBank` / `MusicBank`; a real file at
   `assets/audio/sfx/<name>.wav|ogg|mp3` or `assets/audio/music/<name>.ogg|mp3|wav`
-  overrides that name. SFX names: click, toggle, coin, confirm, repair, fanfare,
-  win, lose, gather, page. Music tracks: home, town, region, arcade.
+  overrides that name. Logical SFX names ("click", "chop", "page", "cancel", …)
+  map to the user's file basenames via `Audio.FileAliases` (a random candidate is
+  picked); dismiss-style buttons play "cancel"; mini-games pass an `ActionSound`
+  (chop/mine/water/gather) per resource node. Music tracks: home, town, region,
+  arcade — crossfaded ~1.3s on scene change. Volume UI: `ui/VolumeStepper.tscn`
+  (0–10 notches + −/+ buttons + tap-to-snap); mute is above Master.
   Dev preview: `godot --headless --path . scenes/dev/Screenshot.tscn -- bake_audio <dir>`.
   Windowed dev screenshots need `--audio-driver Dummy` (real driver hangs on scripted quit).
 - `TownSections` (`scripts/globals/TownSections.cs`) — static config of the six

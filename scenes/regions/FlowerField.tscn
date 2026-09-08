@@ -82,6 +82,58 @@ NodeTexture = ExtResource("5_red")
 SpriteOffset = Vector2(0, -34)
 MiniGameScene = ExtResource("4_mg")
 
+[node name="FlowersYellow2" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-520, 60)
+MaterialId = "flower_yellow"
+ActionLabel = "Pick"
+MiniGameTitle = "Pick the yellow flowers"
+Difficulty = 7
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 22.0
+NodeTexture = ExtResource("6_yellow")
+SpriteOffset = Vector2(0, -34)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="FlowersBlue2" parent="World" instance=ExtResource("3_node")]
+position = Vector2(120, 340)
+MaterialId = "flower_blue"
+ActionLabel = "Pick"
+MiniGameTitle = "Pick the blue flowers"
+Difficulty = 8
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 22.0
+NodeTexture = ExtResource("7_blue")
+SpriteOffset = Vector2(0, -34)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="FlowersRed3" parent="World" instance=ExtResource("3_node")]
+position = Vector2(560, -70)
+MaterialId = "flower_red"
+ActionLabel = "Pick"
+MiniGameTitle = "Pick the red flowers"
+Difficulty = 7
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 22.0
+NodeTexture = ExtResource("5_red")
+SpriteOffset = Vector2(0, -34)
+MiniGameScene = ExtResource("4_mg")
+
+[node name="FlowersYellow3" parent="World" instance=ExtResource("3_node")]
+position = Vector2(400, 330)
+MaterialId = "flower_yellow"
+ActionLabel = "Pick"
+MiniGameTitle = "Pick the yellow flowers"
+Difficulty = 7
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 22.0
+NodeTexture = ExtResource("6_yellow")
+SpriteOffset = Vector2(0, -34)
+MiniGameScene = ExtResource("4_mg")
+
 [node name="UI" type="CanvasLayer" parent="."]
 
 [node name="VirtualJoystick" parent="UI" instance=ExtResource("8_js")]

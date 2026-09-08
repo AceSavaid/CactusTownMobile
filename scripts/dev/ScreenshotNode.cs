@@ -129,6 +129,19 @@ public partial class ScreenshotNode : Node
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 
+		if (args.Contains("seed_tasks"))
+		{
+			GameState.Instance.RecordTask("square_fountain", "Plaza Fountain",
+				new Godot.Collections.Dictionary { { "stone", 4 }, { "water", 3 } });
+			GameState.Instance.RecordTask("garden_pond", "Garden Pond",
+				new Godot.Collections.Dictionary { { "water", 4 }, { "stone", 3 } });
+			GameState.Instance.RecordTask("square_bench", "Old Bench",
+				new Godot.Collections.Dictionary { { "wood", 4 }, { "stick", 2 } });
+			scene.GetNode<TasksPanel>("%TasksPanel").Open();
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
 		if (args.Contains("showdiff"))
 		{
 			scene.GetNode<Label>("%DifficultyTitle").Text = "Tic-Tac-Toe";

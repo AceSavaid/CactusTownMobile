@@ -1,6 +1,7 @@
 [gd_scene load_steps=3 format=3]
 
 [ext_resource type="Script" path="res://ui/AudioSettings.cs" id="1_as"]
+[ext_resource type="PackedScene" path="res://ui/VolumeStepper.tscn" id="2_vs"]
 
 [sub_resource type="StyleBoxFlat" id="panel_style"]
 bg_color = Color(0.16, 0.21, 0.17, 1)
@@ -44,10 +45,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -470.0
-offset_top = -300.0
-offset_right = 470.0
-offset_bottom = 300.0
+offset_left = -540.0
+offset_top = -320.0
+offset_right = 540.0
+offset_bottom = 320.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_styles/panel = SubResource("panel_style")
@@ -55,13 +56,13 @@ theme_override_styles/panel = SubResource("panel_style")
 [node name="Margin" type="MarginContainer" parent="Panel"]
 layout_mode = 2
 theme_override_constants/margin_left = 56
-theme_override_constants/margin_top = 44
+theme_override_constants/margin_top = 40
 theme_override_constants/margin_right = 56
-theme_override_constants/margin_bottom = 44
+theme_override_constants/margin_bottom = 40
 
 [node name="VBox" type="VBoxContainer" parent="Panel/Margin"]
 layout_mode = 2
-theme_override_constants/separation = 30
+theme_override_constants/separation = 26
 
 [node name="Title" type="Label" parent="Panel/Margin/VBox"]
 layout_mode = 2
@@ -69,71 +70,56 @@ theme_override_font_sizes/font_size = 46
 text = "Audio"
 horizontal_alignment = 1
 
-[node name="MasterRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 24
-
-[node name="Label" type="Label" parent="Panel/Margin/VBox/MasterRow"]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Master"
-
-[node name="MasterSlider" type="HSlider" parent="Panel/Margin/VBox/MasterRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.02
-value = 0.9
-
-[node name="MusicRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 24
-
-[node name="Label" type="Label" parent="Panel/Margin/VBox/MusicRow"]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Music"
-
-[node name="MusicSlider" type="HSlider" parent="Panel/Margin/VBox/MusicRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.02
-value = 0.7
-
-[node name="SfxRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
-layout_mode = 2
-theme_override_constants/separation = 24
-
-[node name="Label" type="Label" parent="Panel/Margin/VBox/SfxRow"]
-custom_minimum_size = Vector2(210, 0)
-layout_mode = 2
-theme_override_font_sizes/font_size = 32
-text = "Sound FX"
-
-[node name="SfxSlider" type="HSlider" parent="Panel/Margin/VBox/SfxRow"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 56)
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-max_value = 1.0
-step = 0.02
-value = 0.85
-
 [node name="MuteToggle" type="CheckButton" parent="Panel/Margin/VBox"]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_font_sizes/font_size = 32
 text = "Mute everything"
+
+[node name="MasterRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/MasterRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Master"
+
+[node name="MasterStepper" parent="Panel/Margin/VBox/MasterRow" instance=ExtResource("2_vs")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="MusicRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/MusicRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Music"
+
+[node name="MusicStepper" parent="Panel/Margin/VBox/MusicRow" instance=ExtResource("2_vs")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="SfxRow" type="HBoxContainer" parent="Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="Label" type="Label" parent="Panel/Margin/VBox/SfxRow"]
+custom_minimum_size = Vector2(190, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 32
+text = "Sound FX"
+
+[node name="SfxStepper" parent="Panel/Margin/VBox/SfxRow" instance=ExtResource("2_vs")]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
 
 [node name="CloseButton" type="Button" parent="Panel/Margin/VBox"]
 unique_name_in_owner = true

@@ -74,6 +74,8 @@ public partial class RepairableObject : Area2D
 			var v = Mathf.Clamp(CurrentVariant, 0, Variants.Count - 1);
 			_sprite.Texture = Variants[v];
 		}
+		var texHeight = _sprite.Texture?.GetHeight() ?? 96;
+		_prompt.Position = new Vector2(0, SpriteOffset.Y - texHeight * 0.5f - 18f);
 		_sprite.Modulate = IsFixed ? Colors.White : new Color(0.56f, 0.51f, 0.47f);
 		_npc.Visible = !IsFixed;
 	}

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://scripts/TownMap.cs" id="1_tm"]
 [ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://ui/TasksPanel.tscn" id="3_tasks"]
 
 [node name="TownMap" type="Control"]
 layout_mode = 3
@@ -76,4 +77,23 @@ grow_vertical = 0
 theme_override_font_sizes/font_size = 40
 text = "←  Home"
 
+[node name="TasksButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -230.0
+offset_top = -166.0
+offset_right = 230.0
+offset_bottom = -50.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_font_sizes/font_size = 40
+text = "Tasks"
+
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]
+
+[node name="TasksPanel" parent="." instance=ExtResource("3_tasks")]
+unique_name_in_owner = true
+

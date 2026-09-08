@@ -22,6 +22,7 @@ public partial class ResourceNode : Area2D
 	[Export] public float RespawnSeconds = 25f;
 	[Export] public Texture2D? NodeTexture;
 	[Export] public Vector2 SpriteOffset = new(0, -87);
+	[Export] public string ActionSound = "gather";
 	[Export] public PackedScene? MiniGameScene;
 
 	private int _harvestsLeft;
@@ -41,12 +42,20 @@ public partial class ResourceNode : Area2D
 		if (NodeTexture != null)
 			_sprite.Texture = NodeTexture;
 		_sprite.Position = SpriteOffset;
+		PositionPrompt();
 
 		_respawn.OneShot = true;
 		_respawn.Timeout += OnRespawn;
 		BodyEntered += OnBodyEntered;
 		BodyExited += OnBodyExited;
 		_prompt.Hide();
+	}
+
+	/// <summary>Sit the "!" prompt just above the sprite's visible top.</summary>
+	private void PositionPrompt()
+	{
+		var texHeight = _sprite.Texture?.GetHeight() ?? 96;
+		_prompt.Position = new Vector2(0, SpriteOffset.Y - texHeight * 0.5f - 16f);
 	}
 
 	private void OnBodyEntered(Node2D body)
@@ -70,7 +79,7 @@ public partial class ResourceNode : Area2D
 		if (MiniGameScene == null)
 			return null;
 		var game = MiniGameScene.Instantiate<MiniGame>();
-		game.Configure(MiniGameTitle, YieldAmount, Difficulty);
+		game.Configure(MiniGameTitle, YieldAmount, Difficulty, ActionSound);
 		return game;
 	}
 

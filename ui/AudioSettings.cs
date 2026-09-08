@@ -2,25 +2,28 @@ using Godot;
 
 namespace CactusTown;
 
-/// <summary>Modal audio settings: Master / Music / SFX sliders and a mute toggle.</summary>
+/// <summary>Modal audio settings: mute toggle, then Master / Music / SFX steppers.</summary>
 public partial class AudioSettings : Control
 {
-	private HSlider _master = null!;
-	private HSlider _music = null!;
-	private HSlider _sfx = null!;
+	private VolumeStepper _master = null!;
+	private VolumeStepper _music = null!;
+	private VolumeStepper _sfx = null!;
 	private CheckButton _mute = null!;
 
 	public override void _Ready()
 	{
-		_master = GetNode<HSlider>("%MasterSlider");
-		_music = GetNode<HSlider>("%MusicSlider");
-		_sfx = GetNode<HSlider>("%SfxSlider");
+		_master = GetNode<VolumeStepper>("%MasterStepper");
+		_music = GetNode<VolumeStepper>("%MusicStepper");
+		_sfx = GetNode<VolumeStepper>("%SfxStepper");
 		_mute = GetNode<CheckButton>("%MuteToggle");
 
-		_master.ValueChanged += value => Audio.Instance?.SetBusVolume("Master", (float)value);
-		_music.ValueChanged += value => Audio.Instance?.SetBusVolume("Music", (float)value);
-		_sfx.ValueChanged += value => Audio.Instance?.SetBusVolume("SFX", (float)value);
-		_sfx.DragEnded += _ => Audio.Instance?.PlaySfx("confirm");
+		_master.LevelChanged += level => Audio.Instance?.SetBusVolume("Master", level / (float)VolumeStepper.Steps);
+		_music.LevelChanged += level => Audio.Instance?.SetBusVolume("Music", level / (float)VolumeStepper.Steps);
+		_sfx.LevelChanged += level =>
+		{
+			Audio.Instance?.SetBusVolume("SFX", level / (float)VolumeStepper.Steps);
+			Audio.Instance?.PlaySfx("confirm");
+		};
 		_mute.Toggled += muted => Audio.Instance?.SetMuted(muted);
 		GetNode<Button>("%CloseButton").Pressed += Hide;
 		GetNode<Button>("%Backdrop").Pressed += Hide;
@@ -32,12 +35,14 @@ public partial class AudioSettings : Control
 	{
 		if (Audio.Instance != null)
 		{
-			_master.SetValueNoSignal(Audio.Instance.GetBusVolume("Master"));
-			_music.SetValueNoSignal(Audio.Instance.GetBusVolume("Music"));
-			_sfx.SetValueNoSignal(Audio.Instance.GetBusVolume("SFX"));
+			_master.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("Master")));
+			_music.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("Music")));
+			_sfx.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("SFX")));
 			_mute.SetPressedNoSignal(Audio.Instance.Muted);
 		}
 		Show();
 		MoveToFront();
 	}
+
+	private static int ToLevel(float linear) => Mathf.RoundToInt(linear * VolumeStepper.Steps);
 }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 namespace CactusTown;
@@ -15,6 +16,26 @@ public partial class Audio : Node
 
 	private const string SettingsPath = "user://audio.cfg";
 	private const int SfxVoices = 10;
+
+	/// <summary>Logical SFX name -> candidate file basenames in assets/audio/sfx (one is picked at random).</summary>
+	private static readonly Dictionary<string, string[]> FileAliases = new()
+	{
+		{ "click", new[] { "select1", "select2", "select3" } },
+		{ "toggle", new[] { "select2" } },
+		{ "confirm", new[] { "select1" } },
+		{ "cancel", new[] { "cancle" } },
+		{ "page", new[] { "travelsound" } },
+		{ "locked", new[] { "locked" } },
+		{ "win", new[] { "gamewon" } },
+		{ "fanfare", new[] { "gamewon" } },
+		{ "lose", new[] { "gamelost" } },
+		{ "chop", new[] { "chopsound", "chopsound2" } },
+		{ "mine", new[] { "minesound", "minesound2" } },
+		{ "water", new[] { "pickupwater", "pickupwater2" } },
+		{ "gather", new[] { "pickupwater", "chopsound" } },
+	};
+
+	private static readonly string[] DismissWords = { "Cancel", "Not now", "Leave", "Back", "←", "Home", "Done" };
 
 	private AudioStreamPlayer _musicA = null!;
 	private AudioStreamPlayer _musicB = null!;
@@ -75,13 +96,28 @@ public partial class Audio : Node
 
 	private AudioStream? ResolveSfx(string name)
 	{
+		var direct = FindSfxFile(name);
+		if (direct != null)
+			return direct;
+
+		if (FileAliases.TryGetValue(name, out var aliases))
+		{
+			var found = aliases.Select(FindSfxFile).Where(s => s != null).ToList();
+			if (found.Count > 0)
+				return found[GD.RandRange(0, found.Count - 1)];
+		}
+		return _sfx.GetValueOrDefault(name);
+	}
+
+	private static AudioStream? FindSfxFile(string basename)
+	{
 		foreach (var ext in new[] { "wav", "ogg", "mp3" })
 		{
-			var path = $"res://assets/audio/sfx/{name}.{ext}";
+			var path = $"res://assets/audio/sfx/{basename}.{ext}";
 			if (ResourceLoader.Exists(path))
 				return GD.Load<AudioStream>(path);
 		}
-		return _sfx.GetValueOrDefault(name);
+		return null;
 	}
 
 	// --- Music -----------------------------------------------------
@@ -97,13 +133,14 @@ public partial class Audio : Node
 		_usingA = !_usingA;
 
 		to.Stream = ResolveMusic(name);
-		to.VolumeDb = -30f;
+		to.VolumeDb = -34f;
 		if (to.Stream != null)
 			to.Play();
 
 		var tween = CreateTween();
-		tween.TweenProperty(to, "volume_db", 0f, 0.6f);
-		tween.Parallel().TweenProperty(from, "volume_db", -30f, 0.6f);
+		tween.SetEase(Tween.EaseType.InOut);
+		tween.TweenProperty(to, "volume_db", 0f, 1.3f);
+		tween.Parallel().TweenProperty(from, "volume_db", -34f, 1.3f);
 		tween.TweenCallback(Callable.From(from.Stop));
 	}
 
@@ -150,8 +187,17 @@ public partial class Audio : Node
 
 	private void OnNodeAdded(Node node)
 	{
-		if (node is BaseButton button)
-			button.Pressed += () => PlaySfx(node is CheckButton or CheckBox ? "toggle" : "click");
+		if (node is not BaseButton button)
+			return;
+		button.Pressed += () =>
+		{
+			if (button is CheckButton or CheckBox)
+				PlaySfx("toggle");
+			else if (button is Button b && DismissWords.Any(w => b.Text.Contains(w)))
+				PlaySfx("cancel");
+			else
+				PlaySfx("click");
+		};
 	}
 
 	private void OnCoinsChanged(int total)

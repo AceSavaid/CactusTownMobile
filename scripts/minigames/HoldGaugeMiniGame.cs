@@ -69,6 +69,7 @@ public partial class HoldGaugeMiniGame : MiniGame
 		if (_resolving || _gauge <= 1f)
 			return;
 		_resolving = true;
+		PlayActionSound();
 		var good = _gauge >= BandLow && _gauge <= BandHigh;
 		_hint.Text = good ? "Perfect!" : "A bit short";
 		Finish(true, good ? Reward : PartialReward(Mathf.Clamp(_gauge / BandHigh, 0.2f, 0.85f)));

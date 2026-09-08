@@ -29,7 +29,7 @@ unique_name_in_owner = true
 position = Vector2(0, 200)
 
 [node name="Tree1" parent="World" instance=ExtResource("3_node")]
-position = Vector2(-360, -110)
+position = Vector2(-520, -140)
 MaterialId = "wood"
 ActionLabel = "Chop"
 MiniGameTitle = "Chop the tree"
@@ -37,10 +37,11 @@ Difficulty = 3
 YieldAmount = 2
 HarvestsUntilDepleted = 2
 RespawnSeconds = 25.0
+ActionSound = "chop"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Tree2" parent="World" instance=ExtResource("3_node")]
-position = Vector2(300, -260)
+position = Vector2(-140, -300)
 MaterialId = "wood"
 ActionLabel = "Chop"
 MiniGameTitle = "Chop the tree"
@@ -48,10 +49,11 @@ Difficulty = 3
 YieldAmount = 2
 HarvestsUntilDepleted = 2
 RespawnSeconds = 25.0
+ActionSound = "chop"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Tree3" parent="World" instance=ExtResource("3_node")]
-position = Vector2(470, 130)
+position = Vector2(360, -220)
 MaterialId = "wood"
 ActionLabel = "Chop"
 MiniGameTitle = "Chop the tree"
@@ -59,10 +61,35 @@ Difficulty = 4
 YieldAmount = 3
 HarvestsUntilDepleted = 2
 RespawnSeconds = 25.0
+ActionSound = "chop"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Tree4" parent="World" instance=ExtResource("3_node")]
+position = Vector2(620, 60)
+MaterialId = "wood"
+ActionLabel = "Chop"
+MiniGameTitle = "Chop the tree"
+Difficulty = 3
+YieldAmount = 2
+HarvestsUntilDepleted = 2
+RespawnSeconds = 25.0
+ActionSound = "chop"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Tree5" parent="World" instance=ExtResource("3_node")]
+position = Vector2(-420, 240)
+MaterialId = "wood"
+ActionLabel = "Chop"
+MiniGameTitle = "Chop the tree"
+Difficulty = 4
+YieldAmount = 3
+HarvestsUntilDepleted = 2
+RespawnSeconds = 25.0
+ActionSound = "chop"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Stick1" parent="World" instance=ExtResource("3_node")]
-position = Vector2(-180, 250)
+position = Vector2(-200, 260)
 MaterialId = "stick"
 ActionLabel = "Pick up"
 MiniGameTitle = "Gather sticks"
@@ -72,6 +99,7 @@ HarvestsUntilDepleted = 1
 RespawnSeconds = 18.0
 NodeTexture = ExtResource("5_stick")
 SpriteOffset = Vector2(0, -16)
+ActionSound = "gather"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="Stick2" parent="World" instance=ExtResource("3_node")]
@@ -85,6 +113,35 @@ HarvestsUntilDepleted = 1
 RespawnSeconds = 18.0
 NodeTexture = ExtResource("5_stick")
 SpriteOffset = Vector2(0, -16)
+ActionSound = "gather"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Stick3" parent="World" instance=ExtResource("3_node")]
+position = Vector2(430, 300)
+MaterialId = "stick"
+ActionLabel = "Pick up"
+MiniGameTitle = "Gather sticks"
+Difficulty = 2
+YieldAmount = 1
+HarvestsUntilDepleted = 1
+RespawnSeconds = 18.0
+NodeTexture = ExtResource("5_stick")
+SpriteOffset = Vector2(0, -16)
+ActionSound = "gather"
+MiniGameScene = ExtResource("4_mg")
+
+[node name="Stick4" parent="World" instance=ExtResource("3_node")]
+position = Vector2(60, 360)
+MaterialId = "stick"
+ActionLabel = "Pick up"
+MiniGameTitle = "Gather sticks"
+Difficulty = 2
+YieldAmount = 1
+HarvestsUntilDepleted = 1
+RespawnSeconds = 18.0
+NodeTexture = ExtResource("5_stick")
+SpriteOffset = Vector2(0, -16)
+ActionSound = "gather"
 MiniGameScene = ExtResource("4_mg")
 
 [node name="UI" type="CanvasLayer" parent="."]

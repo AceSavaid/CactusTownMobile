@@ -52,6 +52,7 @@ public partial class TapTargetMiniGame : MiniGame
 	{
 		if (_resolving)
 			return;
+		PlayActionSound();
 		_hits++;
 		UpdateProgress();
 		if (_hits >= Difficulty)
