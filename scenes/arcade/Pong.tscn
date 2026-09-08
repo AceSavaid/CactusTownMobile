@@ -1,7 +1,10 @@
-[gd_scene load_steps=3 format=3]
+[gd_scene load_steps=6 format=3]
 
 [ext_resource type="Script" path="res://scripts/arcade/Pong.cs" id="1_pong"]
 [ext_resource type="PackedScene" path="res://ui/ArcadeResult.tscn" id="2_res"]
+[ext_resource type="Texture2D" path="res://assets/kenney/puzzle/paddleBlu.png" id="3_pb"]
+[ext_resource type="Texture2D" path="res://assets/kenney/puzzle/paddleRed.png" id="4_pr"]
+[ext_resource type="Texture2D" path="res://assets/kenney/puzzle/ballBlue.png" id="5_ball"]
 
 [node name="Pong" type="Control"]
 layout_mode = 3
@@ -74,23 +77,22 @@ offset_left = -2.0
 offset_right = 2.0
 color = Color(1, 1, 1, 0.12)
 
-[node name="PlayerPaddle" type="ColorRect" parent="Field"]
+[node name="PlayerPaddle" type="Sprite2D" parent="Field"]
 unique_name_in_owner = true
-offset_right = 22.0
-offset_bottom = 170.0
-color = Color(0.62, 0.85, 0.65, 1)
+texture_filter = 1
+rotation = 1.5707963
+texture = ExtResource("3_pb")
 
-[node name="AiPaddle" type="ColorRect" parent="Field"]
+[node name="AiPaddle" type="Sprite2D" parent="Field"]
 unique_name_in_owner = true
-offset_right = 22.0
-offset_bottom = 170.0
-color = Color(0.87, 0.65, 0.62, 1)
+texture_filter = 1
+rotation = 1.5707963
+texture = ExtResource("4_pr")
 
-[node name="Ball" type="ColorRect" parent="Field"]
+[node name="Ball" type="Sprite2D" parent="Field"]
 unique_name_in_owner = true
-offset_right = 26.0
-offset_bottom = 26.0
-color = Color(1, 1, 1, 1)
+texture_filter = 1
+texture = ExtResource("5_ball")
 
 [node name="LeaveButton" type="Button" parent="."]
 unique_name_in_owner = true

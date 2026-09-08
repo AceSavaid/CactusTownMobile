@@ -17,8 +17,8 @@ public partial class MatchPairs : ArcadeGame
 {
 	private static readonly string[] FaceFiles =
 	{
-		"face_star", "face_heart", "face_moon", "face_drop",
-		"face_leaf", "face_bolt", "face_gem", "face_flower",
+		"element_blue_square", "element_green_square", "element_red_square", "element_yellow_square",
+		"element_purple_square", "element_grey_square", "element_red_diamond", "element_blue_diamond",
 	};
 
 	private int _cols = 4, _rows = 4, _pairs = 8, _memoryCap = 8;
@@ -68,7 +68,7 @@ public partial class MatchPairs : ArcadeGame
 		GetNode<Button>("%LeaveButton").Pressed += Close;
 
 		_back = GD.Load<Texture2D>("res://assets/sprites/arcade/card_back.svg");
-		_faceTex = FaceFiles.Select(f => GD.Load<Texture2D>($"res://assets/sprites/arcade/{f}.svg")).ToArray();
+		_faceTex = FaceFiles.Select(f => GD.Load<Texture2D>($"res://assets/kenney/puzzle/{f}.png")).ToArray();
 
 		_grid.Columns = _cols;
 		var count = _cols * _rows;

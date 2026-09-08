@@ -26,7 +26,7 @@ public partial class Pong : ArcadeGame
 	private int _playerScore, _aiScore;
 
 	private Control _field = null!;
-	private ColorRect _playerPaddle = null!, _aiPaddle = null!, _ball = null!;
+	private Sprite2D _playerPaddle = null!, _aiPaddle = null!, _ball = null!;
 	private Label _score = null!;
 	private ArcadeResult _result = null!;
 
@@ -42,9 +42,9 @@ public partial class Pong : ArcadeGame
 	{
 		base._Ready();
 		_field = GetNode<Control>("%Field");
-		_playerPaddle = GetNode<ColorRect>("%PlayerPaddle");
-		_aiPaddle = GetNode<ColorRect>("%AiPaddle");
-		_ball = GetNode<ColorRect>("%Ball");
+		_playerPaddle = GetNode<Sprite2D>("%PlayerPaddle");
+		_aiPaddle = GetNode<Sprite2D>("%AiPaddle");
+		_ball = GetNode<Sprite2D>("%Ball");
 		_score = GetNode<Label>("%Score");
 		_result = GetNode<ArcadeResult>("%Result");
 
@@ -52,9 +52,13 @@ public partial class Pong : ArcadeGame
 		_result.Leave += Close;
 		GetNode<Button>("%LeaveButton").Pressed += Close;
 
-		_playerPaddle.Size = new Vector2(PaddleW, PaddleH);
-		_aiPaddle.Size = new Vector2(PaddleW, PaddleH);
-		_ball.Size = new Vector2(BallSize, BallSize);
+		// Paddle sprites (paddleBlu/Red, 208x48) are rotated 90° in the scene, so
+		// local x runs vertically and local y runs horizontally.
+		var paddleTex = _playerPaddle.Texture.GetSize();
+		var paddleScale = new Vector2(PaddleH / paddleTex.X, PaddleW / paddleTex.Y);
+		_playerPaddle.Scale = paddleScale;
+		_aiPaddle.Scale = paddleScale;
+		_ball.Scale = Vector2.One * (BallSize / _ball.Texture.GetSize().X);
 	}
 
 	public override void _Input(InputEvent @event)
@@ -188,8 +192,10 @@ public partial class Pong : ArcadeGame
 
 	private void LayOut()
 	{
-		_playerPaddle.Position = new Vector2(Inset - PaddleW * 0.5f, _playerY - PaddleH * 0.5f);
-		_aiPaddle.Position = new Vector2(_fieldSize.X - Inset - PaddleW * 0.5f, _aiY - PaddleH * 0.5f);
-		_ball.Position = _ballPos - _ball.Size * 0.5f;
+		// Sprites are centre-pivoted; keep the paddle centres on the same x the
+		// old ColorRects sat on so the bounce checks still line up.
+		_playerPaddle.Position = new Vector2(Inset, _playerY);
+		_aiPaddle.Position = new Vector2(_fieldSize.X - Inset, _aiY);
+		_ball.Position = _ballPos;
 	}
 }

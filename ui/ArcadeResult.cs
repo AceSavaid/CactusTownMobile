@@ -9,10 +9,12 @@ public partial class ArcadeResult : Control
 	[Signal] public delegate void LeaveEventHandler();
 
 	private Label _label = null!;
+	private CpuParticles2D _burst = null!;
 
 	public override void _Ready()
 	{
 		_label = GetNode<Label>("%Label");
+		_burst = GetNode<CpuParticles2D>("%Burst");
 		GetNode<Button>("%PlayAgainButton").Pressed += () => { Hide(); EmitSignal(SignalName.PlayAgain); };
 		GetNode<Button>("%LeaveButton").Pressed += () => EmitSignal(SignalName.Leave);
 		Hide();
@@ -29,5 +31,11 @@ public partial class ArcadeResult : Control
 		};
 		Show();
 		MoveToFront();
+
+		if (result > 0)
+		{
+			_burst.Restart();
+			_burst.Emitting = true;
+		}
 	}
 }

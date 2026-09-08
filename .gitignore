@@ -36,3 +36,6 @@ desktop.ini
 
 # Godot csproj rewrite backups
 *.csproj.old
+
+# Windows/MSYS crash dumps
+*.stackdump

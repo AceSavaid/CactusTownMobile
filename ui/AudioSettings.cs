@@ -5,6 +5,9 @@ namespace CactusTown;
 /// <summary>Modal audio settings: mute toggle, then Master / Music / SFX steppers.</summary>
 public partial class AudioSettings : Control
 {
+	private static readonly Texture2D SoundOn = GD.Load<Texture2D>("res://assets/kenney/icons/icon_sound.png");
+	private static readonly Texture2D SoundOff = GD.Load<Texture2D>("res://assets/kenney/icons/icon_sound_disabled.png");
+
 	private VolumeStepper _master = null!;
 	private VolumeStepper _music = null!;
 	private VolumeStepper _sfx = null!;
@@ -24,7 +27,11 @@ public partial class AudioSettings : Control
 			Audio.Instance?.SetBusVolume("SFX", level / (float)VolumeStepper.Steps);
 			Audio.Instance?.PlaySfx("confirm");
 		};
-		_mute.Toggled += muted => Audio.Instance?.SetMuted(muted);
+		_mute.Toggled += muted =>
+		{
+			Audio.Instance?.SetMuted(muted);
+			_mute.Icon = muted ? SoundOff : SoundOn;
+		};
 		GetNode<Button>("%CloseButton").Pressed += Hide;
 		GetNode<Button>("%Backdrop").Pressed += Hide;
 
@@ -39,6 +46,7 @@ public partial class AudioSettings : Control
 			_music.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("Music")));
 			_sfx.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("SFX")));
 			_mute.SetPressedNoSignal(Audio.Instance.Muted);
+			_mute.Icon = Audio.Instance.Muted ? SoundOff : SoundOn;
 		}
 		Show();
 		MoveToFront();

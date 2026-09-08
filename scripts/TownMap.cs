@@ -13,6 +13,8 @@ public partial class TownMap : Control
 	{
 		GameState.Instance.RunTownDecay();
 
+		var lockIcon = GD.Load<Texture2D>("res://assets/kenney/icons/icon_lock.png");
+
 		var grid = GetNode<GridContainer>("%Grid");
 		foreach (var section in TownSections.All)
 		{
@@ -22,11 +24,18 @@ public partial class TownMap : Control
 			var button = new Button
 			{
 				CustomMinimumSize = new Vector2(520, 150),
-				Text = unlocked ? section.Name : $"🔒  {section.Name}",
+				Text = section.Name,
 				Disabled = !unlocked,
 				TooltipText = unlocked ? "" : $"Restore {UnlockedByName(section)} first",
 			};
 			button.AddThemeFontSizeOverride("font_size", 36);
+			if (!unlocked)
+			{
+				button.Icon = lockIcon;
+				button.ExpandIcon = false;
+				button.AddThemeConstantOverride("h_separation", 18);
+				button.AddThemeColorOverride("icon_disabled_color", new Color(0.75f, 0.75f, 0.8f));
+			}
 
 			var target = section.ScenePath;
 			var name = section.Name;
