@@ -85,8 +85,28 @@ public static class Notices
 
 	// ---- what the board shows right now ---------------------------
 
-	public static IReadOnlyList<Item> Current(GameState g) =>
-		TutorialComplete(g) ? DailyFor(g, GameState.EstToday()) : Tutorial;
-
 	public static bool InTutorialMode(GameState g) => !TutorialComplete(g);
+
+	/// <summary>The one tutorial step in progress (first unclaimed), or null once done.</summary>
+	public static Item? CurrentTutorialStep(GameState g) =>
+		Tutorial.FirstOrDefault(t => !g.IsNoticeClaimed(t.Id));
+
+	/// <summary>1-based position of the current tutorial step, and the total.</summary>
+	public static (int Step, int Total) TutorialProgress(GameState g)
+	{
+		var done = Tutorial.Count(t => g.IsNoticeClaimed(t.Id));
+		return (System.Math.Min(done + 1, Tutorial.Length), Tutorial.Length);
+	}
+
+	/// <summary>
+	/// What the board shows: during onboarding just the current step; afterwards
+	/// the three daily challenges.
+	/// </summary>
+	public static IReadOnlyList<Item> Current(GameState g)
+	{
+		if (TutorialComplete(g))
+			return DailyFor(g, GameState.EstToday());
+		var step = CurrentTutorialStep(g);
+		return step == null ? System.Array.Empty<Item>() : new[] { step };
+	}
 }

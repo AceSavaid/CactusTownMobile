@@ -1,0 +1,64 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://ui/HubTip.cs" id="1_ht"]
+[ext_resource type="Texture2D" path="res://assets/sprites/plant/plant_cactus.svg" id="2_sage"]
+
+[sub_resource type="StyleBoxFlat" id="card"]
+bg_color = Color(0.98, 0.96, 0.9, 0.92)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.36, 0.45, 0.3, 0.5)
+corner_radius_top_left = 18
+corner_radius_top_right = 18
+corner_radius_bottom_right = 18
+corner_radius_bottom_left = 18
+shadow_color = Color(0, 0, 0, 0.14)
+shadow_size = 10
+shadow_offset = Vector2(0, 5)
+
+[node name="HubTip" type="PanelContainer"]
+offset_right = 700.0
+offset_bottom = 240.0
+theme_override_styles/panel = SubResource("card")
+script = ExtResource("1_ht")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 22
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 22
+
+[node name="Row" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+theme_override_constants/separation = 22
+
+[node name="Portrait" type="TextureRect" parent="Margin/Row"]
+custom_minimum_size = Vector2(96, 130)
+layout_mode = 2
+size_flags_vertical = 1
+texture = ExtResource("2_sage")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Name" type="Label" parent="Margin/Row/Text"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.32, 0.46, 0.26, 1)
+theme_override_font_sizes/font_size = 28
+text = "Sage"
+
+[node name="Body" type="Label" parent="Margin/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_colors/font_color = Color(0.2, 0.22, 0.18, 1)
+theme_override_font_sizes/font_size = 26
+text = "..."
+autowrap_mode = 3

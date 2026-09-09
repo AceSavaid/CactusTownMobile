@@ -14,12 +14,14 @@ public partial class NoticePanel : Control
 	private Label _title = null!;
 	private Label _subtitle = null!;
 	private VBoxContainer _list = null!;
+	private PanelContainer _panel = null!;
 
 	public override void _Ready()
 	{
 		_title = GetNode<Label>("%Title");
 		_subtitle = GetNode<Label>("%Subtitle");
 		_list = GetNode<VBoxContainer>("%List");
+		_panel = GetNode<PanelContainer>("Panel");
 		GetNode<Button>("%CloseButton").Pressed += Hide;
 		GetNode<Button>("%Backdrop").Pressed += Hide;
 		Hide();
@@ -29,6 +31,12 @@ public partial class NoticePanel : Control
 	{
 		GameState.Instance.RefreshDailyNotices();
 		Rebuild();
+
+		// A single onboarding step needs far less room than three daily challenges.
+		var half = Notices.InTutorialMode(GameState.Instance) ? 235f : 340f;
+		_panel.OffsetTop = -half;
+		_panel.OffsetBottom = half;
+
 		Show();
 		MoveToFront();
 	}
@@ -39,11 +47,17 @@ public partial class NoticePanel : Control
 			child.QueueFree();
 
 		var gs = GameState.Instance;
-		var tutorial = Notices.InTutorialMode(gs);
-		_title.Text = tutorial ? "Getting Started" : "Today's Notices";
-		_subtitle.Text = tutorial
-			? "A few first steps around Cactus Town."
-			: $"New challenges each day   ·   {gs.Seeds} seeds";
+		if (Notices.InTutorialMode(gs))
+		{
+			var (step, total) = Notices.TutorialProgress(gs);
+			_title.Text = "Getting Started";
+			_subtitle.Text = $"Step {step} of {total}";
+		}
+		else
+		{
+			_title.Text = "Today's Notices";
+			_subtitle.Text = $"New challenges each day   ·   {gs.Seeds} seeds";
+		}
 
 		foreach (var item in Notices.Current(gs))
 			_list.AddChild(BuildRow(item, item.Done(gs), gs.IsNoticeClaimed(item.Id)));

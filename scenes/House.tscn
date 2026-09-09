@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" path="res://ui/PlantView.tscn" id="3_pv"]
 [ext_resource type="PackedScene" path="res://ui/SettingsMenu.tscn" id="4_audio"]
 [ext_resource type="PackedScene" path="res://ui/NoticePanel.tscn" id="5_np"]
-[ext_resource type="PackedScene" path="res://ui/MentorPanel.tscn" id="6_mp"]
+[ext_resource type="PackedScene" path="res://ui/HubTip.tscn" id="6_ht"]
 
 [node name="House" type="Control"]
 layout_mode = 3
@@ -128,15 +128,18 @@ offset_bottom = 128.0
 theme_override_font_sizes/font_size = 32
 text = "Settings"
 
-[node name="SageButton" type="Button" parent="."]
+[node name="HubTip" parent="." instance=ExtResource("6_ht")]
 unique_name_in_owner = true
-layout_mode = 1
-offset_left = 210.0
-offset_top = 838.0
-offset_right = 560.0
-offset_bottom = 922.0
-theme_override_font_sizes/font_size = 32
-text = "Ask Sage"
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -820.0
+offset_top = -470.0
+offset_right = -120.0
+offset_bottom = -206.0
+grow_horizontal = 0
+grow_vertical = 0
 
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]
 
@@ -144,8 +147,5 @@ text = "Ask Sage"
 unique_name_in_owner = true
 
 [node name="NoticePanel" parent="." instance=ExtResource("5_np")]
-unique_name_in_owner = true
-
-[node name="MentorPanel" parent="." instance=ExtResource("6_mp")]
 unique_name_in_owner = true
 

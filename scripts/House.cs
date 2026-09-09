@@ -27,7 +27,6 @@ public partial class House : Control
 		GetNode<Button>("%GoToTownButton").Pressed += () => Router.Instance.GotoScene(TownScene);
 		GetNode<Button>("%SettingsButton").Pressed += () => GetNode<SettingsMenu>("%SettingsMenu").Open();
 		GetNode<Button>("%NoticesButton").Pressed += () => GetNode<NoticePanel>("%NoticePanel").Open();
-		GetNode<Button>("%SageButton").Pressed += () => GetNode<MentorPanel>("%MentorPanel").OpenTip();
 
 		ApplyProgressiveMenu();
 

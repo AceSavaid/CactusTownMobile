@@ -406,11 +406,18 @@ public partial class Tests : Node
 	private void Notices_start_in_tutorial_then_switch_to_daily()
 	{
 		var gs = GameState.Instance;
-		Ok(Notices.InTutorialMode(gs), "fresh save shows the tutorial list");
-		Eq(Notices.Current(gs).Count, Notices.Tutorial.Length, "tutorial list length");
+		Ok(Notices.InTutorialMode(gs), "fresh save is in tutorial mode");
+		Eq(Notices.Current(gs).Count, 1, "onboarding shows one step at a time");
+		Eq(Notices.CurrentTutorialStep(gs)!.Id, Notices.Tutorial[0].Id, "starts on the first step");
+
+		gs.ClaimNotice(Notices.Tutorial[0].Id, 0, 0);
+		Eq(Notices.CurrentTutorialStep(gs)!.Id, Notices.Tutorial[1].Id, "advances to the next step on claim");
+		var (step, total) = Notices.TutorialProgress(gs);
+		Eq(step, 2, "step 2");
+		Eq(total, Notices.Tutorial.Length, "of five");
 
 		foreach (var t in Notices.Tutorial)
-			gs.ClaimNotice(t.Id, 0, 0);   // claim without needing the predicate for this test
+			gs.ClaimNotice(t.Id, 0, 0);
 
 		Ok(Notices.TutorialComplete(gs), "tutorial complete once all claimed");
 		Ok(!Notices.InTutorialMode(gs), "board switched to daily mode");
