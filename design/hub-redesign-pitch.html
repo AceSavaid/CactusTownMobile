@@ -1,0 +1,412 @@
+<title>Cactus Town Hub Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700&display=swap">
+<style>
+  :root{
+    --paper:#f5ecdb; --card:#fbf5e8; --ink:#352a1c; --ink-soft:#6f5f47;
+    --line:#e0d3ba; --line-strong:#cdbb98;
+    --clay:#c26a3a; --clay-deep:#8f4a25; --sage:#4c7a58; --sage-deep:#2f5138;
+    --bloom:#d98aa6; --sun:#e8b45c;
+    --shadow:0 14px 34px -18px rgba(53,42,28,.42);
+  }
+  @media (prefers-color-scheme:dark){
+    :root:not([data-theme="light"]){
+      --paper:#211b13; --card:#2b2318; --ink:#f0e6d3; --ink-soft:#b9a684;
+      --line:#3d3323; --line-strong:#514229;
+      --clay:#e08a54; --clay-deep:#f0b389; --sage:#7fb18c; --sage-deep:#a9d3b3;
+      --bloom:#e6a0b8; --sun:#efc074;
+      --shadow:0 16px 40px -18px rgba(0,0,0,.6);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#211b13; --card:#2b2318; --ink:#f0e6d3; --ink-soft:#b9a684;
+    --line:#3d3323; --line-strong:#514229;
+    --clay:#e08a54; --clay-deep:#f0b389; --sage:#7fb18c; --sage-deep:#a9d3b3;
+    --bloom:#e6a0b8; --sun:#efc074;
+    --shadow:0 16px 40px -18px rgba(0,0,0,.6);
+  }
+
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--paper); color:var(--ink);
+    font-family:"Nunito Sans","Segoe UI",system-ui,sans-serif;
+    line-height:1.65; font-optical-sizing:auto;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:1060px; margin:0 auto; padding:clamp(2rem,5vw,4.5rem) clamp(1.1rem,4vw,2.5rem) 5rem}
+
+  h1,h2,h3{font-family:"Baloo 2","Nunito Sans",sans-serif; font-weight:600; line-height:1.12; text-wrap:balance; margin:0}
+  h1{font-size:clamp(2.3rem,6vw,3.7rem); letter-spacing:-.01em}
+  h2{font-size:clamp(1.5rem,3.4vw,2.15rem)}
+  h3{font-size:1.06rem; font-weight:700}
+  p{margin:0}
+  .eyebrow{
+    font-family:"Nunito Sans",sans-serif; font-weight:700; font-size:.74rem;
+    letter-spacing:.18em; text-transform:uppercase; color:var(--clay);
+  }
+
+  header.lead{display:grid; gap:1.1rem; max-width:44ch; margin-bottom:.6rem}
+  header.lead p{color:var(--ink-soft); font-size:1.08rem}
+
+  .brief{
+    margin:2.4rem 0 3.4rem; padding:1.3rem 1.5rem; border-radius:16px;
+    background:var(--card); border:1px solid var(--line);
+    display:grid; gap:.9rem 1.6rem; grid-template-columns:repeat(auto-fit,minmax(210px,1fr));
+  }
+  .brief div{display:grid; gap:.15rem}
+  .brief dt{font-family:"Baloo 2",sans-serif; font-weight:600; font-size:.95rem}
+  .brief dd{margin:0; color:var(--ink-soft); font-size:.92rem}
+
+  .concept{margin:0 0 4.2rem; scroll-margin-top:2rem}
+  .concept-head{display:flex; align-items:baseline; gap:.9rem; margin-bottom:.2rem; flex-wrap:wrap}
+  .num{
+    font-family:"Baloo 2",sans-serif; font-weight:700; font-size:1rem;
+    color:var(--paper); background:var(--clay); border-radius:999px;
+    width:2rem; height:2rem; display:grid; place-items:center; flex:none;
+  }
+  .lift{
+    margin-left:auto; font-size:.76rem; font-weight:700; letter-spacing:.06em;
+    text-transform:uppercase; padding:.28rem .7rem; border-radius:999px;
+    border:1px solid var(--line-strong); color:var(--ink-soft); white-space:nowrap;
+  }
+  .concept > p.tag{color:var(--ink-soft); font-size:.96rem; margin:.35rem 0 1.1rem}
+
+  .mock{
+    width:100%; border-radius:18px; overflow:hidden; display:block;
+    border:1px solid var(--line-strong); box-shadow:var(--shadow); background:#000;
+  }
+  .mock svg{display:block; width:100%; height:auto}
+
+  .notes{
+    margin-top:1.3rem; display:grid; gap:1rem 2.2rem;
+    grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  }
+  .notes section{display:grid; gap:.3rem; align-content:start}
+  .notes h3{color:var(--sage-deep)}
+  .notes p, .notes ul{color:var(--ink-soft); font-size:.93rem; margin:0}
+  .notes ul{padding-left:1.1rem; display:grid; gap:.2rem}
+  .notes b{color:var(--ink); font-weight:700}
+
+  .close{
+    margin-top:1rem; padding:1.7rem 1.8rem; border-radius:18px;
+    background:#2f5138; color:#f0ead6; box-shadow:var(--shadow);
+  }
+  .close h2{color:#fff; margin-bottom:.5rem}
+  .close p + p{margin-top:.7rem}
+  .close i{color:#cfe6d3}
+
+  footer{margin-top:3rem; color:var(--ink-soft); font-size:.82rem; border-top:1px solid var(--line); padding-top:1rem}
+
+  a{color:var(--clay-deep); text-underline-offset:2px}
+  :focus-visible{outline:2px solid var(--clay); outline-offset:3px; border-radius:4px}
+  @media (prefers-reduced-motion:no-preference){
+    .mock{transition:transform .3s ease}
+    .concept:hover .mock{transform:translateY(-3px)}
+  }
+</style>
+
+<div class="wrap">
+  <header class="lead">
+    <span class="eyebrow">Cactus Town · home screen</span>
+    <h1>Three ways home could feel</h1>
+    <p>The hub is where a session starts and ends. Right now it's a flat green field with a
+      button column — functional, but it doesn't feel like anywhere. These three directions
+      all aim for the same thing: a calm, lived-in room you're glad to come back to.</p>
+  </header>
+
+  <dl class="brief">
+    <div><dt>The brief</dt><dd>Relaxed and homey. Somewhere your plant lives, not a menu.</dd></div>
+    <div><dt>Keep</dt><dd>Landscape, flat vector art, the warm desert palette, your customised cactus centre stage.</dd></div>
+    <div><dt>Menu today</dt><dd>Customise · Mini-Games · Plant Stats · Notices · Town · Settings, plus Sage's tip and two currencies.</dd></div>
+    <div><dt>The move</dt><dd>Turn that list into things in a scene — and let time of day (EST clock) quietly shift the light.</dd></div>
+  </dl>
+
+  <article class="concept" id="windowsill">
+    <div class="concept-head">
+      <span class="num">1</span>
+      <h2>The Windowsill</h2>
+      <span class="lift">Build lift · high</span>
+    </div>
+    <p class="tag">References: <i>Assemble with Care</i>, <i>Alto's Odyssey</i> menu, <i>Kimono Cats</i>, <i>Monument Valley</i> chapter select.</p>
+
+    <div class="mock">
+      <svg viewBox="0 0 640 360" role="img" aria-labelledby="m1t">
+        <title id="m1t">An interior windowsill scene: the plant on a sill in front of a window looking onto the desert town at golden hour, with room objects standing in for menu items.</title>
+        <rect width="640" height="360" fill="#d9b98a"/>
+        <rect width="640" height="238" fill="#e6cfa6"/>
+        <rect x="40" y="26" width="360" height="196" rx="10" fill="#f6e6c4"/>
+        <rect x="52" y="38" width="336" height="172" rx="6" fill="#f2c778"/>
+        <rect x="52" y="120" width="336" height="90" fill="#e8b45c"/>
+        <circle cx="330" cy="82" r="26" fill="#fce8bb"/>
+        <path d="M52 150c46-30 90 6 130-6s70-34 120-14 66 4 86-2v82H52z" fill="#c98a52"/>
+        <g fill="#7c5230"><rect x="96" y="150" width="14" height="30"/><rect x="150" y="146" width="12" height="30"/><rect x="250" y="140" width="14" height="34"/></g>
+        <path d="M212 34v176M40 120h360" stroke="#cf9f63" stroke-width="6"/>
+        <rect x="26" y="214" width="392" height="26" rx="6" fill="#b9804a"/>
+        <rect x="150" y="150" width="70" height="66" rx="12" fill="#c96f3b"/>
+        <rect x="140" y="140" width="90" height="16" rx="5" fill="#d98a56"/>
+        <rect x="176" y="86" width="18" height="60" rx="9" fill="#4a9d6a"/>
+        <rect x="150" y="112" width="16" height="34" rx="8" fill="#4a9d6a"/>
+        <rect x="204" y="104" width="16" height="42" rx="8" fill="#4a9d6a"/>
+        <circle cx="180" cy="122" r="3.4" fill="#123321"/><circle cx="190" cy="122" r="3.4" fill="#123321"/>
+        <path d="M178 132q7 6 14 0" stroke="#123321" stroke-width="3" fill="none" stroke-linecap="round"/>
+        <circle cx="176" cy="80" r="7" fill="#d98aa6"/>
+        <g transform="translate(250 168)">
+          <rect x="-8" y="-4" width="46" height="52" rx="9" fill="#b3823f"/>
+          <rect x="-2" y="-24" width="12" height="30" rx="6" fill="#4a9d6a"/>
+          <rect x="18" y="-30" width="12" height="36" rx="6" fill="#4a9d6a"/>
+          <rect x="8" y="-40" width="12" height="46" rx="6" fill="#4a9d6a"/>
+          <circle cx="8" cy="-14" r="2.6" fill="#123321"/><circle cx="17" cy="-14" r="2.6" fill="#123321"/>
+        </g>
+        <text x="248" y="230" font-family="Nunito Sans, sans-serif" font-size="11" fill="#5c3f22" font-weight="700">Sage</text>
+        <g font-family="Nunito Sans, sans-serif" font-size="11" font-weight="700" fill="#40301c">
+          <rect x="452" y="40" width="150" height="70" rx="10" fill="#efdcb4"/>
+          <rect x="464" y="52" width="126" height="12" rx="3" fill="#cdae74"/>
+          <rect x="464" y="72" width="100" height="10" rx="3" fill="#cdae74"/>
+          <rect x="464" y="88" width="112" height="10" rx="3" fill="#cdae74"/>
+          <text x="452" y="128" fill="#6f5330">corkboard → Notices</text>
+
+          <rect x="452" y="150" width="66" height="60" rx="8" fill="#a9713f"/>
+          <rect x="460" y="158" width="50" height="12" rx="2" fill="#e7cf9c"/>
+          <rect x="460" y="176" width="50" height="12" rx="2" fill="#e7cf9c"/>
+          <rect x="460" y="194" width="50" height="10" rx="2" fill="#e7cf9c"/>
+          <text x="452" y="226" fill="#6f5330">game boxes → Mini-Games</text>
+
+          <circle cx="566" cy="176" r="26" fill="#d7c091"/><circle cx="566" cy="176" r="19" fill="#b7d7e0"/>
+          <text x="540" y="226" fill="#6f5330">mirror → Customise</text>
+        </g>
+        <g font-family="Nunito Sans, sans-serif" font-size="12" font-weight="800" fill="#5c3f22">
+          <ellipse cx="60" cy="30" rx="34" ry="16" fill="#e9d3a4"/><circle cx="46" cy="30" r="8" fill="#e8b45c"/><text x="58" y="34">128</text>
+          <ellipse cx="592" cy="30" rx="34" ry="16" fill="#e9d3a4"/><circle cx="578" cy="30" r="8" fill="#7fb08a"/><text x="590" y="34">6</text>
+        </g>
+        <g transform="translate(300 268)">
+          <rect x="-58" y="-4" width="116" height="56" rx="14" fill="#8f5a30"/>
+          <rect x="-8" y="-30" width="16" height="34" rx="8" fill="#e8cfa0"/>
+          <path d="M-4 4h8l6 44h-20z" fill="#7c4a26"/>
+          <text x="0" y="70" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="11" font-weight="700" fill="#5c3f22">door → Town</text>
+        </g>
+        <text x="40" y="300" font-family="Nunito Sans, sans-serif" font-size="11" fill="#6f5330">journal on the sill → Plant Stats · Almanac   ·   little radio → Settings</text>
+      </svg>
+    </div>
+
+    <div class="notes">
+      <section>
+        <h3>The idea</h3>
+        <p>A warm room with a window. Your plant and Sage share the sill; through the glass,
+          the town sits in golden light that tracks the real EST clock. You're not looking
+          at a menu — you're home, looking out.</p>
+      </section>
+      <section>
+        <h3>Menu becomes furniture</h3>
+        <ul>
+          <li><b>Door / window</b> → go to Town</li>
+          <li><b>Shelf of game boxes</b> → Mini-Games</li>
+          <li><b>Hand mirror</b> → Customise Plant</li>
+          <li><b>Open journal</b> → Plant Stats &amp; Almanac</li>
+          <li><b>Corkboard</b> → Notices (a pinned note when a daily's ready)</li>
+          <li><b>Radio</b> → Settings</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Why it's the boldest</h3>
+        <p>Every object needs art in a few lit states, plus a day/night pass. It's the one
+          that would make Cactus Town screenshot like a premium cosy game — and the one
+          that eats the most time.</p>
+      </section>
+    </div>
+  </article>
+
+  <article class="concept" id="bench">
+    <div class="concept-head">
+      <span class="num">2</span>
+      <h2>The Potting Bench</h2>
+      <span class="lift">Build lift · medium</span>
+    </div>
+    <p class="tag">References: <i>Stardew Valley</i> farmhouse, <i>Animal Crossing: Pocket Camp</i>, <i>Spiritfarer</i> cabin, <i>Cozy Grove</i>.</p>
+
+    <div class="mock">
+      <svg viewBox="0 0 640 360" role="img" aria-labelledby="m2t">
+        <title id="m2t">An outdoor potting-bench scene under string lights: a wooden bench holding the plant, hanging plants above, terracotta pots on a rail, and hand-painted wooden signs for the menu, with a path leading to the town.</title>
+        <rect width="640" height="360" fill="#e7c98f"/>
+        <rect y="150" width="640" height="90" fill="#e0b06a"/>
+        <rect y="240" width="640" height="120" fill="#c79a5c"/>
+        <path d="M300 150l40 210H260z" fill="#b98a4f"/>
+        <g fill="#c9a468" opacity=".85">
+          <rect x="26" y="118" width="40" height="46" rx="4"/><rect x="70" y="104" width="30" height="60" rx="4"/><path d="M70 104l15-14 15 14z"/>
+          <rect x="560" y="120" width="42" height="44" rx="4"/>
+        </g>
+        <path d="M20 44c120 26 280 26 600 4" stroke="#7c5a34" stroke-width="3" fill="none"/>
+        <g fill="#f4e2b0"><circle cx="90" cy="52" r="7"/><circle cx="200" cy="58" r="7"/><circle cx="330" cy="56" r="7"/><circle cx="460" cy="54" r="7"/><circle cx="560" cy="48" r="7"/></g>
+        <g fill="#8a5a30"><rect x="120" y="60" width="10" height="34"/><rect x="420" y="58" width="10" height="34"/></g>
+        <g><path d="M112 92q16 22 32 0z" fill="#4c7a58"/><path d="M414 90q16 22 32 0z" fill="#4c7a58"/></g>
+        <rect x="150" y="196" width="340" height="20" rx="4" fill="#9c6b3c"/>
+        <rect x="164" y="216" width="16" height="70" fill="#7c5230"/><rect x="460" y="216" width="16" height="70" fill="#7c5230"/>
+        <rect x="150" y="238" width="340" height="14" rx="3" fill="#a9743f"/>
+        <g>
+          <rect x="286" y="150" width="68" height="60" rx="12" fill="#c96f3b"/>
+          <rect x="278" y="140" width="84" height="16" rx="5" fill="#d98a56"/>
+          <rect x="308" y="90" width="18" height="58" rx="9" fill="#4a9d6a"/>
+          <rect x="284" y="112" width="16" height="36" rx="8" fill="#4a9d6a"/>
+          <rect x="336" y="104" width="16" height="44" rx="8" fill="#4a9d6a"/>
+          <circle cx="312" cy="120" r="3.6" fill="#123321"/><circle cx="322" cy="120" r="3.6" fill="#123321"/>
+          <path d="M310 130q7 6 14 0" stroke="#123321" stroke-width="3" fill="none" stroke-linecap="round"/>
+          <circle cx="308" cy="84" r="7" fill="#d98aa6"/>
+        </g>
+        <g fill="#bf7440"><path d="M176 168h30l-5 28h-20z"/><path d="M430 168h30l-5 28h-20z"/></g>
+        <g fill="#4a9d6a"><rect x="184" y="150" width="10" height="20" rx="5"/><rect x="440" y="150" width="10" height="20" rx="5"/></g>
+        <g transform="translate(508 214)">
+          <rect x="-6" y="-2" width="40" height="46" rx="8" fill="#b3823f"/>
+          <rect x="0" y="-20" width="10" height="26" rx="5" fill="#4a9d6a"/>
+          <rect x="16" y="-26" width="10" height="32" rx="5" fill="#4a9d6a"/>
+          <rect x="8" y="-34" width="10" height="40" rx="5" fill="#4a9d6a"/>
+          <circle cx="7" cy="-10" r="2.4" fill="#123321"/><circle cx="15" cy="-10" r="2.4" fill="#123321"/>
+          <text x="14" y="60" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="10" font-weight="700" fill="#5c3f22">Sage</text>
+        </g>
+        <g font-family="Baloo 2, Nunito Sans, sans-serif" font-size="13" font-weight="600" fill="#f2e6c8">
+          <g transform="rotate(-4 96 250)"><rect x="40" y="234" width="112" height="34" rx="6" fill="#7c5230"/><text x="96" y="256" text-anchor="middle">Town</text></g>
+          <g transform="rotate(3 96 296)"><rect x="40" y="280" width="112" height="34" rx="6" fill="#7c5230"/><text x="96" y="302" text-anchor="middle">Mini-Games</text></g>
+          <g transform="rotate(-3 545 262)"><rect x="486" y="246" width="118" height="34" rx="6" fill="#7c5230"/><text x="545" y="268" text-anchor="middle">Customise</text></g>
+          <g transform="rotate(4 545 308)"><rect x="486" y="292" width="118" height="34" rx="6" fill="#7c5230"/><text x="545" y="314" text-anchor="middle">Plant Stats</text></g>
+        </g>
+        <g transform="translate(300 300)">
+          <rect x="-70" y="-6" width="140" height="30" rx="6" fill="#efdcb4"/>
+          <rect x="-62" y="0" width="90" height="8" rx="3" fill="#cdae74"/>
+          <rect x="-62" y="12" width="60" height="7" rx="3" fill="#cdae74"/>
+          <rect x="38" y="-2" width="26" height="24" rx="4" fill="#c26a3a"/>
+          <text x="0" y="42" text-anchor="middle" font-family="Nunito Sans, sans-serif" font-size="10" font-weight="700" fill="#5c3f22">notice board on the bench → Notices</text>
+        </g>
+        <g font-family="Nunito Sans, sans-serif" font-size="12" font-weight="800" fill="#5c3f22">
+          <ellipse cx="58" cy="28" rx="34" ry="15" fill="#efdcb4"/><circle cx="45" cy="28" r="7" fill="#e8b45c"/><text x="56" y="32">128</text>
+          <ellipse cx="592" cy="28" rx="34" ry="15" fill="#efdcb4"/><circle cx="579" cy="28" r="7" fill="#7fb08a"/><text x="590" y="32">6</text>
+        </g>
+      </svg>
+    </div>
+
+    <div class="notes">
+      <section>
+        <h3>The idea</h3>
+        <p>Step outside. A potting bench on a porch: hanging plants, string lights that warm
+          up at dusk, terracotta pots along the rail. The town is a short path away. It reads
+          as the small friendly place the game is about.</p>
+      </section>
+      <section>
+        <h3>Menu becomes signage</h3>
+        <ul>
+          <li><b>Hand-painted wooden signs</b> flank the bench — Town, Mini-Games, Customise, Plant Stats</li>
+          <li><b>A little notice board</b> propped on the bench → Notices</li>
+          <li><b>Sage</b> in a chair at the end of the bench, tip on tap</li>
+          <li><b>Settings</b> tucked as a lantern or hook, top corner</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Why it's the middle path</h3>
+        <p>One scene, mostly reusable prop art you already have (pots, plants, signs, fences).
+          The signs animate on a gentle sway; the lights and a firefly or two carry the
+          "relaxed" without a full lighting system.</p>
+      </section>
+    </div>
+  </article>
+
+  <article class="concept" id="cozyflat">
+    <div class="concept-head">
+      <span class="num">3</span>
+      <h2>Cosy Flat</h2>
+      <span class="lift">Build lift · low</span>
+    </div>
+    <p class="tag">References: <i>Alba: A Wildlife Adventure</i> UI, <i>A Monster's Expedition</i>, <i>Prune</i>, <i>Wilmot's Warehouse</i>.</p>
+
+    <div class="mock">
+      <svg viewBox="0 0 640 360" role="img" aria-labelledby="m3t">
+        <title id="m3t">The current flat style warmed up: a soft peach-to-sage sky, layered hill and cactus silhouettes for depth, the plant on a wooden deck casting a long soft shadow, and a stack of rounded wooden plaque buttons.</title>
+        <rect width="640" height="360" fill="#f3d9ad"/>
+        <rect width="640" height="150" fill="#f0c593"/>
+        <rect width="640" height="80" fill="#ecbf87"/>
+        <circle cx="150" cy="80" r="30" fill="#f7e2ac"/>
+        <path d="M0 214c120-40 210 8 330-10s200-34 310-8v170H0z" fill="#d8ac6d"/>
+        <path d="M0 250c150-24 260 20 380 6s180-28 260-10v120H0z" fill="#c99a5c"/>
+        <g fill="#c39257" opacity=".7">
+          <rect x="70" y="150" width="14" height="60" rx="7"/><rect x="56" y="170" width="12" height="26" rx="6"/>
+          <rect x="556" y="140" width="14" height="70" rx="7"/><rect x="572" y="164" width="12" height="30" rx="6"/>
+        </g>
+        <rect y="286" width="640" height="74" fill="#b5793f"/>
+        <g stroke="#9c6633" stroke-width="2"><path d="M0 300h640M0 322h640M110 286v74M250 286v74M390 286v74M530 286v74"/></g>
+        <ellipse cx="300" cy="300" rx="120" ry="16" fill="#8a5a2f" opacity=".38"/>
+        <g>
+          <rect x="266" y="196" width="70" height="64" rx="13" fill="#c96f3b"/>
+          <rect x="257" y="185" width="88" height="17" rx="5" fill="#d98a56"/>
+          <rect x="290" y="128" width="20" height="66" rx="10" fill="#4a9d6a"/>
+          <rect x="262" y="156" width="18" height="40" rx="9" fill="#4a9d6a"/>
+          <rect x="320" y="146" width="18" height="50" rx="9" fill="#4a9d6a"/>
+          <circle cx="294" cy="160" r="4" fill="#123321"/><circle cx="306" cy="160" r="4" fill="#123321"/>
+          <path d="M292 172q8 7 16 0" stroke="#123321" stroke-width="3.4" fill="none" stroke-linecap="round"/>
+          <circle cx="290" cy="120" r="8" fill="#d98aa6"/>
+        </g>
+        <g transform="translate(360 236)">
+          <rect x="-6" y="-2" width="40" height="44" rx="8" fill="#b3823f"/>
+          <rect x="0" y="-18" width="10" height="24" rx="5" fill="#4a9d6a"/>
+          <rect x="15" y="-24" width="10" height="30" rx="5" fill="#4a9d6a"/>
+          <rect x="8" y="-32" width="10" height="38" rx="5" fill="#4a9d6a"/>
+          <circle cx="7" cy="-8" r="2.4" fill="#123321"/><circle cx="15" cy="-8" r="2.4" fill="#123321"/>
+        </g>
+        <text x="384" y="252" font-family="Nunito Sans, sans-serif" font-size="10" font-weight="700" fill="#5c3f22">Sage</text>
+        <g font-family="Baloo 2, Nunito Sans, sans-serif" font-size="15" font-weight="600" fill="#f4e7c9">
+          <g transform="rotate(-2 520 78)"><rect x="430" y="58" width="180" height="40" rx="10" fill="#8a5730"/><circle cx="452" cy="78" r="8" fill="#e7cf9c"/><text x="470" y="84" font-size="14">Customise</text></g>
+          <g transform="rotate(1.5 520 128)"><rect x="430" y="108" width="180" height="40" rx="10" fill="#8a5730"/><circle cx="452" cy="128" r="8" fill="#e7cf9c"/><text x="470" y="134" font-size="14">Mini-Games</text></g>
+          <g transform="rotate(-1.5 520 178)"><rect x="430" y="158" width="180" height="40" rx="10" fill="#8a5730"/><circle cx="452" cy="178" r="8" fill="#e7cf9c"/><text x="470" y="184" font-size="14">Plant Stats</text></g>
+          <g transform="rotate(2 520 228)"><rect x="430" y="208" width="180" height="40" rx="10" fill="#8a5730"/><circle cx="452" cy="228" r="8" fill="#e7cf9c"/><text x="470" y="234" font-size="14">Notices</text></g>
+        </g>
+        <g transform="translate(66 300)">
+          <rect x="-4" y="-8" width="150" height="46" rx="12" fill="#6f4a26"/>
+          <text x="72" y="20" text-anchor="middle" font-family="Baloo 2, sans-serif" font-size="17" font-weight="700" fill="#f4e7c9">Go to Town</text>
+        </g>
+        <g font-family="Nunito Sans, sans-serif" font-size="12" font-weight="800" fill="#5c3f22">
+          <rect x="24" y="16" width="86" height="30" rx="8" fill="#efdcb4"/><circle cx="42" cy="31" r="8" fill="#e8b45c"/><text x="56" y="35">128</text>
+          <rect x="24" y="52" width="86" height="30" rx="8" fill="#efdcb4"/>
+          <path d="M42 60l6 14-6 4-6-4z" fill="#7fb08a"/><text x="56" y="71">6 seeds</text>
+        </g>
+        <rect x="546" y="16" width="72" height="30" rx="8" fill="#efdcb4"/>
+        <circle cx="565" cy="31" r="7" fill="none" stroke="#8a6a3f" stroke-width="3"/>
+        <text x="576" y="35" font-family="Nunito Sans, sans-serif" font-size="12" font-weight="800" fill="#5c3f22">set</text>
+      </svg>
+    </div>
+
+    <div class="notes">
+      <section>
+        <h3>The idea</h3>
+        <p>Keep the exact art language — just stop it being flat and empty. A soft sky
+          gradient, layered silhouettes for depth, a wooden deck the plant stands on with a
+          long low-sun shadow. The plant sways; a leaf drifts past now and then.</p>
+      </section>
+      <section>
+        <h3>Menu becomes plaques</h3>
+        <ul>
+          <li><b>Rounded wooden plaque buttons</b>, each with a small icon, tacked up at a
+            slight hand-placed angle</li>
+          <li><b>Go to Town</b> as the big pill it already is, bottom-left</li>
+          <li><b>Currency chips</b> shaped like seed packets, top corners</li>
+          <li><b>Sage</b> a small sprite by the deck, tip in the card that's already built</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Why it's the safe pick</h3>
+        <p>A day or two of work, no new art pipeline, and it still lifts the screen from
+          "prototype" to "product". Ships now; leaves the door open to grow into 1 or 2 later.</p>
+      </section>
+    </div>
+  </article>
+
+  <div class="close">
+    <h2>Where I'd start</h2>
+    <p><b>Direction 3 now, direction 1 as the north star.</b> Cosy Flat is a small, safe change
+      that makes the hub feel intentional and buys time. The Windowsill is what Cactus Town
+      should eventually be — a room that reflects your plant, your almanac on the shelf, the
+      town brightening through the glass as your Bloom Score climbs.</p>
+    <p>The Potting Bench is the compromise if you want a real scene sooner and can spend a
+      week of art on it. All three keep the palette, the plant, and the flat style — the
+      difference is how much of a <i>place</i> you're willing to build.</p>
+  </div>
+
+  <footer>
+    Rough concept sketches for discussion · Cactus Town Mobile · palette and plant art per <code>CLAUDE.md</code>
+  </footer>
+</div>
