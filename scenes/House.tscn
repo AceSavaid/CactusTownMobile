@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3]
+[gd_scene load_steps=13 format=3]
 
 [ext_resource type="Script" path="res://scripts/House.cs" id="1_house"]
 [ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="2_hud"]
@@ -7,6 +7,11 @@
 [ext_resource type="PackedScene" path="res://ui/NoticePanel.tscn" id="5_np"]
 [ext_resource type="PackedScene" path="res://ui/HubTip.tscn" id="6_ht"]
 [ext_resource type="Texture2D" path="res://assets/sprites/hub/plant_room.svg" id="7_room"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_customise.svg" id="8_ic1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_minigames.svg" id="9_ic2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_stats.svg" id="10_ic3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_notices.svg" id="11_ic4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_town.svg" id="12_ic5"]
 
 [sub_resource type="StyleBoxFlat" id="plaque"]
 bg_color = Color(0.541, 0.361, 0.208, 1)
@@ -39,6 +44,7 @@ corner_radius_bottom_left = 16
 Button/colors/font_color = Color(0.96, 0.91, 0.79, 1)
 Button/colors/font_hover_color = Color(1, 0.97, 0.88, 1)
 Button/colors/font_pressed_color = Color(0.92, 0.86, 0.72, 1)
+Button/constants/icon_max_width = 60
 Button/font_sizes/font_size = 38
 Button/styles/normal = SubResource("plaque")
 Button/styles/hover = SubResource("plaque")
@@ -69,9 +75,9 @@ stretch_mode = 6
 [node name="Sign" type="Label" parent="."]
 layout_mode = 1
 offset_left = 56.0
-offset_top = 36.0
+offset_top = 34.0
 offset_right = 520.0
-offset_bottom = 104.0
+offset_bottom = 100.0
 theme_override_colors/font_color = Color(0.26, 0.32, 0.24, 1)
 theme_override_font_sizes/font_size = 44
 text = "Cactus Town"
@@ -79,14 +85,17 @@ vertical_alignment = 1
 
 [node name="PlantFrame" type="Control" parent="."]
 layout_mode = 1
+anchor_left = 0.5
 anchor_top = 0.5
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 300.0
-offset_top = -272.0
-offset_right = 660.0
-offset_bottom = 218.0
+offset_left = -180.0
+offset_top = -300.0
+offset_right = 180.0
+offset_bottom = 190.0
+grow_horizontal = 2
 grow_vertical = 2
-scale = Vector2(1.34, 1.34)
+scale = Vector2(1.32, 1.32)
 pivot_offset = Vector2(180, 245)
 
 [node name="PlantView" parent="PlantFrame" instance=ExtResource("3_pv")]
@@ -95,14 +104,17 @@ layout_mode = 2
 [node name="PlantName" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
+anchor_left = 0.5
 anchor_top = 0.5
+anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = 150.0
-offset_top = -330.0
-offset_right = 610.0
-offset_bottom = -268.0
+offset_left = -320.0
+offset_top = 168.0
+offset_right = 320.0
+offset_bottom = 226.0
+grow_horizontal = 2
 theme_override_colors/font_color = Color(0.28, 0.34, 0.26, 1)
-theme_override_font_sizes/font_size = 34
+theme_override_font_sizes/font_size = 36
 text = "Spike"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -113,76 +125,94 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -540.0
-offset_top = -258.0
+offset_left = -566.0
+offset_top = -210.0
 offset_right = -70.0
-offset_bottom = 258.0
+offset_bottom = 210.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/separation = 14
+theme_override_constants/separation = 18
 
 [node name="CustomisePlantButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 112)
+custom_minimum_size = Vector2(0, 116)
 layout_mode = 2
-text = "Customise Plant"
+theme_override_constants/icon_max_width = 56
+text = "  Customise Plant"
+icon = ExtResource("8_ic1")
+alignment = 0
+expand_icon = true
 
 [node name="MiniGamesButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 112)
+custom_minimum_size = Vector2(0, 116)
 layout_mode = 2
-text = "Mini-Games"
+text = "  Mini-Games"
+icon = ExtResource("9_ic2")
+alignment = 0
+expand_icon = true
 
 [node name="PlantStatsButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 112)
+custom_minimum_size = Vector2(0, 116)
 layout_mode = 2
-text = "Plant Stats"
+text = "  Plant Stats"
+icon = ExtResource("10_ic3")
+alignment = 0
+expand_icon = true
 
-[node name="NoticesButton" type="Button" parent="Menu"]
+[node name="NoticesButton" type="Button" parent="."]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 112)
-layout_mode = 2
-text = "Notices"
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -430.0
+offset_top = 30.0
+offset_right = -338.0
+offset_bottom = 122.0
+grow_horizontal = 0
+theme_override_constants/icon_max_width = 56
+tooltip_text = "Notices"
+icon = ExtResource("11_ic4")
+expand_icon = true
 
 [node name="GoToTownButton" type="Button" parent="."]
-unique_name_in_owner = true
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 70.0
-offset_top = -184.0
-offset_right = 470.0
-offset_bottom = -56.0
-grow_vertical = 0
-theme_override_font_sizes/font_size = 44
-text = "Go to Town  →"
-
-[node name="SettingsButton" type="Button" parent="."]
 unique_name_in_owner = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -260.0
-offset_top = -128.0
-offset_right = -60.0
-offset_bottom = -52.0
+offset_left = -540.0
+offset_top = -186.0
+offset_right = -64.0
+offset_bottom = -54.0
 grow_horizontal = 0
+grow_vertical = 0
+theme_override_constants/icon_max_width = 56
+theme_override_font_sizes/font_size = 44
+text = "  Go to Town  →"
+icon = ExtResource("12_ic5")
+expand_icon = true
+
+[node name="SettingsButton" type="Button" parent="."]
+unique_name_in_owner = true
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 48.0
+offset_top = -126.0
+offset_right = 250.0
+offset_bottom = -52.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 28
 text = "Settings"
 
 [node name="HubTip" parent="." instance=ExtResource("6_ht")]
 unique_name_in_owner = true
-anchor_left = 0.5
 anchor_top = 1.0
-anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -390.0
-offset_top = -300.0
-offset_right = 390.0
-offset_bottom = -60.0
-grow_horizontal = 2
+offset_left = 48.0
+offset_top = -420.0
+offset_right = 700.0
+offset_bottom = -150.0
 grow_vertical = 0
 
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]

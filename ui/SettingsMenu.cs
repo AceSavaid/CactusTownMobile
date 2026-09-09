@@ -8,15 +8,16 @@ namespace CactusTown;
 /// </summary>
 public partial class SettingsMenu : Control
 {
-	private const string Credits =
-		"[center][b]Cactus Town[/b]\nby Ace Savaid[/center]\n\n" +
-		"[b]Art[/b]\nThe cactus, pots, town props, buildings, region art and store\n" +
-		"graphics are original to this project. Some UI icons and mini-game\n" +
-		"pieces are from [b]Kenney[/b] (kenney.nl), released under CC0 1.0.\n\n" +
-		"[b]Audio[/b]\nSound effects supplied by the developer.\n" +
-		"Music is procedurally synthesised.\n\n" +
-		"[b]Built with[/b]\nGodot Engine 4.4  ·  .NET / C#\n\n" +
-		"[center]Thanks for playing.[/center]";
+	private static readonly (string Heading, string Body)[] Credits =
+	{
+		("Cactus Town", "A game by Ace Savaid.\nBased on the RPG Maker game jam original."),
+		("Art", "Cactus, pots, town props, buildings, regions and store graphics are " +
+		        "original to this project. Some UI icons and mini-game pieces are from " +
+		        "Kenney (kenney.nl), released under CC0 1.0."),
+		("Audio", "Sound effects supplied by the developer.\nMusic is procedurally synthesised."),
+		("Built with", "Godot Engine 4.4  ·  .NET / C#"),
+		("", "Thanks for playing."),
+	};
 
 	private VolumeStepper _master = null!, _music = null!, _sfx = null!;
 
@@ -25,7 +26,7 @@ public partial class SettingsMenu : Control
 		_master = GetNode<VolumeStepper>("%MasterStepper");
 		_music = GetNode<VolumeStepper>("%MusicStepper");
 		_sfx = GetNode<VolumeStepper>("%SfxStepper");
-		GetNode<RichTextLabel>("%CreditsText").Text = Credits;
+		BuildCredits(GetNode<VBoxContainer>("%CreditsText"));
 
 		_master.LevelChanged += level => Audio.Instance?.SetBusVolume("Master", level / (float)VolumeStepper.Steps);
 		_music.LevelChanged += level => Audio.Instance?.SetBusVolume("Music", level / (float)VolumeStepper.Steps);
@@ -38,6 +39,30 @@ public partial class SettingsMenu : Control
 		GetNode<Button>("%Backdrop").Pressed += Hide;
 
 		Hide();
+	}
+
+	private static void BuildCredits(VBoxContainer box)
+	{
+		foreach (var (heading, body) in Credits)
+		{
+			if (heading.Length > 0)
+			{
+				var h = new Label { Text = heading };
+				h.AddThemeFontSizeOverride("font_size", 30);
+				h.AddThemeColorOverride("font_color", new Color(0.72f, 0.86f, 0.6f));
+				box.AddChild(h);
+			}
+
+			var p = new Label
+			{
+				Text = body,
+				AutowrapMode = TextServer.AutowrapMode.WordSmart,
+				HorizontalAlignment = heading.Length > 0 ? HorizontalAlignment.Left : HorizontalAlignment.Center,
+			};
+			p.AddThemeFontSizeOverride("font_size", 25);
+			p.AddThemeConstantOverride("line_spacing", 8);
+			box.AddChild(p);
+		}
 	}
 
 	public void Open()

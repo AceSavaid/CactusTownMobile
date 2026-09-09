@@ -249,6 +249,7 @@ public partial class GameState : Node
 			BumpStat("repairs");
 		}
 		SaveGame();
+		AutoClaimTutorial();
 	}
 
 	public bool IsObjectFixed(string objectId) => GetObjectState(objectId) == "fixed";
@@ -377,6 +378,7 @@ public partial class GameState : Node
 		town[sectionId] = entry;
 		_data["town"] = town;
 		SaveGame();
+		AutoClaimTutorial();
 	}
 
 	/// <summary>Today's date in the US Eastern zone (fixed UTC-5), as "YYYY-MM-DD".</summary>
@@ -474,6 +476,32 @@ public partial class GameState : Node
 		_data["flags"] = flags;
 		SaveGame();
 		EmitSignal(SignalName.ProgressChanged);
+		AutoClaimTutorial();
+	}
+
+	/// <summary>Disabled by the test runner so unit tests control notice state directly.</summary>
+	public static bool AutoClaimTutorialEnabled = true;
+
+	private bool _autoClaiming;
+
+	/// <summary>
+	/// Grant a getting-started step's reward the moment it's completed — no trip
+	/// back to the Notice Board to press "Claim". Daily notices still claim manually.
+	/// </summary>
+	public void AutoClaimTutorial()
+	{
+		if (!AutoClaimTutorialEnabled || _autoClaiming || Notices.TutorialComplete(this))
+			return;
+		_autoClaiming = true;
+		foreach (var t in Notices.Tutorial)
+		{
+			if (IsNoticeClaimed(t.Id) || !t.Done(this))
+				continue;
+			ClaimNotice(t.Id, t.Coins, t.Seeds);
+			var reward = t.Seeds > 0 ? $"+{t.Coins} coins, +{t.Seeds} seed" : $"+{t.Coins} coins";
+			Router.Instance?.Toast($"{t.Title}   {reward}");
+		}
+		_autoClaiming = false;
 	}
 
 	public int GetStat(string key)

@@ -171,18 +171,13 @@ theme_override_constants/margin_bottom = 24
 
 [node name="Scroll" type="ScrollContainer" parent="Panel/Margin/VBox/Tabs/Credits"]
 layout_mode = 2
+horizontal_scroll_mode = 0
 
-[node name="CreditsText" type="RichTextLabel" parent="Panel/Margin/VBox/Tabs/Credits/Scroll"]
+[node name="CreditsText" type="VBoxContainer" parent="Panel/Margin/VBox/Tabs/Credits/Scroll"]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
-bbcode_enabled = true
-fit_content = true
-scroll_active = false
-theme_override_font_sizes/normal_font_size = 28
-theme_override_font_sizes/bold_font_size = 30
-text = "Credits load at runtime."
+theme_override_constants/separation = 18
 
 [node name="CloseButton" type="Button" parent="Panel/Margin/VBox"]
 unique_name_in_owner = true

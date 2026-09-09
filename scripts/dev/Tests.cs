@@ -31,6 +31,7 @@ public partial class Tests : Node
 		GD.Print("── Cactus Town tests ──");
 
 		GameState.SavePath = TestSave;
+		GameState.AutoClaimTutorialEnabled = false;   // tests drive notice state directly
 		DeleteTestSave();
 		ResetState();
 

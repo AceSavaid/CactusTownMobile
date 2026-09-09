@@ -35,23 +35,15 @@
   </g>
   <use href="#win" x="612"/>
 
-  <!-- right wall: framed prints, so the menu has clean wall -->
+  <!-- a framed botanical print on the left wall -->
   <g>
-    <rect x="1430" y="96" width="150" height="180" rx="6" fill="#8a5a34"/>
-    <rect x="1444" y="110" width="122" height="152" fill="#f2ede0"/>
-    <rect x="1470" y="200" width="70" height="16" fill="#c8b79f"/>
-    <path d="M1500 200 q-16 -54 0 -90 q16 36 0 90z" fill="#79a76e"/>
-    <rect x="1494" y="126" width="12" height="42" rx="6" fill="#6a9c62"/>
-    <circle cx="1500" cy="122" r="6" fill="#e08aa0"/>
-
-    <rect x="1620" y="140" width="130" height="150" rx="6" fill="#946235"/>
-    <rect x="1633" y="153" width="104" height="124" fill="#f2ede0"/>
-    <ellipse cx="1685" cy="212" rx="34" ry="28" fill="#7ba36f"/>
-    <ellipse cx="1662" cy="196" rx="20" ry="18" fill="#8fb47f"/>
-    <ellipse cx="1708" cy="200" rx="18" ry="16" fill="#8fb47f"/>
-    <rect x="1680" y="228" width="10" height="30" fill="#7c5a3e"/>
+    <rect x="470" y="150" width="150" height="182" rx="6" fill="#8a5a34"/>
+    <rect x="484" y="164" width="122" height="154" fill="#f2ede0"/>
+    <rect x="510" y="256" width="70" height="16" fill="#c8b79f"/>
+    <rect x="534" y="182" width="12" height="76" rx="6" fill="#6a9c62"/>
+    <path d="M540 200 q-24 6 -30 26 M540 224 q24 6 30 26" stroke="#7ba36f" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <circle cx="540" cy="176" r="7" fill="#e08aa0"/>
   </g>
-  <rect x="1560" y="300" width="34" height="12" rx="4" fill="#7c5230"/>
 
   <!-- long shelf under middle window with little pots -->
   <rect x="762" y="556" width="396" height="18" rx="4" fill="#8a5a34"/>
@@ -78,14 +70,14 @@
     <path d="M120 132 q-30 60 -40 116 M150 132 q-4 70 -2 132 M180 132 q30 60 38 112" stroke="#6fa564" stroke-width="12" fill="none" stroke-linecap="round"/>
   </g>
 
-  <!-- wooden platform centre-left for the player's plant -->
-  <ellipse cx="470" cy="820" rx="252" ry="34" fill="#000" opacity="0.12"/>
-  <rect x="280" y="748" width="384" height="72" rx="10" fill="#946235"/>
-  <rect x="280" y="748" width="384" height="20" rx="10" fill="#a97a48"/>
-  <g stroke="#7c5230" stroke-width="4"><path d="M344 768 V820 M472 768 V820 M600 768 V820"/></g>
+  <!-- wooden platform, screen-centre, for the player's plant -->
+  <ellipse cx="960" cy="694" rx="248" ry="30" fill="#000" opacity="0.12"/>
+  <rect x="772" y="624" width="376" height="72" rx="10" fill="#946235"/>
+  <rect x="772" y="624" width="376" height="20" rx="10" fill="#a97a48"/>
+  <g stroke="#7c5230" stroke-width="4"><path d="M836 644 V696 M960 644 V696 M1084 644 V696"/></g>
 
   <!-- watering can on the floor -->
-  <g transform="translate(690 940)">
+  <g transform="translate(470 940)">
     <ellipse cx="46" cy="70" rx="52" ry="12" fill="#000" opacity="0.1"/>
     <path d="M8 26 h68 l-6 44 a6 6 0 0 1 -6 5 h-38 a6 6 0 0 1 -6 -5 z" fill="#8aa78f"/>
     <rect x="2" y="18" width="80" height="12" rx="4" fill="#9cbaa1"/>
