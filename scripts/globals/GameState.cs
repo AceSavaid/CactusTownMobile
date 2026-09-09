@@ -29,6 +29,7 @@ public partial class GameState : Node
 	{
 		Instance = this;
 		LoadGame();
+		EvaluateStreak();   // judge yesterday's tidiness *before* today's decay
 		RunTownDecay();
 		RefreshDailyNotices();
 	}
@@ -507,6 +508,45 @@ public partial class GameState : Node
 	public bool FirstRepairDone => HasFlag("first_repair");
 	public bool FirstSectionDone => TownSections.All.Any(s => IsSectionCompletedOnce(s.Id));
 
+	// --- Bloom Score ------------------------------------------------
+
+	private static readonly string[] BloomTierNames = { "Dusty", "Sprouting", "Growing", "Blooming", "Flourishing" };
+
+	/// <summary>
+	/// 0..1 measure of how restored the whole town is: half from sections
+	/// completed, a third from re-styled fixtures, the rest from keeping it tidy.
+	/// </summary>
+	public float BloomScore
+	{
+		get
+		{
+			var sections = TownSections.All;
+			var completed = sections.Count(s => IsSectionCompletedOnce(s.Id));
+			var sectionScore = completed / (float)sections.Length;
+
+			var totalObjects = sections.Sum(s => s.ObjectIds.Length);
+			var maxVariants = totalObjects * 2;
+			var variantScore = maxVariants == 0
+				? 0f
+				: Mathf.Min(1f, TownCustomizationsUnlocked / (float)maxVariants);
+
+			var tidyScore = completed > 0 && TownIsTidy ? 1f : 0f;
+
+			return sectionScore * 0.5f + variantScore * 0.35f + tidyScore * 0.15f;
+		}
+	}
+
+	public int BloomPercent => Mathf.RoundToInt(BloomScore * 100f);
+
+	/// <summary>0 (Dusty) … 4 (Flourishing), crossing at 20 / 45 / 70 / 100%.</summary>
+	public int BloomTier => BloomPercent >= 100 ? 4
+		: BloomPercent >= 70 ? 3
+		: BloomPercent >= 45 ? 2
+		: BloomPercent >= 20 ? 1
+		: 0;
+
+	public string BloomTierName => BloomTierNames[BloomTier];
+
 	// --- Notice board ----------------------------------------------
 
 	private Dictionary NoticeData => _data.TryGetValue("notices", out var n)
@@ -568,6 +608,93 @@ public partial class GameState : Node
 		_data["notices"] = notices;
 		SaveGame();
 		EmitSignal(SignalName.ProgressChanged);
+	}
+
+	// --- Days Tended streak --------------------------------------
+
+	/// <summary>Seed rewards for reaching a streak length. Granted once each.</summary>
+	private static readonly (int Days, int Seeds)[] StreakMilestones =
+		{ (3, 2), (7, 4), (14, 6), (30, 12), (60, 20), (100, 40) };
+
+	private Dictionary StreakData => _data.TryGetValue("streak", out var s)
+		? s.AsGodotDictionary()
+		: new Dictionary { { "count", 0 }, { "best", 0 }, { "day", "" }, { "grace", false }, { "milestones", new Array() } };
+
+	public int StreakCount => StreakData["count"].AsInt32();
+	public int StreakBest => StreakData["best"].AsInt32();
+
+	/// <summary>True when every restored section is currently fully fixed (nothing decayed outstanding).</summary>
+	public bool TownIsTidy => TownSections.All
+		.Where(s => IsSectionCompletedOnce(s.Id))
+		.SelectMany(s => s.ObjectIds)
+		.All(IsObjectFixed);
+
+	/// <summary>
+	/// Once per EST day: if the town was tidy, the streak grows (with milestone
+	/// rewards); if it wasn't, one missed day is forgiven, a second resets it.
+	/// Call before <see cref="RunTownDecay"/> so today's fresh breaks don't count
+	/// against yesterday.
+	/// </summary>
+	public void EvaluateStreak(string? todayOverride = null)
+	{
+		var streak = StreakData;
+		var today = todayOverride ?? EstToday();
+		if (streak["day"].AsString() == today)
+			return;
+
+		var everCompleted = TownSections.All.Any(s => IsSectionCompletedOnce(s.Id));
+		var firstEval = string.IsNullOrEmpty(streak["day"].AsString());
+
+		if (!everCompleted)
+		{
+			streak["day"] = today;   // nothing to tend yet
+			_data["streak"] = streak;
+			SaveGame();
+			return;
+		}
+
+		if (TownIsTidy)
+		{
+			var count = streak["count"].AsInt32() + 1;
+			streak["count"] = count;
+			streak["grace"] = false;
+			streak["best"] = Mathf.Max(streak["best"].AsInt32(), count);
+			GrantStreakMilestones(streak, count);
+		}
+		else if (!firstEval)
+		{
+			if (!streak["grace"].AsBool())
+				streak["grace"] = true;              // one forgiven day
+			else
+			{
+				streak["count"] = 0;
+				streak["grace"] = false;
+			}
+		}
+
+		streak["day"] = today;
+		_data["streak"] = streak;
+		SaveGame();
+		EmitSignal(SignalName.ProgressChanged);
+	}
+
+	private void GrantStreakMilestones(Dictionary streak, int count)
+	{
+		var claimed = streak["milestones"].AsGodotArray();
+		var seeds = 0;
+		foreach (var (days, reward) in StreakMilestones)
+		{
+			if (count < days || claimed.Any(x => x.AsInt32() == days))
+				continue;
+			claimed.Add(days);
+			seeds += reward;
+		}
+		streak["milestones"] = claimed;
+		if (seeds > 0)
+		{
+			AddSeeds(seeds);
+			Router.Instance?.Toast($"{count}-day streak!  +{seeds} seeds");
+		}
 	}
 
 	// --- Persistence --------------------------------------------------
@@ -650,5 +777,6 @@ public partial class GameState : Node
 		{ "flags", new Array() },
 		{ "stats", new Dictionary() },
 		{ "notices", new Dictionary { { "day", "" }, { "claimed", new Array() }, { "snapshot", new Dictionary() } } },
+		{ "streak", new Dictionary { { "count", 0 }, { "best", 0 }, { "day", "" }, { "grace", false }, { "milestones", new Array() } } },
 	};
 }

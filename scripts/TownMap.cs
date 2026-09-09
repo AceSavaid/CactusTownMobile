@@ -13,6 +13,10 @@ public partial class TownMap : Control
 	{
 		GameState.Instance.RunTownDecay();
 
+		var pct = GameState.Instance.BloomPercent;
+		GetNode<Label>("%BloomLabel").Text = $"Town Bloom   ·   {pct}%   ·   {GameState.Instance.BloomTierName}";
+		GetNode<ProgressBar>("%BloomBar").Value = pct;
+
 		var lockIcon = GD.Load<Texture2D>("res://assets/kenney/icons/icon_lock.png");
 
 		var grid = GetNode<GridContainer>("%Grid");

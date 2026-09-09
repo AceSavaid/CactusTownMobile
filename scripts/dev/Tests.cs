@@ -443,6 +443,108 @@ public partial class Tests : Node
 	}
 
 	// ================================================================
+	//  Days Tended streak
+	// ================================================================
+
+	[Test]
+	private void Streak_needs_a_completed_section_to_start()
+	{
+		var gs = GameState.Instance;
+		gs.EvaluateStreak("2026-01-01");
+		gs.EvaluateStreak("2026-01-02");
+		Eq(gs.StreakCount, 0, "no streak without a restored section");
+	}
+
+	[Test]
+	private void Streak_advances_each_tidy_day()
+	{
+		var gs = GameState.Instance;
+		foreach (var id in TownSections.Find("main_square")!.ObjectIds)
+			gs.SetObjectState(id, "fixed");
+		gs.SetSectionCompletedOnce("main_square");
+
+		gs.EvaluateStreak("2026-02-01");
+		gs.EvaluateStreak("2026-02-02");
+		gs.EvaluateStreak("2026-02-03");
+		Eq(gs.StreakCount, 3, "three tidy days");
+		Ok(gs.StreakBest >= 3, "best tracked");
+
+		gs.EvaluateStreak("2026-02-03");   // same day again
+		Eq(gs.StreakCount, 3, "re-evaluating the same day is a no-op");
+	}
+
+	[Test]
+	private void Streak_forgives_one_missed_day_then_resets()
+	{
+		var gs = GameState.Instance;
+		var section = TownSections.Find("main_square")!;
+		foreach (var id in section.ObjectIds)
+			gs.SetObjectState(id, "fixed");
+		gs.SetSectionCompletedOnce("main_square");
+
+		gs.EvaluateStreak("2026-03-01");
+		gs.EvaluateStreak("2026-03-02");
+		gs.EvaluateStreak("2026-03-03");
+		Eq(gs.StreakCount, 3, "built up a streak");
+
+		gs.SetObjectState(section.ObjectIds[0], "broken");   // town no longer tidy
+		gs.EvaluateStreak("2026-03-04");
+		Eq(gs.StreakCount, 3, "first missed day is forgiven");
+
+		gs.EvaluateStreak("2026-03-05");
+		Eq(gs.StreakCount, 0, "second missed day resets");
+	}
+
+	[Test]
+	private void Streak_milestone_pays_seeds_once()
+	{
+		var gs = GameState.Instance;
+		foreach (var id in TownSections.Find("main_square")!.ObjectIds)
+			gs.SetObjectState(id, "fixed");
+		gs.SetSectionCompletedOnce("main_square");
+
+		// each eval on a new day = +1 streak; milestones at 3 (+2) and 7 (+4)
+		for (var d = 1; d <= 6; d++)
+			gs.EvaluateStreak($"2026-04-0{d}");
+		Eq(gs.StreakCount, 6, "six tidy days");
+		Eq(gs.Seeds, 2, "only the 3-day milestone paid so far");
+
+		gs.EvaluateStreak("2026-04-07");
+		Eq(gs.StreakCount, 7, "seven days");
+		Eq(gs.Seeds, 6, "7-day milestone adds 4 more");
+
+		gs.EvaluateStreak("2026-04-08");
+		Eq(gs.Seeds, 6, "no milestone at day 8, nothing re-granted");
+	}
+
+	// ================================================================
+	//  Bloom Score
+	// ================================================================
+
+	[Test]
+	private void Bloom_rises_with_restoration()
+	{
+		var gs = GameState.Instance;
+		Eq(gs.BloomPercent, 0, "a fresh town has no bloom");
+		Eq(gs.BloomTier, 0, "tier 0");
+
+		foreach (var section in TownSections.All)
+		{
+			foreach (var id in section.ObjectIds)
+			{
+				gs.SetObjectState(id, "fixed");
+				gs.BuyVariant(id, 1, 0);
+				gs.BuyVariant(id, 2, 0);
+			}
+			gs.SetSectionCompletedOnce(section.Id);
+		}
+
+		Eq(gs.BloomPercent, 100, "everything restored, styled and tidy → 100%");
+		Eq(gs.BloomTier, 4, "Flourishing");
+		Eq(gs.BloomTierName, "Flourishing", "tier name");
+	}
+
+	// ================================================================
 	//  Scenes
 	// ================================================================
 

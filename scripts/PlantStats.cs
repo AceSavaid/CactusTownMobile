@@ -59,10 +59,15 @@ public partial class PlantStats : Control
 			Row(section.Name, $"{fixedCount} / {total}{done}");
 		}
 		Row("Overall", $"{totalFixed} / {totalObjects}");
+		Row("Town Bloom", $"{gs.BloomPercent}%   ·   {gs.BloomTierName}");
 
 		Header("Wallet & time");
 		Row("Coins", gs.GetCoins().ToString());
+		Row("Seeds", gs.Seeds.ToString());
 		Row("Days on the app", gs.DaysOnApp.ToString());
+		Row("Days tended (streak)", gs.StreakBest > gs.StreakCount
+			? $"{gs.StreakCount}   (best {gs.StreakBest})"
+			: gs.StreakCount.ToString());
 
 		Header("Customisations unlocked");
 		Row("Town styles", gs.TownCustomizationsUnlocked.ToString());
