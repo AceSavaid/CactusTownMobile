@@ -18,8 +18,8 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/props/pond_lily.svg" id="16"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/pond_koi.svg" id="17"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="bld_house_sage"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_blue.svg" id="bld_house_blue"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="bld_house_clay"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_blue.svg" id="bld_house_blue"]
 
 [node name="Garden" type="Node2D"]
 script = ExtResource("1_sec")
@@ -32,32 +32,153 @@ offset_right = 4000.0
 offset_bottom = 3000.0
 color = Color(0.51, 0.639, 0.42, 1)
 
-[node name="Path" type="ColorRect" parent="."]
-offset_left = -120.0
-offset_top = -600.0
-offset_right = 120.0
-offset_bottom = 600.0
-color = Color(0.678, 0.6, 0.45, 1)
+[node name="MainStreet" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 95.0
+offset_right = 3000.0
+offset_bottom = 265.0
+color = Color(0.435, 0.415, 0.395, 1)
+
+[node name="CrossStreet" type="ColorRect" parent="."]
+offset_left = -95.0
+offset_top = -900.0
+offset_right = 95.0
+offset_bottom = 1400.0
+color = Color(0.435, 0.415, 0.395, 1)
+
+[node name="WalkMainT" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 79.0
+offset_right = 3000.0
+offset_bottom = 95.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="WalkMainB" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 265.0
+offset_right = 3000.0
+offset_bottom = 281.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="WalkCrossL" type="ColorRect" parent="."]
+offset_left = -111.0
+offset_top = -900.0
+offset_right = -95.0
+offset_bottom = 1400.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="WalkCrossR" type="ColorRect" parent="."]
+offset_left = 95.0
+offset_top = -900.0
+offset_right = 111.0
+offset_bottom = 1400.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="MainLine" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 176.0
+offset_right = 3000.0
+offset_bottom = 184.0
+color = Color(0.9, 0.86, 0.66, 0.5)
+
+[node name="CrossLine" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = -900.0
+offset_right = 4.0
+offset_bottom = 1400.0
+color = Color(0.9, 0.86, 0.66, 0.5)
 
 [node name="Backdrop" type="Node2D" parent="."]
 
 [node name="B0" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-600, -235)
-scale = Vector2(1.4, 1.4)
-texture = ExtResource("bld_house_sage")
+position = Vector2(-980, 405)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_house_clay")
 
 [node name="B1" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(560, -225)
-scale = Vector2(1.35, 1.35)
-texture = ExtResource("bld_house_blue")
+position = Vector2(-560, 405)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_house_sage")
 
 [node name="B2" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(140, -285)
-scale = Vector2(1.3, 1.3)
+position = Vector2(-140, 405)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_house_blue")
+
+[node name="B3" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(560, 405)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_house_sage")
+
+[node name="B4" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(980, 405)
+scale = Vector2(0.78, 0.78)
 texture = ExtResource("bld_house_clay")
+
+[node name="B5" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-930, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_house_blue")
+
+[node name="B6" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-560, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_house_sage")
+
+[node name="B7" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(560, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_house_clay")
+
+[node name="B8" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(930, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_house_blue")
+
+[node name="B9" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-1120, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_house_sage")
+
+[node name="B10" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-740, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_house_clay")
+
+[node name="B11" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-360, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_house_sage")
+
+[node name="B12" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(360, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_house_blue")
+
+[node name="B13" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(740, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_house_clay")
+
+[node name="B14" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(1120, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_house_sage")
 
 [node name="World" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -65,10 +186,10 @@ y_sort_enabled = true
 
 [node name="Player" parent="World" instance=ExtResource("2_player")]
 unique_name_in_owner = true
-position = Vector2(0, 320)
+position = Vector2(-40, 340)
 
 [node name="Flowerbed" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(-360, -60)
+position = Vector2(-640, 80)
 ObjectId = "garden_flowerbed"
 DisplayName = "Flower Bed"
 Variants = Array[Texture2D]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
@@ -83,7 +204,7 @@ ThanksText = "Look at them! The whole garden smells sweet now."
 SpriteOffset = Vector2(0, -40)
 
 [node name="Trellis" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(360, -120)
+position = Vector2(480, 80)
 ObjectId = "garden_trellis"
 DisplayName = "Garden Trellis"
 Variants = Array[Texture2D]([ExtResource("12"), ExtResource("13"), ExtResource("14")])
@@ -98,7 +219,7 @@ ThanksText = "The climbing roses will love this. Thank you."
 SpriteOffset = Vector2(0, -63)
 
 [node name="Pond" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(60, 200)
+position = Vector2(-280, 276)
 ObjectId = "garden_pond"
 DisplayName = "Garden Pond"
 Variants = Array[Texture2D]([ExtResource("15"), ExtResource("16"), ExtResource("17")])

@@ -23,9 +23,9 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/props/clock_iron.svg" id="21"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/clock_gold.svg" id="22"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/clock_blue.svg" id="23"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="bld_townhall"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="bld_apartment"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop.svg" id="bld_shop"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="bld_apartment"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="bld_townhall"]
 
 [node name="Business" type="Node2D"]
 script = ExtResource("1_sec")
@@ -38,32 +38,153 @@ offset_right = 4000.0
 offset_bottom = 3000.0
 color = Color(0.596, 0.6, 0.616, 1)
 
-[node name="Plaza" type="ColorRect" parent="."]
-offset_left = -900.0
-offset_top = -500.0
-offset_right = 900.0
-offset_bottom = 640.0
-color = Color(0.53, 0.541, 0.557, 1)
+[node name="MainStreet" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 95.0
+offset_right = 3000.0
+offset_bottom = 265.0
+color = Color(0.435, 0.415, 0.395, 1)
+
+[node name="CrossStreet" type="ColorRect" parent="."]
+offset_left = -95.0
+offset_top = -900.0
+offset_right = 95.0
+offset_bottom = 1400.0
+color = Color(0.435, 0.415, 0.395, 1)
+
+[node name="WalkMainT" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 79.0
+offset_right = 3000.0
+offset_bottom = 95.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="WalkMainB" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 265.0
+offset_right = 3000.0
+offset_bottom = 281.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="WalkCrossL" type="ColorRect" parent="."]
+offset_left = -111.0
+offset_top = -900.0
+offset_right = -95.0
+offset_bottom = 1400.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="WalkCrossR" type="ColorRect" parent="."]
+offset_left = 95.0
+offset_top = -900.0
+offset_right = 111.0
+offset_bottom = 1400.0
+color = Color(0.72, 0.7, 0.65, 1)
+
+[node name="MainLine" type="ColorRect" parent="."]
+offset_left = -3000.0
+offset_top = 176.0
+offset_right = 3000.0
+offset_bottom = 184.0
+color = Color(0.9, 0.86, 0.66, 0.5)
+
+[node name="CrossLine" type="ColorRect" parent="."]
+offset_left = -4.0
+offset_top = -900.0
+offset_right = 4.0
+offset_bottom = 1400.0
+color = Color(0.9, 0.86, 0.66, 0.5)
 
 [node name="Backdrop" type="Node2D" parent="."]
 
 [node name="B0" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-560, -255)
-scale = Vector2(1.4, 1.4)
-texture = ExtResource("bld_townhall")
+position = Vector2(-980, 405)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_shop")
 
 [node name="B1" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(220, -300)
-scale = Vector2(1.55, 1.55)
+position = Vector2(-560, 405)
+scale = Vector2(0.72, 0.72)
 texture = ExtResource("bld_apartment")
 
 [node name="B2" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(640, -205)
-scale = Vector2(1.4, 1.4)
+position = Vector2(-140, 405)
+scale = Vector2(0.78, 0.78)
 texture = ExtResource("bld_shop")
+
+[node name="B3" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(560, 405)
+scale = Vector2(0.72, 0.72)
+texture = ExtResource("bld_apartment")
+
+[node name="B4" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(980, 405)
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_shop")
+
+[node name="B5" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-560, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_shop")
+
+[node name="B6" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-560, -530)
+scale = Vector2(1.24, 1.24)
+texture = ExtResource("bld_apartment")
+
+[node name="B7" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(560, -530)
+scale = Vector2(1.24, 1.24)
+texture = ExtResource("bld_apartment")
+
+[node name="B8" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-930, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_shop")
+
+[node name="B9" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-1120, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_shop")
+
+[node name="B10" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-740, -170)
+scale = Vector2(1.06, 1.06)
+texture = ExtResource("bld_apartment")
+
+[node name="B11" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(-360, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_townhall")
+
+[node name="B12" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(360, -170)
+scale = Vector2(1.06, 1.06)
+texture = ExtResource("bld_apartment")
+
+[node name="B13" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(740, -170)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_shop")
+
+[node name="B14" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(1120, -170)
+scale = Vector2(1.06, 1.06)
+texture = ExtResource("bld_apartment")
 
 [node name="World" type="Node2D" parent="."]
 unique_name_in_owner = true
@@ -71,10 +192,10 @@ y_sort_enabled = true
 
 [node name="Player" parent="World" instance=ExtResource("2_player")]
 unique_name_in_owner = true
-position = Vector2(0, 340)
+position = Vector2(-40, 340)
 
 [node name="Doors" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(-400, -160)
+position = Vector2(-640, 80)
 ObjectId = "biz_doors"
 DisplayName = "Office Doors"
 Variants = Array[Texture2D]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
@@ -89,7 +210,7 @@ ThanksText = "Swings shut like a bank vault now. Impressive."
 SpriteOffset = Vector2(0, -67)
 
 [node name="BizSign" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(360, -230)
+position = Vector2(480, 80)
 ObjectId = "biz_sign"
 DisplayName = "Company Sign"
 Variants = Array[Texture2D]([ExtResource("12"), ExtResource("13"), ExtResource("14")])
@@ -104,7 +225,7 @@ ThanksText = "Clients can find us on the first try. Good work."
 SpriteOffset = Vector2(0, -62)
 
 [node name="Planters" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(150, 150)
+position = Vector2(-280, 276)
 ObjectId = "biz_planters"
 DisplayName = "Entrance Planters"
 Variants = Array[Texture2D]([ExtResource("15"), ExtResource("16"), ExtResource("17")])
@@ -119,7 +240,7 @@ ThanksText = "First thing anyone sees. Much better."
 SpriteOffset = Vector2(0, -47)
 
 [node name="BizBench" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(-150, 240)
+position = Vector2(360, 276)
 ObjectId = "biz_bench"
 DisplayName = "Courtyard Bench"
 Variants = Array[Texture2D]([ExtResource("18"), ExtResource("19"), ExtResource("20")])
@@ -134,7 +255,7 @@ ThanksText = "The courtyard's actually pleasant now. Thank you."
 SpriteOffset = Vector2(0, -38)
 
 [node name="Clock" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(430, 280)
+position = Vector2(-330, 80)
 ObjectId = "biz_clock"
 DisplayName = "Plaza Clock"
 Variants = Array[Texture2D]([ExtResource("21"), ExtResource("22"), ExtResource("23")])

@@ -65,8 +65,14 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 - **Adding a section**: entry in `TownSections.All` (id, name, `UnlockedBy`,
   `SceneFile`, `ObjectIds`) + a scene from the pattern above. `ObjectIds` must
   match the scene's `RepairableObject.ObjectId`s (decay reads the config).
-- Each section scene has a `Backdrop` Node2D (behind `World`, not Y-sorted) with
-  vector building sprites from `assets/sprites/buildings/` for skyline scenery.
+- Section scenes are laid out as a **street block**: `ColorRect` road strips
+  (`MainStreet` east-west, `CrossStreet` north-south, `Walk*` sidewalks, `*Line`
+  centre lines) over `Ground`, then a `Backdrop` Node2D (behind `World`, not
+  Y-sorted) holding ~15 building sprites from `assets/sprites/buildings/` in three
+  rows — north front row, a back/landmark row (town hall / apartments), and a
+  smaller south row across the street. The `RepairableObject`s + the player sit on
+  the street / sidewalks. Regenerate all six from
+  `scratchpad/gridtown.py` (kept out of the repo — copy back if reworking layout).
 - **Decay**: `GameState.RunTownDecay()` (called from `GameState._Ready`, `TownMap`,
   and each section `_Ready`). For every section completed once, on a new EST day
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One
