@@ -159,6 +159,20 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   Town" mark; `Exit()` restores. No in-game gallery yet — players use the device
   screenshot. Regions don't have it yet (same pattern would apply to `Region.cs`).
 
+## Endgame — streak & bloom
+
+- **Days Tended streak** — `GameState.EvaluateStreak()` runs before decay each EST
+  day: a tidy day (no broken fixtures in completed sections) is +1, one grace day
+  then reset. Seed milestones at 3 / 7 / 14 / 30 / 60 / 100.
+- **Bloom Score** — `GameState.BloomScore` (0–1) = 50% sections completed + 35%
+  fixtures re-styled + 15% "tidy today". `BloomPercent`, `BloomTier` (0–4 =
+  Dusty / Sprouting / Growing / Blooming / Flourishing), `BloomTierName`. Meter on
+  TownMap, line in Plant Stats. `GameState.DebugBloomTier` (dev-only) forces it.
+- **Bloom decoration** — `BloomDecor.Apply()` from `TownSection._Ready`: dresses
+  each section to the current tier — grass + flower planters near fixtures (tier
+  1→4 reveals more), string lights across shopfronts (tier 3), warm `CanvasModulate`
+  + drifting `BloomButterfly` sprites (tier 4). Deterministic per section id.
+
 ## House arcade mini-games
 
 - `scenes/ArcadeGallery.tscn` (`ArcadeGallery.cs`) — House → Mini-Games. A

@@ -39,20 +39,25 @@ public static class PlantCatalog
 		new() { Id = "pot_moss",  Slot = Slot.Pot, Name = "Moss Pot",  TextureFile = "pot_moss",  Cost = 80 },
 		new() { Id = "pot_gold",    Slot = Slot.Pot, Name = "Golden Pot",  TextureFile = "pot_gold",    SeedCost = 6 },
 		new() { Id = "pot_crystal", Slot = Slot.Pot, Name = "Crystal Pot", TextureFile = "pot_crystal", SeedCost = 9 },
+		new() { Id = "pot_woven",   Slot = Slot.Pot, Name = "Woven Basket", TextureFile = "pot_woven",  SeedCost = 5 },
+		new() { Id = "pot_rune",    Slot = Slot.Pot, Name = "Rune Pot",     TextureFile = "pot_rune",   SeedCost = 8 },
 
 		new() { Id = "plant_cactus", Slot = Slot.Plant, Name = "Cactus",             TextureFile = "plant_cactus" },
 		new() { Id = "plant_barrel", Slot = Slot.Plant, Name = "Barrel Cactus",      TextureFile = "plant_barrel", Cost = 50 },
 		new() { Id = "plant_aloe",   Slot = Slot.Plant, Name = "Aloe",               TextureFile = "plant_aloe",   Cost = 75 },
 		new() { Id = "plant_bloom",  Slot = Slot.Plant, Name = "Blooming Succulent", TextureFile = "plant_bloom",  Cost = 100 },
 		new() { Id = "plant_prism",  Slot = Slot.Plant, Name = "Prism Cactus",       TextureFile = "plant_prism",  SeedCost = 12 },
+		new() { Id = "plant_lotus",  Slot = Slot.Plant, Name = "Water Lotus",        TextureFile = "plant_lotus",  SeedCost = 11 },
 
 		new() { Id = "acc_none",    Slot = Slot.Accessory, Name = "None",     TextureFile = "" },
 		new() { Id = "acc_hat",     Slot = Slot.Accessory, Name = "Top Hat",  TextureFile = "acc_hat",     Cost = 40, Anchor = "hat" },
 		new() { Id = "acc_shades",  Slot = Slot.Accessory, Name = "Shades",   TextureFile = "acc_shades",  Cost = 60, Anchor = "face" },
 		new() { Id = "acc_bowtie",  Slot = Slot.Accessory, Name = "Bow Tie",  TextureFile = "acc_bowtie",  Cost = 50, Anchor = "neck" },
 		new() { Id = "acc_sparkle", Slot = Slot.Accessory, Name = "Sparkles", TextureFile = "acc_sparkle", Cost = 90, Anchor = "aura" },
-		new() { Id = "acc_crown", Slot = Slot.Accessory, Name = "Star Crown", TextureFile = "acc_crown", SeedCost = 8, Anchor = "hat" },
-		new() { Id = "acc_halo",  Slot = Slot.Accessory, Name = "Halo",       TextureFile = "acc_halo",  SeedCost = 7, Anchor = "aura" },
+		new() { Id = "acc_crown",   Slot = Slot.Accessory, Name = "Star Crown",   TextureFile = "acc_crown",   SeedCost = 8, Anchor = "hat" },
+		new() { Id = "acc_halo",    Slot = Slot.Accessory, Name = "Halo",         TextureFile = "acc_halo",    SeedCost = 7, Anchor = "aura" },
+		new() { Id = "acc_wings",   Slot = Slot.Accessory, Name = "Gossamer Wings", TextureFile = "acc_wings", SeedCost = 10, Anchor = "aura" },
+		new() { Id = "acc_lantern", Slot = Slot.Accessory, Name = "Paper Lantern", TextureFile = "acc_lantern", SeedCost = 6, Anchor = "hat" },
 	};
 
 	public static Item? Find(string id) => All.FirstOrDefault(i => i.Id == id);

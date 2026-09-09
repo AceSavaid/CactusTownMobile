@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="280" height="340" viewBox="0 0 280 340">
+  <g fill="#bfe6ef" opacity="0.72">
+    <path d="M140 150 Q60 70 40 150 Q52 220 140 180z"/>
+    <path d="M140 150 Q220 70 240 150 Q228 220 140 180z"/>
+    <path d="M140 170 Q84 200 92 250 Q126 246 140 190z"/>
+    <path d="M140 170 Q196 200 188 250 Q154 246 140 190z"/>
+  </g>
+  <g fill="none" stroke="#8fc9d6" stroke-width="3" opacity="0.8">
+    <path d="M140 150 Q60 70 40 150 Q52 220 140 180z"/>
+    <path d="M140 150 Q220 70 240 150 Q228 220 140 180z"/>
+  </g>
+</svg>
