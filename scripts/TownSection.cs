@@ -48,7 +48,46 @@ public partial class TownSection : Node2D
 			obj.PlayerExited += OnObjectExited;
 		}
 
+		BuildBuildingColliders();
 		RefreshCompletion();
+	}
+
+	/// <summary>
+	/// Give every backdrop building a solid footprint so the player bumps into it
+	/// instead of walking through. A band across the lower part of each sprite —
+	/// tall enough to block, short enough that the player can still stand close.
+	/// </summary>
+	private void BuildBuildingColliders()
+	{
+		var backdrop = GetNodeOrNull<Node2D>("Backdrop");
+		if (backdrop == null)
+			return;
+
+		var bodies = new Node2D { Name = "BuildingBodies" };
+		AddChild(bodies);
+
+		foreach (var child in backdrop.GetChildren())
+		{
+			if (child is not Sprite2D sprite || sprite.Texture == null)
+				continue;
+
+			var size = sprite.Texture.GetSize() * sprite.Scale.Abs();
+			var footHeight = Mathf.Clamp(size.Y * 0.55f, 90f, 260f);
+			var footWidth = size.X * 0.88f;
+			var baseY = sprite.Position.Y + size.Y * 0.5f;
+
+			var centre = new Vector2(sprite.Position.X, baseY - footHeight * 0.5f - 8f);
+			var half = new Vector2(footWidth, footHeight) * 0.5f;
+
+			// A building must never sit on the spawn or an interaction spot.
+			if (Mathf.Abs(_player.Position.X - centre.X) < half.X + 40f &&
+			    Mathf.Abs(_player.Position.Y - centre.Y) < half.Y + 40f)
+				continue;
+
+			var body = new StaticBody2D { Position = centre };
+			body.AddChild(new CollisionShape2D { Shape = new RectangleShape2D { Size = half * 2f } });
+			bodies.AddChild(body);
+		}
 	}
 
 	private IEnumerable<RepairableObject> Objects => _world.GetChildren().OfType<RepairableObject>();

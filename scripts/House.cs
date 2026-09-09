@@ -23,7 +23,7 @@ public partial class House : Control
 		GetNode<Button>("%MiniGamesButton").Pressed += () => Router.Instance.GotoScene(ArcadeScene);
 		GetNode<Button>("%PlantStatsButton").Pressed += () => Router.Instance.GotoScene(PlantStatsScene);
 		GetNode<Button>("%GoToTownButton").Pressed += () => Router.Instance.GotoScene(TownScene);
-		GetNode<Button>("%AudioButton").Pressed += () => GetNode<AudioSettings>("%AudioSettings").Open();
+		GetNode<Button>("%SettingsButton").Pressed += () => GetNode<SettingsMenu>("%SettingsMenu").Open();
 
 		GameState.Instance.PlantChanged += RefreshPlant;
 		RefreshPlant();

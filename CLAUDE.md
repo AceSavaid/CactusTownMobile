@@ -71,7 +71,10 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   Y-sorted) holding ~15 building sprites from `assets/sprites/buildings/` in three
   rows — north front row, a back/landmark row (town hall / apartments), and a
   smaller south row across the street. The `RepairableObject`s + the player sit on
-  the street / sidewalks. `tools/buildings.py` generates the ~36-sprite set
+  the street / sidewalks. `TownSection.BuildBuildingColliders()` gives every
+  backdrop sprite a `StaticBody2D` footprint at runtime (a band across its lower
+  ~55%), skipping any that would sit on the spawn, so the player bumps buildings
+  but the streets stay clear. `tools/buildings.py` generates the ~36-sprite set
   (houses / shops / apartments from one template each in many colourways, plus
   cottages / rowhouses / offices / clocktowers). `tools/gridtown.py` regenerates
   all six scenes, picking from a per-section themed pool (leafy Garden, retail
@@ -174,7 +177,9 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   picked); dismiss-style buttons play "cancel"; mini-games pass an `ActionSound`
   (chop/mine/water/gather) per resource node. Music tracks: home, town, region,
   arcade — crossfaded ~1.3s on scene change. Volume UI: `ui/VolumeStepper.tscn`
-  (0–10 notches + −/+ buttons + tap-to-snap); mute is above Master.
+  (0–10 notches + −/+ buttons + tap-to-snap), inside `ui/SettingsMenu.tscn`
+  (`SettingsMenu.cs`) — a modal with an Audio tab (mute + Master/Music/SFX) and a
+  Credits tab, opened from the House "Settings" button.
   Dev preview: `godot --headless --path . scenes/dev/Screenshot.tscn -- bake_audio <dir>`.
   Windowed dev screenshots need `--audio-driver Dummy` (real driver hangs on scripted quit).
 - `TownSections` (`scripts/globals/TownSections.cs`) — static config of the six

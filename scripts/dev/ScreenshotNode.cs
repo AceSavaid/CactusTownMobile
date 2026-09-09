@@ -98,11 +98,18 @@ public partial class ScreenshotNode : Node
 
 		Vector2 walk = Vector2.Zero;
 		foreach (var arg in args)
+		{
 			if (arg.StartsWith("walk="))
 			{
 				var p = arg["walk=".Length..].Split(',');
 				walk = new Vector2(float.Parse(p[0]), float.Parse(p[1]));
 			}
+			if (arg.StartsWith("tp=") && scene.HasNode("%Player"))
+			{
+				var p = arg["tp=".Length..].Split(',');
+				scene.GetNode<Node2D>("%Player").GlobalPosition = new Vector2(float.Parse(p[0]), float.Parse(p[1]));
+			}
+		}
 
 		for (var i = 0; i < frames; i++)
 		{
@@ -166,9 +173,9 @@ public partial class ScreenshotNode : Node
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 
-		if (args.Contains("audio_settings"))
+		if (args.Contains("audio_settings") || args.Contains("settings"))
 		{
-			scene.GetNode<AudioSettings>("%AudioSettings").Open();
+			scene.GetNode<SettingsMenu>("%SettingsMenu").Open();
 			for (var i = 0; i < 4; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}

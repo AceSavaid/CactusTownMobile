@@ -2,15 +2,26 @@ using Godot;
 
 namespace CactusTown;
 
-/// <summary>Modal audio settings: mute toggle, then Master / Music / SFX steppers.</summary>
-public partial class AudioSettings : Control
+/// <summary>
+/// Modal settings dialog: an <b>Audio</b> tab (mute + Master / Music / SFX
+/// steppers) and a <b>Credits</b> tab. Opened from the House "Settings" button.
+/// </summary>
+public partial class SettingsMenu : Control
 {
 	private static readonly Texture2D SoundOn = GD.Load<Texture2D>("res://assets/kenney/icons/icon_sound.png");
 	private static readonly Texture2D SoundOff = GD.Load<Texture2D>("res://assets/kenney/icons/icon_sound_disabled.png");
 
-	private VolumeStepper _master = null!;
-	private VolumeStepper _music = null!;
-	private VolumeStepper _sfx = null!;
+	private const string Credits =
+		"[center][b]Cactus Town[/b]\nby Ace Savaid[/center]\n\n" +
+		"[b]Art[/b]\nThe cactus, pots, town props, buildings, region art and store\n" +
+		"graphics are original to this project. Some UI icons and mini-game\n" +
+		"pieces are from [b]Kenney[/b] (kenney.nl), released under CC0 1.0.\n\n" +
+		"[b]Audio[/b]\nSound effects supplied by the developer.\n" +
+		"Music is procedurally synthesised.\n\n" +
+		"[b]Built with[/b]\nGodot Engine 4.4  ·  .NET / C#\n\n" +
+		"[center]Thanks for playing.[/center]";
+
+	private VolumeStepper _master = null!, _music = null!, _sfx = null!;
 	private CheckButton _mute = null!;
 
 	public override void _Ready()
@@ -19,6 +30,7 @@ public partial class AudioSettings : Control
 		_music = GetNode<VolumeStepper>("%MusicStepper");
 		_sfx = GetNode<VolumeStepper>("%SfxStepper");
 		_mute = GetNode<CheckButton>("%MuteToggle");
+		GetNode<RichTextLabel>("%CreditsText").Text = Credits;
 
 		_master.LevelChanged += level => Audio.Instance?.SetBusVolume("Master", level / (float)VolumeStepper.Steps);
 		_music.LevelChanged += level => Audio.Instance?.SetBusVolume("Music", level / (float)VolumeStepper.Steps);
