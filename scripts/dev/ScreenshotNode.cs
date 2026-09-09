@@ -115,6 +115,11 @@ public partial class ScreenshotNode : Node
 				var p = arg["tp=".Length..].Split(',');
 				scene.GetNode<Node2D>("%Player").GlobalPosition = new Vector2(float.Parse(p[0]), float.Parse(p[1]));
 			}
+			if (arg.StartsWith("zoom=") && scene.HasNode("%Player"))
+			{
+				var z = float.Parse(arg["zoom=".Length..]);
+				scene.GetNode<Node2D>("%Player").GetNodeOrNull<Camera2D>("Camera")?.Set("zoom", new Vector2(z, z));
+			}
 		}
 
 		for (var i = 0; i < frames; i++)

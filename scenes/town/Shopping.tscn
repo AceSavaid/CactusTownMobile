@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3]
+[gd_scene load_steps=32 format=3]
 
 [ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
@@ -27,7 +27,6 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_cream.svg" id="bld_apartment_cream"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_blue.svg" id="bld_shop_blue"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_teal.svg" id="bld_shop_teal"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="bld_apartment"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_orange.svg" id="bld_shop_orange"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop.svg" id="bld_shop"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/rowhouse_brick.svg" id="bld_rowhouse_brick"]
@@ -44,151 +43,129 @@ offset_right = 4000.0
 offset_bottom = 3000.0
 color = Color(0.686, 0.639, 0.549, 1)
 
-[node name="MainStreet" type="ColorRect" parent="."]
-offset_left = -3000.0
-offset_top = 95.0
-offset_right = 3000.0
-offset_bottom = 265.0
+[node name="RdHigh" type="ColorRect" parent="."]
+offset_left = -3200.0
+offset_top = 60.0
+offset_right = 3200.0
+offset_bottom = 320.0
 color = Color(0.435, 0.415, 0.395, 1)
 
-[node name="CrossStreet" type="ColorRect" parent="."]
-offset_left = -95.0
-offset_top = -900.0
-offset_right = 95.0
-offset_bottom = 1400.0
-color = Color(0.435, 0.415, 0.395, 1)
-
-[node name="WalkMainT" type="ColorRect" parent="."]
-offset_left = -3000.0
-offset_top = 79.0
-offset_right = 3000.0
-offset_bottom = 95.0
+[node name="WkHighT" type="ColorRect" parent="."]
+offset_left = -3200.0
+offset_top = -60.0
+offset_right = 3200.0
+offset_bottom = 60.0
 color = Color(0.72, 0.7, 0.65, 1)
 
-[node name="WalkMainB" type="ColorRect" parent="."]
-offset_left = -3000.0
-offset_top = 265.0
-offset_right = 3000.0
-offset_bottom = 281.0
+[node name="WkHighB" type="ColorRect" parent="."]
+offset_left = -3200.0
+offset_top = 320.0
+offset_right = 3200.0
+offset_bottom = 452.0
 color = Color(0.72, 0.7, 0.65, 1)
 
-[node name="WalkCrossL" type="ColorRect" parent="."]
-offset_left = -111.0
-offset_top = -900.0
-offset_right = -95.0
-offset_bottom = 1400.0
-color = Color(0.72, 0.7, 0.65, 1)
-
-[node name="WalkCrossR" type="ColorRect" parent="."]
-offset_left = 95.0
-offset_top = -900.0
-offset_right = 111.0
-offset_bottom = 1400.0
-color = Color(0.72, 0.7, 0.65, 1)
-
-[node name="MainLine" type="ColorRect" parent="."]
-offset_left = -3000.0
-offset_top = 176.0
-offset_right = 3000.0
-offset_bottom = 184.0
-color = Color(0.9, 0.86, 0.66, 0.5)
-
-[node name="CrossLine" type="ColorRect" parent="."]
-offset_left = -4.0
-offset_top = -900.0
-offset_right = 4.0
-offset_bottom = 1400.0
+[node name="LnHigh" type="ColorRect" parent="."]
+offset_left = -3200.0
+offset_top = 186.0
+offset_right = 3200.0
+offset_bottom = 194.0
 color = Color(0.9, 0.86, 0.66, 0.5)
 
 [node name="Backdrop" type="Node2D" parent="."]
 
 [node name="B0" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-980, 405)
-scale = Vector2(0.78, 0.78)
+position = Vector2(-1400, 492)
+scale = Vector2(0.92, 0.92)
 texture = ExtResource("bld_rowhouse_cream")
 
 [node name="B1" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-560, 405)
-scale = Vector2(0.78, 0.78)
+position = Vector2(-1000, 492)
+scale = Vector2(0.92, 0.92)
 texture = ExtResource("bld_apartment_cream")
 
 [node name="B2" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-140, 405)
-scale = Vector2(0.78, 0.78)
+position = Vector2(-600, 492)
+scale = Vector2(0.92, 0.92)
 texture = ExtResource("bld_shop_blue")
 
 [node name="B3" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(560, 405)
-scale = Vector2(0.78, 0.78)
+position = Vector2(-200, 492)
+scale = Vector2(0.92, 0.92)
 texture = ExtResource("bld_shop_teal")
 
 [node name="B4" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(980, 405)
-scale = Vector2(0.78, 0.78)
+position = Vector2(200, 492)
+scale = Vector2(0.92, 0.92)
 texture = ExtResource("bld_shop_blue")
 
 [node name="B5" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-930, -470)
-scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_apartment_cream")
-
-[node name="B6" type="Sprite2D" parent="Backdrop"]
-texture_filter = 1
-position = Vector2(-560, -470)
-scale = Vector2(1.05, 1.05)
-texture = ExtResource("bld_apartment")
-
-[node name="B7" type="Sprite2D" parent="Backdrop"]
-texture_filter = 1
-position = Vector2(560, -470)
+position = Vector2(600, 492)
 scale = Vector2(0.92, 0.92)
 texture = ExtResource("bld_shop_teal")
 
+[node name="B6" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(1000, 492)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_rowhouse_cream")
+
+[node name="B7" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(1400, 492)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_apartment_cream")
+
 [node name="B8" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(930, -470)
-scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_shop_blue")
+position = Vector2(-1500, -140)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_shop_orange")
 
 [node name="B9" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-1120, -170)
-scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_shop_orange")
-
-[node name="B10" type="Sprite2D" parent="Backdrop"]
-texture_filter = 1
-position = Vector2(-740, -170)
+position = Vector2(-1100, -140)
 scale = Vector2(1.12, 1.12)
 texture = ExtResource("bld_shop")
 
-[node name="B11" type="Sprite2D" parent="Backdrop"]
+[node name="B10" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-360, -170)
+position = Vector2(-700, -140)
 scale = Vector2(1.12, 1.12)
 texture = ExtResource("bld_shop_orange")
 
-[node name="B12" type="Sprite2D" parent="Backdrop"]
+[node name="B11" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(360, -170)
+position = Vector2(-300, -140)
 scale = Vector2(1.12, 1.12)
 texture = ExtResource("bld_rowhouse_brick")
 
-[node name="B13" type="Sprite2D" parent="Backdrop"]
+[node name="B12" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(740, -170)
+position = Vector2(300, -140)
 scale = Vector2(1.12, 1.12)
 texture = ExtResource("bld_rowhouse_green")
 
+[node name="B13" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(700, -140)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_shop")
+
 [node name="B14" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(1120, -170)
+position = Vector2(1100, -140)
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_shop_orange")
+
+[node name="B15" type="Sprite2D" parent="Backdrop"]
+texture_filter = 1
+position = Vector2(1500, -140)
 scale = Vector2(1.12, 1.12)
 texture = ExtResource("bld_shop")
 
@@ -198,10 +175,10 @@ y_sort_enabled = true
 
 [node name="Player" parent="World" instance=ExtResource("2_player")]
 unique_name_in_owner = true
-position = Vector2(-40, 340)
+position = Vector2(0, 392)
 
 [node name="Awning" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(-640, 80)
+position = Vector2(-720, -10)
 ObjectId = "shop_awning"
 DisplayName = "Shop Awning"
 Variants = Array[Texture2D]([ExtResource("9"), ExtResource("10"), ExtResource("11")])
@@ -216,7 +193,7 @@ ThanksText = "Shady and smart again. Custom's already up."
 SpriteOffset = Vector2(0, -45)
 
 [node name="ShopSign" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(480, 80)
+position = Vector2(-40, -10)
 ObjectId = "shop_sign"
 DisplayName = "Shop Sign"
 Variants = Array[Texture2D]([ExtResource("12"), ExtResource("13"), ExtResource("14")])
@@ -231,7 +208,7 @@ ThanksText = "People can find me again. Bless you."
 SpriteOffset = Vector2(0, -52)
 
 [node name="ShopWindow" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(-280, 276)
+position = Vector2(700, -10)
 ObjectId = "shop_window"
 DisplayName = "Display Window"
 Variants = Array[Texture2D]([ExtResource("15"), ExtResource("16"), ExtResource("17")])
@@ -246,7 +223,7 @@ ThanksText = "Sparkling. Look at that shine."
 SpriteOffset = Vector2(0, -57)
 
 [node name="Crates" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(360, 276)
+position = Vector2(-520, 392)
 ObjectId = "shop_crates"
 DisplayName = "Delivery Crates"
 Variants = Array[Texture2D]([ExtResource("18"), ExtResource("19"), ExtResource("20")])
@@ -261,7 +238,7 @@ ThanksText = "Stacked and sturdy. Thank you kindly."
 SpriteOffset = Vector2(0, -50)
 
 [node name="ShopLamp" parent="World" instance=ExtResource("3_obj")]
-position = Vector2(-330, 80)
+position = Vector2(240, 392)
 ObjectId = "shop_lamp"
 DisplayName = "Street Lamp"
 Variants = Array[Texture2D]([ExtResource("21"), ExtResource("22"), ExtResource("23")])
