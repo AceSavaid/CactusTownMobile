@@ -1,0 +1,83 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <rect width="1920" height="1080" fill="#e7d0a6"/>
+
+  <!-- back-wall panelling seam + wainscot -->
+  <rect x="0" y="586" width="1920" height="70" fill="#ddc29a"/>
+  <rect x="0" y="650" width="1920" height="26" fill="#d6ba8c"/>
+
+  <!-- floor -->
+  <rect x="0" y="676" width="1920" height="404" fill="#c67c4b"/>
+  <g stroke="#b16b3c" stroke-width="4">
+    <path d="M0 772 H1920 M0 892 H1920 M0 1010 H1920"/>
+    <path d="M300 676 V1080 M640 676 V1080 M980 676 V1080 M1320 676 V1080 M1640 676 V1080"/>
+  </g>
+  <rect x="0" y="1046" width="1920" height="34" fill="#a5632f"/>
+
+  <!-- three greenhouse windows -->
+  <g id="win">
+    <path d="M150 128 q0 -78 175 -78 q175 0 175 78 V520 H150 Z" fill="#f2e7cf"/>
+    <rect x="176" y="150" width="298" height="352" fill="#f5d891"/>
+    <rect x="176" y="150" width="298" height="130" fill="#f7e0a6"/>
+    <path d="M176 372 q150 -34 298 0 V502 H176 Z" fill="#e3ac66"/>
+    <g fill="#5f9e6f"><rect x="250" y="330" width="16" height="46"/><rect x="240" y="346" width="12" height="20"/><rect x="392" y="322" width="16" height="54"/><rect x="382" y="342" width="12" height="22"/></g>
+    <g stroke="#e7d2a4" stroke-width="12" fill="none"><path d="M325 150 V502 M176 300 H474 M176 410 H474"/></g>
+    <path d="M150 128 q0 -78 175 -78 q175 0 175 78 V520 H150 Z" fill="none" stroke="#f7efdb" stroke-width="18"/>
+    <rect x="128" y="510" width="394" height="22" rx="5" fill="#b98a52"/>
+  </g>
+  <use href="#win" x="612"/>
+
+  <!-- right wall: framed botanical prints instead of a window (the menu hangs here) -->
+  <g>
+    <rect x="1430" y="96" width="150" height="180" rx="6" fill="#8a5a34"/>
+    <rect x="1444" y="110" width="122" height="152" fill="#f4ead2"/>
+    <rect x="1470" y="200" width="70" height="16" fill="#c07348"/>
+    <path d="M1500 200 q-14 -50 0 -84 q14 34 0 84z" fill="#69a877"/>
+    <rect x="1494" y="128" width="12" height="40" rx="6" fill="#5f9e6f"/>
+    <circle cx="1500" cy="124" r="6" fill="#e8749b"/>
+
+    <rect x="1620" y="140" width="130" height="150" rx="6" fill="#946235"/>
+    <rect x="1633" y="153" width="104" height="124" fill="#f4ead2"/>
+    <circle cx="1685" cy="205" r="30" fill="#f2c778"/>
+    <g stroke="#e3ac66" stroke-width="5"><path d="M1685 160 v-8 M1685 258 v8 M1638 205 h-8 M1732 205 h8 M1652 172 l-6 -6 M1718 238 l6 6 M1718 172 l6 -6 M1652 238 l-6 6"/></g>
+  </g>
+  <rect x="1560" y="300" width="34" height="12" rx="4" fill="#7c5230"/>
+
+  <!-- long shelf under middle window, little pots -->
+  <rect x="762" y="556" width="396" height="18" rx="4" fill="#8a5a34"/>
+  <rect x="788" y="574" width="16" height="30" fill="#744928"/>
+  <rect x="1116" y="574" width="16" height="30" fill="#744928"/>
+  <g>
+    <path d="M800 520 h44 l-6 34 h-32 z" fill="#c07348"/><rect x="808" y="498" width="10" height="26" rx="5" fill="#63aa72"/><rect x="822" y="490" width="10" height="34" rx="5" fill="#63aa72"/>
+    <path d="M880 522 h48 l-6 32 h-36 z" fill="#b7863f"/><ellipse cx="904" cy="500" rx="26" ry="19" fill="#6fb07d"/>
+    <path d="M964 518 h44 l-6 36 h-32 z" fill="#c07348"/><rect x="978" y="484" width="12" height="40" rx="6" fill="#5f9e6f"/><circle cx="984" cy="482" r="5" fill="#e8749b"/>
+    <path d="M1044 522 h50 l-6 32 h-38 z" fill="#a86a45"/><path d="M1069 484 q-22 22 0 44 q22 -22 0 -44z" fill="#69a877"/>
+    <path d="M1108 520 h42 l-6 34 h-30 z" fill="#c07348"/><circle cx="1129" cy="502" r="16" fill="#6fb07d"/>
+  </g>
+
+  <!-- hanging plants in the top corners -->
+  <g>
+    <path d="M150 0 V150" stroke="#8a7a58" stroke-width="4"/>
+    <path d="M108 150 h84 l-13 48 h-58 z" fill="#b7863f"/>
+    <path d="M120 150 q-30 62 -14 116 M150 150 q0 74 0 126 M180 150 q30 62 14 116" stroke="#5fa06e" stroke-width="13" fill="none" stroke-linecap="round"/>
+  </g>
+  <g transform="translate(1620 0)">
+    <path d="M150 0 V132" stroke="#8a7a58" stroke-width="4"/>
+    <path d="M110 132 h80 l-11 46 h-58 z" fill="#c07348"/>
+    <path d="M122 132 q-26 58 -12 108 M150 132 q0 66 0 116 M178 132 q26 58 12 108" stroke="#5fa06e" stroke-width="13" fill="none" stroke-linecap="round"/>
+  </g>
+
+  <!-- wooden platform centre-left for the player's plant -->
+  <ellipse cx="470" cy="820" rx="252" ry="34" fill="#000" opacity="0.12"/>
+  <rect x="280" y="748" width="384" height="72" rx="10" fill="#946235"/>
+  <rect x="280" y="748" width="384" height="20" rx="10" fill="#a97a48"/>
+  <g stroke="#7c5230" stroke-width="4"><path d="M344 768 V820 M472 768 V820 M600 768 V820"/></g>
+
+  <!-- a small watering can on the floor for homeliness -->
+  <g transform="translate(690 940)">
+    <ellipse cx="46" cy="70" rx="52" ry="12" fill="#000" opacity="0.1"/>
+    <path d="M8 26 h68 l-6 44 a6 6 0 0 1 -6 5 h-38 a6 6 0 0 1 -6 -5 z" fill="#8fb7c4"/>
+    <rect x="2" y="18" width="80" height="12" rx="4" fill="#a3c7d2"/>
+    <path d="M76 34 q34 -6 44 22" stroke="#8fb7c4" stroke-width="10" fill="none" stroke-linecap="round"/>
+    <path d="M8 30 q-20 -4 -22 -20" stroke="#8fb7c4" stroke-width="9" fill="none" stroke-linecap="round"/>
+  </g>
+</svg>

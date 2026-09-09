@@ -1,11 +1,49 @@
-[gd_scene load_steps=7 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://scripts/House.cs" id="1_house"]
 [ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://ui/PlantView.tscn" id="3_pv"]
-[ext_resource type="PackedScene" path="res://ui/SettingsMenu.tscn" id="4_audio"]
+[ext_resource type="PackedScene" path="res://ui/SettingsMenu.tscn" id="4_set"]
 [ext_resource type="PackedScene" path="res://ui/NoticePanel.tscn" id="5_np"]
 [ext_resource type="PackedScene" path="res://ui/HubTip.tscn" id="6_ht"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/plant_room.svg" id="7_room"]
+
+[sub_resource type="StyleBoxFlat" id="plaque"]
+bg_color = Color(0.541, 0.361, 0.208, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 6
+border_color = Color(0.36, 0.23, 0.13, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.16)
+shadow_size = 8
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="plaque_press"]
+bg_color = Color(0.46, 0.3, 0.17, 1)
+border_width_left = 3
+border_width_top = 6
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.32, 0.2, 0.11, 1)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+
+[sub_resource type="Theme" id="hub_theme"]
+Button/colors/font_color = Color(0.96, 0.91, 0.79, 1)
+Button/colors/font_hover_color = Color(1, 0.97, 0.88, 1)
+Button/colors/font_pressed_color = Color(0.92, 0.86, 0.72, 1)
+Button/font_sizes/font_size = 38
+Button/styles/normal = SubResource("plaque")
+Button/styles/hover = SubResource("plaque")
+Button/styles/pressed = SubResource("plaque_press")
+Button/styles/focus = SubResource("plaque")
 
 [node name="House" type="Control"]
 layout_mode = 3
@@ -14,37 +52,42 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = SubResource("hub_theme")
 script = ExtResource("1_house")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Room" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.556863, 0.752941, 0.560784, 1)
+texture = ExtResource("7_room")
+expand_mode = 1
+stretch_mode = 6
 
-[node name="Title" type="Label" parent="."]
+[node name="Sign" type="Label" parent="."]
 layout_mode = 1
-anchor_right = 1.0
-offset_top = 56.0
-offset_bottom = 168.0
-grow_horizontal = 2
-theme_override_font_sizes/font_size = 76
+offset_left = 56.0
+offset_top = 36.0
+offset_right = 520.0
+offset_bottom = 104.0
+theme_override_colors/font_color = Color(0.42, 0.28, 0.16, 1)
+theme_override_font_sizes/font_size = 44
 text = "Cactus Town"
-horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PlantFrame" type="Control" parent="."]
 layout_mode = 1
 anchor_top = 0.5
 anchor_bottom = 0.5
-offset_left = 150.0
-offset_top = -230.0
-offset_right = 620.0
-offset_bottom = 230.0
+offset_left = 300.0
+offset_top = -272.0
+offset_right = 660.0
+offset_bottom = 218.0
 grow_vertical = 2
+scale = Vector2(1.34, 1.34)
+pivot_offset = Vector2(180, 245)
 
 [node name="PlantView" parent="PlantFrame" instance=ExtResource("3_pv")]
 layout_mode = 2
@@ -52,11 +95,14 @@ layout_mode = 2
 [node name="PlantName" type="Label" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
+anchor_top = 0.5
+anchor_bottom = 0.5
 offset_left = 150.0
-offset_top = 760.0
-offset_right = 620.0
-offset_bottom = 820.0
-theme_override_font_sizes/font_size = 40
+offset_top = -330.0
+offset_right = 610.0
+offset_bottom = -268.0
+theme_override_colors/font_color = Color(0.44, 0.3, 0.17, 1)
+theme_override_font_sizes/font_size = 34
 text = "Spike"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -67,85 +113,82 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = -820.0
-offset_top = -230.0
-offset_right = -120.0
-offset_bottom = 230.0
+offset_left = -540.0
+offset_top = -258.0
+offset_right = -70.0
+offset_bottom = 258.0
 grow_horizontal = 0
 grow_vertical = 2
-theme_override_constants/separation = 32
+theme_override_constants/separation = 14
 
 [node name="CustomisePlantButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 116)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
 text = "Customise Plant"
 
 [node name="MiniGamesButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 116)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
 text = "Mini-Games"
 
 [node name="PlantStatsButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 116)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
 text = "Plant Stats"
 
 [node name="NoticesButton" type="Button" parent="Menu"]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 116)
+custom_minimum_size = Vector2(0, 112)
 layout_mode = 2
-theme_override_font_sizes/font_size = 40
 text = "Notices"
 
 [node name="GoToTownButton" type="Button" parent="."]
 unique_name_in_owner = true
-layout_mode = 1
-anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -820.0
-offset_top = -166.0
-offset_right = -120.0
-offset_bottom = -50.0
-grow_horizontal = 0
+offset_left = 70.0
+offset_top = -184.0
+offset_right = 470.0
+offset_bottom = -56.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 44
 text = "Go to Town  →"
 
 [node name="SettingsButton" type="Button" parent="."]
 unique_name_in_owner = true
-offset_left = 48.0
-offset_top = 44.0
-offset_right = 288.0
-offset_bottom = 128.0
-theme_override_font_sizes/font_size = 32
-text = "Settings"
-
-[node name="HubTip" parent="." instance=ExtResource("6_ht")]
-unique_name_in_owner = true
 anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -820.0
-offset_top = -470.0
-offset_right = -120.0
-offset_bottom = -206.0
+offset_left = -260.0
+offset_top = -128.0
+offset_right = -60.0
+offset_bottom = -52.0
 grow_horizontal = 0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 28
+text = "Settings"
+
+[node name="HubTip" parent="." instance=ExtResource("6_ht")]
+unique_name_in_owner = true
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -390.0
+offset_top = -300.0
+offset_right = 390.0
+offset_bottom = -60.0
+grow_horizontal = 2
 grow_vertical = 0
 
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]
 
-[node name="SettingsMenu" parent="." instance=ExtResource("4_audio")]
+[node name="SettingsMenu" parent="." instance=ExtResource("4_set")]
 unique_name_in_owner = true
 
 [node name="NoticePanel" parent="." instance=ExtResource("5_np")]
 unique_name_in_owner = true
-
