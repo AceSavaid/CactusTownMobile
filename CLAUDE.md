@@ -84,12 +84,21 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One
   catch-up event no matter how many days passed.
 
+## The hub (House)
+
+- `scenes/House.tscn` is a cosy **plant room**: `assets/sprites/hub/plant_room.svg`
+  background (greige plaster, wood-plank floor + wainscot, greenhouse windows onto
+  a leafy street, hanging plants, a shelf of pots, framed prints). The plant sits
+  on a wooden platform (`PlantFrame`, scaled). Menu = wooden-plaque `Button`s
+  styled by the `hub_theme` sub-resource on the House root. `CoinHud` is a warm
+  cream chip (its restyle is global — town / regions / arcade inherit it).
+- **Progressive hub** (`House.cs`): a first-time player sees only *Go to Town*,
+  *Settings*, and Sage's `HubTip` card. `GameState.FirstRepairDone` reveals
+  *Customise Plant / Mini-Games / Plant Stats / Notices*. (Almanac lives inside
+  Plant Stats, shown after `FirstSectionDone` — endgame, not built yet.)
+
 ## Onboarding & the Notice Board
 
-- **Progressive hub** (`House.cs`): a first-time player sees only *Go to Town*,
-  *Settings*, *Ask Sage*. `GameState.FirstRepairDone` reveals *Customise Plant /
-  Mini-Games / Plant Stats / Notices*. (Almanac lives inside Plant Stats, shown
-  after `FirstSectionDone` — endgame, not built yet.)
 - **Sage** the mentor (`scenes/entities/Mentor.tscn`, `Mentor.cs` → `TapInteractable`):
   a big hatted cactus in Main Square (by the intro cluster) and on the House hub
   ("Ask Sage" button). Tap → `MentorPanel` shows `MentorTips.Line(GameState)`, a
