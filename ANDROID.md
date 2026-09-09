@@ -82,7 +82,7 @@ godot --headless --path . --export-release "Android"           build/CactusTownM
 - **APK preset** — arm64 + x86_64, format APK, for `adb install` / emulator.
 - **Android** preset — arm64 only, **AAB**, signed, for Play. `version/code` must
   increase on every upload; `version/name` is the human string. (Currently
-  code `6`, name `0.3.0`.) Launcher icon layers are wired via
+  code `7`, name `0.4.0`.) Launcher icon layers are wired via
   `launcher_icons/*` → `res://assets/icons/*` (regenerate from
   `assets/store/src/icon*.svg` with the `store_assets` screenshot mode).
 

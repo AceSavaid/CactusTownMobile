@@ -62,6 +62,17 @@ public partial class ScreenshotNode : Node
 		var outPath = args.Length > 1 ? args[1] : "user://shot.png";
 		var frames = args.Length > 2 ? int.Parse(args[2]) : 20;
 
+		// Onboarding first: claim every tutorial notice so nothing auto-claims (and
+		// toasts) during the rest of the setup below.
+		if (args.Contains("onboarded"))
+		{
+			foreach (var t in Notices.Tutorial)
+				GameState.Instance.ClaimNotice(t.Id, 0, 0);
+			GameState.Instance.SetObjectState("intro_sign", "fixed");
+			foreach (var f in new[] { "gathered", "customised", "arcade_win" })
+				GameState.Instance.SetFlag(f);
+		}
+
 		if (args.Contains("grant"))
 		{
 			GameState.Instance.AddCoins(400);
@@ -83,12 +94,6 @@ public partial class ScreenshotNode : Node
 						GameState.Instance.SetObjectState(oid, "fixed");
 				}
 			}
-
-		if (args.Contains("onboarded"))
-		{
-			GameState.Instance.SetObjectState("intro_sign", "fixed");
-			GameState.Instance.SetFlag("gathered");
-		}
 
 		foreach (var arg in args)
 			if (arg.StartsWith("unlock="))
@@ -116,6 +121,11 @@ public partial class ScreenshotNode : Node
 		}
 
 		AddChild(scene);
+
+		if (args.Contains("nohud"))
+			foreach (var n in new[] { "%VirtualJoystick", "%ActionButton", "%GatherButton" })
+				if (scene.GetNodeOrNull<CanvasItem>(n) is { } ci)
+					ci.Visible = false;
 
 		Vector2 walk = Vector2.Zero;
 		foreach (var arg in args)
@@ -185,11 +195,11 @@ public partial class ScreenshotNode : Node
 
 		if (args.Contains("dressup"))
 		{
-			foreach (var id in new[] { "pot_slate", "plant_aloe", "acc_hat" })
-			{
-				GameState.Instance.BuyPlantItem(id);
-				GameState.Instance.EquipPlantItem(id);
-			}
+			GameState.Instance.AddSeeds(30);
+			GameState.Instance.BuyPlantItemWithSeeds("pot_gold");
+			GameState.Instance.BuyPlantItem("acc_hat");
+			GameState.Instance.EquipPlantItem("pot_gold");
+			GameState.Instance.EquipPlantItem("acc_hat");
 			for (var i = 0; i < 4; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
