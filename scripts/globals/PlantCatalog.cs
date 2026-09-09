@@ -20,9 +20,13 @@ public static class PlantCatalog
 		public required string TextureFile;
 		public int Cost;
 
+		/// <summary>Priced in seeds (Notice Board / streak currency) instead of coins. 0 = coin item.</summary>
+		public int SeedCost;
+
 		/// <summary>Accessories only: "hat" | "face" | "neck" | "pot" | "aura". Empty = no art.</summary>
 		public string Anchor = "";
 
+		public bool IsFree => Cost <= 0 && SeedCost <= 0;
 		public bool HasTexture => TextureFile.Length > 0;
 		public string TexturePath => $"res://assets/sprites/plant/{TextureFile}.svg";
 	}
@@ -33,17 +37,22 @@ public static class PlantCatalog
 		new() { Id = "pot_slate", Slot = Slot.Pot, Name = "Slate Pot", TextureFile = "pot_slate", Cost = 40 },
 		new() { Id = "pot_cream", Slot = Slot.Pot, Name = "Cream Pot", TextureFile = "pot_cream", Cost = 60 },
 		new() { Id = "pot_moss",  Slot = Slot.Pot, Name = "Moss Pot",  TextureFile = "pot_moss",  Cost = 80 },
+		new() { Id = "pot_gold",    Slot = Slot.Pot, Name = "Golden Pot",  TextureFile = "pot_gold",    SeedCost = 6 },
+		new() { Id = "pot_crystal", Slot = Slot.Pot, Name = "Crystal Pot", TextureFile = "pot_crystal", SeedCost = 9 },
 
 		new() { Id = "plant_cactus", Slot = Slot.Plant, Name = "Cactus",             TextureFile = "plant_cactus" },
 		new() { Id = "plant_barrel", Slot = Slot.Plant, Name = "Barrel Cactus",      TextureFile = "plant_barrel", Cost = 50 },
 		new() { Id = "plant_aloe",   Slot = Slot.Plant, Name = "Aloe",               TextureFile = "plant_aloe",   Cost = 75 },
 		new() { Id = "plant_bloom",  Slot = Slot.Plant, Name = "Blooming Succulent", TextureFile = "plant_bloom",  Cost = 100 },
+		new() { Id = "plant_prism",  Slot = Slot.Plant, Name = "Prism Cactus",       TextureFile = "plant_prism",  SeedCost = 12 },
 
 		new() { Id = "acc_none",    Slot = Slot.Accessory, Name = "None",     TextureFile = "" },
 		new() { Id = "acc_hat",     Slot = Slot.Accessory, Name = "Top Hat",  TextureFile = "acc_hat",     Cost = 40, Anchor = "hat" },
 		new() { Id = "acc_shades",  Slot = Slot.Accessory, Name = "Shades",   TextureFile = "acc_shades",  Cost = 60, Anchor = "face" },
 		new() { Id = "acc_bowtie",  Slot = Slot.Accessory, Name = "Bow Tie",  TextureFile = "acc_bowtie",  Cost = 50, Anchor = "neck" },
 		new() { Id = "acc_sparkle", Slot = Slot.Accessory, Name = "Sparkles", TextureFile = "acc_sparkle", Cost = 90, Anchor = "aura" },
+		new() { Id = "acc_crown", Slot = Slot.Accessory, Name = "Star Crown", TextureFile = "acc_crown", SeedCost = 8, Anchor = "hat" },
+		new() { Id = "acc_halo",  Slot = Slot.Accessory, Name = "Halo",       TextureFile = "acc_halo",  SeedCost = 7, Anchor = "aura" },
 	};
 
 	public static Item? Find(string id) => All.FirstOrDefault(i => i.Id == id);

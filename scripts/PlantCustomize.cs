@@ -83,6 +83,21 @@ public partial class PlantCustomize : Control
 				Rebuild();
 			};
 		}
+		else if (item.SeedCost > 0)
+		{
+			button.Text = $"{item.SeedCost} seeds";
+			button.AddThemeColorOverride("font_color", new Color(0.66f, 0.85f, 0.5f));
+			button.Disabled = GameState.Instance.Seeds < item.SeedCost;
+			button.Pressed += () =>
+			{
+				if (GameState.Instance.BuyPlantItemWithSeeds(item.Id))
+				{
+					GameState.Instance.EquipPlantItem(item.Id);
+					Audio.Instance?.PlaySfx("confirm");
+				}
+				Rebuild();
+			};
+		}
 		else
 		{
 			button.Text = $"{item.Cost} coins";

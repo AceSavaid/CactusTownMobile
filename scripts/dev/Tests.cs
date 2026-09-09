@@ -268,6 +268,17 @@ public partial class Tests : Node
 		gs.EquipPlantItem("acc_hat");
 		Eq(gs.PlantAccessory, "acc_hat", "accessory equipped");
 
+		// seed-priced items
+		Ok(!gs.OwnsPlantItem("acc_halo"), "halo not owned");
+		Ok(!gs.BuyPlantItemWithSeeds("acc_halo"), "cannot buy halo with no seeds");
+		gs.AddSeeds(10);
+		Ok(gs.BuyPlantItemWithSeeds("acc_halo"), "buy halo with seeds");
+		Eq(gs.Seeds, 10 - PlantCatalog.Find("acc_halo")!.SeedCost, "seeds deducted");
+		Ok(gs.OwnsPlantItem("acc_halo"), "owns halo now");
+		gs.AddCoins(9999);
+		Ok(!gs.BuyPlantItem("acc_crown"), "coin-buy rejects an unowned seed item");
+		Ok(!gs.OwnsPlantItem("acc_crown"), "seed item not granted by coin-buy");
+
 		gs.SetPlantName("   Prickles the Great and Powerful   ");
 		Ok(gs.PlantName.Length <= 16, "plant name is clamped to 16 chars");
 	}

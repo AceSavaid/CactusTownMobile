@@ -164,18 +164,13 @@ public partial class GameState : Node
 
 	public bool OwnsPlantItem(string itemId)
 	{
-		if (PlantCatalog.Find(itemId) is { Cost: <= 0 })
+		if (PlantCatalog.Find(itemId) is { IsFree: true })
 			return true;
 		return PlantOwned().Any(x => x.AsString() == itemId);
 	}
 
-	public bool BuyPlantItem(string itemId)
+	private void RecordPlantItemOwned(string itemId)
 	{
-		var item = PlantCatalog.Find(itemId);
-		if (item == null || OwnsPlantItem(itemId))
-			return item != null;
-		if (!SpendCoins(item.Cost))
-			return false;
 		var owned = PlantOwned();
 		owned.Add(itemId);
 		var plant = _data["plant"].AsGodotDictionary();
@@ -183,6 +178,30 @@ public partial class GameState : Node
 		_data["plant"] = plant;
 		SaveGame();
 		EmitSignal(SignalName.PlantChanged);
+	}
+
+	public bool BuyPlantItem(string itemId)
+	{
+		var item = PlantCatalog.Find(itemId);
+		if (item == null || OwnsPlantItem(itemId))
+			return item != null;
+		if (item.SeedCost > 0)
+			return false;   // seed-priced — use BuyPlantItemWithSeeds
+		if (!SpendCoins(item.Cost))
+			return false;
+		RecordPlantItemOwned(itemId);
+		return true;
+	}
+
+	/// <summary>Buy a seed-priced plant item with Notice Board / streak seeds.</summary>
+	public bool BuyPlantItemWithSeeds(string itemId)
+	{
+		var item = PlantCatalog.Find(itemId);
+		if (item == null || item.SeedCost <= 0 || OwnsPlantItem(itemId))
+			return item != null;
+		if (!SpendSeeds(item.SeedCost))
+			return false;
+		RecordPlantItemOwned(itemId);
 		return true;
 	}
 
@@ -460,6 +479,16 @@ public partial class GameState : Node
 		_data["seeds"] = Seeds + amount;
 		EmitSignal(SignalName.SeedsChanged, Seeds);
 		SaveGame();
+	}
+
+	public bool SpendSeeds(int amount)
+	{
+		if (amount <= 0 || Seeds < amount)
+			return amount <= 0;
+		_data["seeds"] = Seeds - amount;
+		EmitSignal(SignalName.SeedsChanged, Seeds);
+		SaveGame();
+		return true;
 	}
 
 	private Array Flags => _data.TryGetValue("flags", out var f) ? f.AsGodotArray() : new Array();

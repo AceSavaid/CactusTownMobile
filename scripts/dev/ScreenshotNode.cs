@@ -69,6 +69,9 @@ public partial class ScreenshotNode : Node
 				GameState.Instance.AddMaterial(m, 20);
 		}
 
+		if (args.Contains("seeds"))
+			GameState.Instance.AddSeeds(25);
+
 		if (args.Contains("onboarded"))
 		{
 			GameState.Instance.SetObjectState("intro_sign", "fixed");
@@ -120,6 +123,16 @@ public partial class ScreenshotNode : Node
 				var z = float.Parse(arg["zoom=".Length..]);
 				scene.GetNode<Node2D>("%Player").GetNodeOrNull<Camera2D>("Camera")?.Set("zoom", new Vector2(z, z));
 			}
+		}
+
+		if (args.Contains("photomode"))
+		{
+			var pm = scene.FindChild("PhotoMode", true, false) as PhotoMode;
+			var ui = scene.GetNodeOrNull<CanvasLayer>("UI");
+			if (pm != null && ui != null && scene.HasNode("%Player"))
+				pm.Enter(ui, scene.GetNode<Node2D>("%Player").GlobalPosition);
+			for (var i = 0; i < 6; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}
 
 		for (var i = 0; i < frames; i++)

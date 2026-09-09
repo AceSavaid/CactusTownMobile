@@ -58,7 +58,34 @@ public partial class TownSection : Node2D
 			mentor.Interacted += () => _mentorPanel?.OpenTip();
 
 		BuildBuildingColliders();
+		SetUpPhotoMode();
 		RefreshCompletion();
+	}
+
+	private void SetUpPhotoMode()
+	{
+		var ui = GetNodeOrNull<CanvasLayer>("UI");
+		if (ui == null)
+			return;
+
+		var photo = GD.Load<PackedScene>("res://ui/PhotoMode.tscn").Instantiate<PhotoMode>();
+		AddChild(photo);
+
+		var button = new Button
+		{
+			CustomMinimumSize = new Vector2(96, 96),
+			TooltipText = "Photo mode",
+			Icon = GD.Load<Texture2D>("res://assets/sprites/hub/ic_camera.svg"),
+			ExpandIcon = true,
+			IconAlignment = HorizontalAlignment.Center,
+		};
+		button.AddThemeConstantOverride("icon_max_width", 56);
+		button.OffsetLeft = 48;
+		button.OffsetRight = 144;
+		button.OffsetTop = 168;
+		button.OffsetBottom = 264;
+		button.Pressed += () => photo.Enter(ui, _player.GlobalPosition);
+		ui.AddChild(button);
 	}
 
 	/// <summary>

@@ -100,16 +100,19 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 ## Onboarding & the Notice Board
 
 - **Sage** the mentor (`scenes/entities/Mentor.tscn`, `Mentor.cs` → `TapInteractable`):
-  a big hatted cactus in Main Square (by the intro cluster) and on the House hub
-  ("Ask Sage" button). Tap → `MentorPanel` shows `MentorTips.Line(GameState)`, a
-  progress-aware nudge toward whatever's next.
+  a big hatted cactus in Main Square. On the House hub Sage is instead the always-on
+  `ui/HubTip.tscn` card (no modal). Both show `MentorTips.Line(GameState)`, which
+  during onboarding mirrors `Notices.CurrentTutorialStep` exactly so the card and
+  the board never disagree.
 - **Notice Board** (`scenes/entities/NoticeBoard.tscn` → `TapInteractable`;
-  `ui/NoticePanel.tscn`): a prop in Main Square and a *Notices* hub button. Two
-  modes (`Notices.cs`): **tutorial** — a fixed 5-step getting-started list, each
-  claim pays ~15 coins — until every step is claimed, then **daily** — 3
+  `ui/NoticePanel.tscn`): a prop in Main Square and a square *Notices* icon
+  top-right on the hub. Two modes (`Notices.cs`): **tutorial** — a fixed 5-step
+  getting-started list shown one step at a time ("Step N of 5"); each step
+  auto-claims its ~15-coin reward the moment `Done` flips
+  (`GameState.AutoClaimTutorial`, toggled off in tests) — then **daily** — 3
   challenges chosen deterministically from the EST date, refreshed by
-  `GameState.RefreshDailyNotices()` (called in `GameState._Ready`). Rewards:
-  coins + **seeds** (premium currency, `GameState.Seeds` / `AddSeeds`).
+  `GameState.RefreshDailyNotices()`, claimed manually. Rewards: coins + **seeds**
+  (premium currency, `GameState.Seeds` / `AddSeeds` / `SpendSeeds`).
 - **Intro cluster** in `MainSquare.tscn` `%World`: `Sage` + `IntroBoard` +
   `IntroSign` (a `RepairableObject` with `ExcludeFromCompletion = true` so it's
   outside decay/section-completion, and `FixedVariant = 1` to swap worn→new on
@@ -124,8 +127,10 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
 ## Plant customisation & stats
 
 - `PlantCatalog` (`scripts/globals/PlantCatalog.cs`) — every pot / plant / accessory
-  item (id, slot, name, texture, cost, and for accessories an `Anchor`). Add an
-  entry + a sprite in `assets/sprites/plant/` to add an option.
+  item (id, slot, name, texture, and either `Cost` in coins **or** `SeedCost` in
+  seeds — the seed shop). Add an entry + a sprite in `assets/sprites/plant/`.
+  `PlantCustomize` shows seed items inline with a green "N seeds" button;
+  `GameState.BuyPlantItemWithSeeds`.
 - `ui/PlantView.tscn` (`PlantView.cs`) — UI composite of pot + plant + accessory
   from `GameState`; self-updates on `PlantChanged`. Anchors in `AnchorCentre`.
 - `scripts/entities/PlantSprite.cs` on `Player.tscn`'s `Avatar` node — the same
@@ -144,6 +149,15 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   `TownCustomizationsUnlocked`, `PlantCustomizationsUnlocked`. `first_day` (EST)
   is stamped in `DefaultData`. Plant data shape is now
   `plant: {name, pot, plant, accessory, owned[]}`.
+
+## Photo mode
+
+- `ui/PhotoMode.tscn` (`PhotoMode.cs`) — a `CanvasLayer` instanced at runtime by
+  `TownSection.SetUpPhotoMode()` along with a camera-icon button in the section's
+  `UI` layer. `Enter(hudNode, startPos)` hides the HUD, swaps in its own free
+  `Camera2D` (drag to pan, −/+ or pinch to zoom), and draws a soft frame + "Cactus
+  Town" mark; `Exit()` restores. No in-game gallery yet — players use the device
+  screenshot. Regions don't have it yet (same pattern would apply to `Region.cs`).
 
 ## House arcade mini-games
 
