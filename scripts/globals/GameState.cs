@@ -10,7 +10,8 @@ namespace CactusTown;
 /// </summary>
 public partial class GameState : Node
 {
-	public const string SavePath = "user://cactus_town_save.json";
+	/// <summary>Save file location. A field, not a const, so the test harness can redirect it.</summary>
+	public static string SavePath = "user://cactus_town_save.json";
 	public const int SaveVersion = 1;
 
 	[Signal] public delegate void CoinsChangedEventHandler(int total);

@@ -1,0 +1,49 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    env:
+      GODOT_VERSION: 4.4.1-stable
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Cache Godot
+        id: godot-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/godot
+          key: godot-${{ env.GODOT_VERSION }}-mono
+
+      - name: Download Godot (mono)
+        if: steps.godot-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/godot
+          url="https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_mono_linux_x86_64.zip"
+          curl -fsSL "$url" -o /tmp/godot.zip
+          unzip -q /tmp/godot.zip -d ~/godot
+          mv ~/godot/Godot_v${GODOT_VERSION}_mono_linux_x86_64/* ~/godot/
+          chmod +x ~/godot/Godot_v${GODOT_VERSION}_mono_linux_x86_64.x86_64
+
+      - name: Add Godot to PATH
+        run: echo "GODOT=$HOME/godot/Godot_v${GODOT_VERSION}_mono_linux_x86_64.x86_64" >> "$GITHUB_ENV"
+
+      - name: Build C#
+        run: dotnet build CactusTownMobile.csproj -c Debug --nologo
+
+      - name: Import assets
+        run: |
+          "$GODOT" --headless --import --path . || true
+          "$GODOT" --headless --import --path .
+
+      - name: Run tests
+        run: "$GODOT" --headless --path . scenes/dev/Tests.tscn

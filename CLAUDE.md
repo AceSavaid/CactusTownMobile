@@ -214,4 +214,11 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   `godot --headless --path . scenes/<Scene>.tscn --quit-after 3`
 - **Screenshots** (windowed render, autoloads + C# active) — dev-only:
   `godot --path . scenes/dev/Screenshot.tscn --resolution 1920x1080 -- res://scenes/Town.tscn <out.png> [frames] [demo_talk]`
-- No unit-test framework yet. If one is added (GUT / GdUnit4 / xUnit), note the command here.
+- **Tests**: `godot --headless --path . scenes/dev/Tests.tscn` — a lightweight
+  home-grown runner (`scripts/dev/Tests.cs`, no third-party dep). Add a
+  `[Test] private void Foo()` method and it runs; `Ok(cond, msg)` / `Eq(a, b, msg)`
+  assert. Exits non-zero on any failure. GameState is redirected to a throwaway
+  save (`GameState.SavePath` is a field for this reason), so the real save is
+  untouched. Covers catalog integrity, wallet/materials/plant/town state,
+  save round-trip, decay rules, section↔scene object consistency, and that every
+  non-dev scene instantiates. CI runs it on push (`.github/workflows/tests.yml`).
