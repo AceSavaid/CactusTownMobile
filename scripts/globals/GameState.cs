@@ -596,7 +596,12 @@ public partial class GameState : Node
 	public int BloomPercent => Mathf.RoundToInt(BloomScore * 100f);
 
 	/// <summary>0 (Dusty) … 4 (Flourishing), crossing at 20 / 45 / 70 / 100%.</summary>
-	public int BloomTier => BloomPercent >= 100 ? 4
+	/// <summary>Dev-only override for the screenshot harness; null in normal play.</summary>
+	public static int? DebugBloomTier;
+
+	public int BloomTier => DebugBloomTier ?? RawBloomTier;
+
+	private int RawBloomTier => BloomPercent >= 100 ? 4
 		: BloomPercent >= 70 ? 3
 		: BloomPercent >= 45 ? 2
 		: BloomPercent >= 20 ? 1

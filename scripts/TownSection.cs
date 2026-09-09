@@ -59,6 +59,7 @@ public partial class TownSection : Node2D
 
 		BuildBuildingColliders();
 		SetUpPhotoMode();
+		BloomDecor.Apply(this, _world, SectionId, Objects.Where(o => !o.ExcludeFromCompletion));
 		RefreshCompletion();
 	}
 

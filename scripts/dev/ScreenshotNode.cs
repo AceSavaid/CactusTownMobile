@@ -72,6 +72,18 @@ public partial class ScreenshotNode : Node
 		if (args.Contains("seeds"))
 			GameState.Instance.AddSeeds(25);
 
+		foreach (var a in args)
+			if (a.StartsWith("bloom="))
+			{
+				GameState.DebugBloomTier = int.Parse(a["bloom=".Length..]);   // 0..4
+				foreach (var s in TownSections.All)
+				{
+					GameState.Instance.SetSectionCompletedOnce(s.Id);
+					foreach (var oid in s.ObjectIds)
+						GameState.Instance.SetObjectState(oid, "fixed");
+				}
+			}
+
 		if (args.Contains("onboarded"))
 		{
 			GameState.Instance.SetObjectState("intro_sign", "fixed");
