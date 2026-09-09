@@ -178,8 +178,9 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   (chop/mine/water/gather) per resource node. Music tracks: home, town, region,
   arcade — crossfaded ~1.3s on scene change. Volume UI: `ui/VolumeStepper.tscn`
   (0–10 notches + −/+ buttons + tap-to-snap), inside `ui/SettingsMenu.tscn`
-  (`SettingsMenu.cs`) — a modal with an Audio tab (mute + Master/Music/SFX) and a
-  Credits tab, opened from the House "Settings" button.
+  (`SettingsMenu.cs`) — a modal with an Audio tab (Master/Music/SFX steppers) and
+  a Credits tab, opened from the House "Settings" button. No mute — set Master
+  to 0. `Audio` has no mute API either.
   Dev preview: `godot --headless --path . scenes/dev/Screenshot.tscn -- bake_audio <dir>`.
   Windowed dev screenshots need `--audio-driver Dummy` (real driver hangs on scripted quit).
 - `TownSections` (`scripts/globals/TownSections.cs`) — static config of the six

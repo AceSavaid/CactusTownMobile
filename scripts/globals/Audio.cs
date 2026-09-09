@@ -224,14 +224,6 @@ public partial class Audio : Node
 		return index < 0 ? 1f : ToLinear(AudioServer.GetBusVolumeDb(index));
 	}
 
-	public void SetMuted(bool muted)
-	{
-		AudioServer.SetBusMute(0, muted);
-		SaveSettings();
-	}
-
-	public bool Muted => AudioServer.IsBusMute(0);
-
 	private static float ToDb(float linear) => linear <= 0.001f ? -60f : Mathf.LinearToDb(linear);
 	private static float ToLinear(float db) => db <= -59f ? 0f : Mathf.DbToLinear(db);
 
@@ -241,7 +233,6 @@ public partial class Audio : Node
 		cfg.SetValue("audio", "master", GetBusVolume("Master"));
 		cfg.SetValue("audio", "music", GetBusVolume("Music"));
 		cfg.SetValue("audio", "sfx", GetBusVolume("SFX"));
-		cfg.SetValue("audio", "muted", Muted);
 		cfg.Save(SettingsPath);
 	}
 
@@ -253,7 +244,6 @@ public partial class Audio : Node
 		ApplyBus("Master", cfg.GetValue("audio", "master", 0.9f).AsSingle());
 		ApplyBus("Music", cfg.GetValue("audio", "music", 0.7f).AsSingle());
 		ApplyBus("SFX", cfg.GetValue("audio", "sfx", 0.85f).AsSingle());
-		AudioServer.SetBusMute(0, cfg.GetValue("audio", "muted", false).AsBool());
 	}
 
 	private static void ApplyBus(string bus, float linear)

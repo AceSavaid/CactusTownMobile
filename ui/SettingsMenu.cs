@@ -3,14 +3,11 @@ using Godot;
 namespace CactusTown;
 
 /// <summary>
-/// Modal settings dialog: an <b>Audio</b> tab (mute + Master / Music / SFX
-/// steppers) and a <b>Credits</b> tab. Opened from the House "Settings" button.
+/// Modal settings dialog: an <b>Audio</b> tab (Master / Music / SFX steppers) and
+/// a <b>Credits</b> tab. Opened from the House "Settings" button.
 /// </summary>
 public partial class SettingsMenu : Control
 {
-	private static readonly Texture2D SoundOn = GD.Load<Texture2D>("res://assets/kenney/icons/icon_sound.png");
-	private static readonly Texture2D SoundOff = GD.Load<Texture2D>("res://assets/kenney/icons/icon_sound_disabled.png");
-
 	private const string Credits =
 		"[center][b]Cactus Town[/b]\nby Ace Savaid[/center]\n\n" +
 		"[b]Art[/b]\nThe cactus, pots, town props, buildings, region art and store\n" +
@@ -22,15 +19,12 @@ public partial class SettingsMenu : Control
 		"[center]Thanks for playing.[/center]";
 
 	private VolumeStepper _master = null!, _music = null!, _sfx = null!;
-	private Button _mute = null!;
 
 	public override void _Ready()
 	{
 		_master = GetNode<VolumeStepper>("%MasterStepper");
 		_music = GetNode<VolumeStepper>("%MusicStepper");
 		_sfx = GetNode<VolumeStepper>("%SfxStepper");
-		_mute = GetNode<Button>("%MuteToggle");
-		_mute.TooltipText = "Mute all audio";
 		GetNode<RichTextLabel>("%CreditsText").Text = Credits;
 
 		_master.LevelChanged += level => Audio.Instance?.SetBusVolume("Master", level / (float)VolumeStepper.Steps);
@@ -39,11 +33,6 @@ public partial class SettingsMenu : Control
 		{
 			Audio.Instance?.SetBusVolume("SFX", level / (float)VolumeStepper.Steps);
 			Audio.Instance?.PlaySfx("confirm");
-		};
-		_mute.Toggled += muted =>
-		{
-			Audio.Instance?.SetMuted(muted);
-			_mute.Icon = muted ? SoundOff : SoundOn;
 		};
 		GetNode<Button>("%CloseButton").Pressed += Hide;
 		GetNode<Button>("%Backdrop").Pressed += Hide;
@@ -58,8 +47,6 @@ public partial class SettingsMenu : Control
 			_master.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("Master")));
 			_music.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("Music")));
 			_sfx.SetLevelSilent(ToLevel(Audio.Instance.GetBusVolume("SFX")));
-			_mute.SetPressedNoSignal(Audio.Instance.Muted);
-			_mute.Icon = Audio.Instance.Muted ? SoundOff : SoundOn;
 		}
 		Show();
 		MoveToFront();
