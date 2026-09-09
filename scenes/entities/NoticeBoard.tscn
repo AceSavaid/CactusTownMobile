@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://scripts/entities/NoticeBoard.cs" id="1_nb"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/noticeboard.svg" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_reach"]
+radius = 130.0
+
+[node name="NoticeBoard" type="Area2D"]
+script = ExtResource("1_nb")
+PromptOffset = Vector2(0, -190)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -78)
+scale = Vector2(1.35, 1.35)
+texture = ExtResource("2_tex")
+
+[node name="Reach" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_reach")

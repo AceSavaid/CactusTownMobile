@@ -1,6 +1,12 @@
-[gd_scene load_steps=31 format=3]
+[gd_scene load_steps=37 format=3]
 
 [ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
+[ext_resource type="PackedScene" path="res://scenes/entities/Mentor.tscn" id="mentor_s"]
+[ext_resource type="PackedScene" path="res://scenes/entities/NoticeBoard.tscn" id="board_s"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/signpost_worn.svg" id="sign_worn"]
+[ext_resource type="Texture2D" path="res://assets/sprites/props/signpost_new.svg" id="sign_new"]
+[ext_resource type="PackedScene" path="res://ui/NoticePanel.tscn" id="notice_p"]
+[ext_resource type="PackedScene" path="res://ui/MentorPanel.tscn" id="mentor_p"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
 [ext_resource type="PackedScene" path="res://scenes/entities/RepairableObject.tscn" id="3_obj"]
 [ext_resource type="PackedScene" path="res://ui/VirtualJoystick.tscn" id="4_js"]
@@ -198,6 +204,29 @@ y_sort_enabled = true
 unique_name_in_owner = true
 position = Vector2(-40, 340)
 
+[node name="Sage" parent="World" instance=ExtResource("mentor_s")]
+position = Vector2(230, 120)
+
+[node name="IntroBoard" parent="World" instance=ExtResource("board_s")]
+position = Vector2(30, 150)
+
+[node name="IntroSign" parent="World" instance=ExtResource("3_obj")]
+position = Vector2(-230, 140)
+ObjectId = "intro_sign"
+DisplayName = "Welcome Sign"
+ExcludeFromCompletion = true
+FixedVariant = 1
+Variants = Array[Texture2D]([ExtResource("sign_worn"), ExtResource("sign_new")])
+VariantCosts = Array[int]([0, 0])
+RequiredMaterials = {
+"wood": 2
+}
+RepairReward = 10
+NpcName = "Sage"
+RequestText = "This old welcome sign is the first thing folk see. Two lengths of wood from the Forest and it'll stand proud again."
+ThanksText = "There — good as new. Welcome to Cactus Town, properly this time."
+SpriteOffset = Vector2(0, -74)
+
 [node name="Fountain" parent="World" instance=ExtResource("3_obj")]
 position = Vector2(-640, 80)
 ObjectId = "square_fountain"
@@ -297,4 +326,10 @@ unique_name_in_owner = true
 unique_name_in_owner = true
 
 [node name="CustomizePanel" parent="UI" instance=ExtResource("8_cp")]
+unique_name_in_owner = true
+
+[node name="NoticePanel" parent="UI" instance=ExtResource("notice_p")]
+unique_name_in_owner = true
+
+[node name="MentorPanel" parent="UI" instance=ExtResource("mentor_p")]
 unique_name_in_owner = true

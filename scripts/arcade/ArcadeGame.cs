@@ -40,7 +40,10 @@ public partial class ArcadeGame : Control
 	{
 		LastResult = result;
 		if (result > 0)
+		{
 			GameState.Instance.AddCoins(Difficulty);
+			GameState.Instance.RecordArcadeWin();
+		}
 		Audio.Instance?.PlaySfx(result > 0 ? "win" : result < 0 ? "lose" : "confirm");
 	}
 

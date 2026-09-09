@@ -24,6 +24,8 @@ public partial class TownSection : Node2D
 	private RepairPanel _repairPanel = null!;
 	private CustomizePanel _customizePanel = null!;
 	private Node2D _world = null!;
+	private NoticePanel? _noticePanel;
+	private MentorPanel? _mentorPanel;
 
 	public override void _Ready()
 	{
@@ -47,6 +49,13 @@ public partial class TownSection : Node2D
 			obj.PlayerEntered += OnObjectEntered;
 			obj.PlayerExited += OnObjectExited;
 		}
+
+		_noticePanel = GetNodeOrNull<NoticePanel>("%NoticePanel");
+		_mentorPanel = GetNodeOrNull<MentorPanel>("%MentorPanel");
+		foreach (var board in _world.GetChildren().OfType<NoticeBoard>())
+			board.Interacted += () => _noticePanel?.Open();
+		foreach (var mentor in _world.GetChildren().OfType<Mentor>())
+			mentor.Interacted += () => _mentorPanel?.OpenTip();
 
 		BuildBuildingColliders();
 		RefreshCompletion();
@@ -95,7 +104,8 @@ public partial class TownSection : Node2D
 	private void RefreshCompletion()
 	{
 		var objects = Objects.ToList();
-		_complete = objects.Count > 0 && objects.All(o => o.IsFixed);
+		var counted = objects.Where(o => !o.ExcludeFromCompletion).ToList();
+		_complete = counted.Count > 0 && counted.All(o => o.IsFixed);
 
 		if (_complete && !GameState.Instance.IsSectionCompletedOnce(SectionId))
 		{

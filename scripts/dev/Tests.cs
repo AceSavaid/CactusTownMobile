@@ -190,6 +190,7 @@ public partial class Tests : Node
 			var scene = GD.Load<PackedScene>(section.ScenePath).Instantiate();
 			var inScene = scene.FindChildren("*", recursive: true)
 				.OfType<RepairableObject>()
+				.Where(o => !o.ExcludeFromCompletion)
 				.Select(o => o.ObjectId)
 				.ToHashSet();
 			scene.QueueFree();
@@ -371,6 +372,74 @@ public partial class Tests : Node
 
 		foreach (var id in TownSections.Find("garden")!.ObjectIds)
 			Ok(gs.IsObjectFixed(id), "no decay without a first completion");
+	}
+
+	// ================================================================
+	//  Onboarding & notices
+	// ================================================================
+
+	[Test]
+	private void FirstRepair_flag_and_progressive_gates()
+	{
+		var gs = GameState.Instance;
+		Ok(!gs.FirstRepairDone, "no repairs on a fresh save");
+		Ok(!gs.FirstSectionDone, "no sections done");
+
+		gs.SetObjectState("square_lamp", "fixed");
+		Ok(gs.FirstRepairDone, "first_repair flag set on first fix");
+		Eq(gs.GetStat("repairs"), 1, "repair counter bumped");
+
+		gs.SetObjectState("square_lamp", "fixed");
+		Eq(gs.GetStat("repairs"), 1, "re-fixing the same object doesn't double-count");
+	}
+
+	[Test]
+	private void Seeds_add_and_signal_value()
+	{
+		var gs = GameState.Instance;
+		Eq(gs.Seeds, 0, "fresh save has no seeds");
+		gs.AddSeeds(3);
+		Eq(gs.Seeds, 3, "seeds added");
+	}
+
+	[Test]
+	private void Notices_start_in_tutorial_then_switch_to_daily()
+	{
+		var gs = GameState.Instance;
+		Ok(Notices.InTutorialMode(gs), "fresh save shows the tutorial list");
+		Eq(Notices.Current(gs).Count, Notices.Tutorial.Length, "tutorial list length");
+
+		foreach (var t in Notices.Tutorial)
+			gs.ClaimNotice(t.Id, 0, 0);   // claim without needing the predicate for this test
+
+		Ok(Notices.TutorialComplete(gs), "tutorial complete once all claimed");
+		Ok(!Notices.InTutorialMode(gs), "board switched to daily mode");
+		Eq(Notices.DailyFor(gs, "2026-09-09").Length, 3, "three daily notices");
+	}
+
+	[Test]
+	private void Notice_claim_pays_once()
+	{
+		var gs = GameState.Instance;
+		Ok(!gs.IsNoticeClaimed("tut:sign"), "not claimed yet");
+		gs.ClaimNotice("tut:sign", 15, 0);
+		Eq(gs.GetCoins(), 15, "reward paid");
+		Ok(gs.IsNoticeClaimed("tut:sign"), "marked claimed");
+
+		gs.ClaimNotice("tut:sign", 15, 0);
+		Eq(gs.GetCoins(), 15, "no second payout");
+	}
+
+	[Test]
+	private void Daily_notices_are_deterministic_per_day()
+	{
+		var gs = GameState.Instance;
+		var a1 = Notices.DailyFor(gs, "2026-09-09").Select(n => n.Id).ToArray();
+		var a2 = Notices.DailyFor(gs, "2026-09-09").Select(n => n.Id).ToArray();
+		var b = Notices.DailyFor(gs, "2026-09-10").Select(n => n.Id).ToArray();
+		Ok(a1.SequenceEqual(a2), "same day → same challenges");
+		Ok(!a1.SequenceEqual(b), "different day → different challenges");
+		Eq(a1.Distinct().Count(), a1.Length, "no duplicate challenges in a day");
 	}
 
 	// ================================================================

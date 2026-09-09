@@ -25,6 +25,12 @@ public partial class RepairableObject : Area2D
 
 	[Export] public Dictionary RequiredMaterials = new();
 	[Export] public int RepairReward = 25;
+
+	/// <summary>Tutorial/decoration fixtures: don't count toward section completion and hide the stock NPC.</summary>
+	[Export] public bool ExcludeFromCompletion = false;
+
+	/// <summary>If ≥ 0, snap to this variant the moment the object is repaired (e.g. worn sign → new sign).</summary>
+	[Export] public int FixedVariant = -1;
 	[Export(PropertyHint.MultilineText)] public string NpcName = "";
 	[Export(PropertyHint.MultilineText)] public string RequestText = "This has seen better days.";
 	[Export(PropertyHint.MultilineText)] public string ThanksText = "Wonderful — thank you!";
@@ -41,7 +47,7 @@ public partial class RepairableObject : Area2D
 	public bool IsFixed => GameState.Instance.IsObjectFixed(ObjectId);
 	public int VariantCount => Variants.Count;
 	public int CurrentVariant => GameState.Instance.GetObjectVariant(ObjectId);
-	public bool PlayerCanInteract => !IsFixed || (_customizable && IsFixed);
+	public bool PlayerCanInteract => !IsFixed || (_customizable && IsFixed && !ExcludeFromCompletion);
 	public string InteractionLabel => IsFixed ? "Customise" : "Repair";
 
 	public override void _Ready()
@@ -78,7 +84,7 @@ public partial class RepairableObject : Area2D
 		var texHeight = _sprite.Texture?.GetHeight() ?? 96;
 		_prompt.Position = new Vector2(0, SpriteOffset.Y - texHeight * 0.5f - 18f);
 		_sprite.Modulate = IsFixed ? Colors.White : new Color(0.56f, 0.51f, 0.47f);
-		_npc.Visible = !IsFixed;
+		_npc.Visible = !IsFixed && !ExcludeFromCompletion;
 	}
 
 	private void UpdatePrompt()
@@ -116,6 +122,8 @@ public partial class RepairableObject : Area2D
 		GameState.Instance.SpendMaterials(RequiredMaterials);
 		GameState.Instance.SetObjectState(ObjectId, "fixed");
 		GameState.Instance.AddCoins(RepairReward);
+		if (FixedVariant >= 0 && FixedVariant < Variants.Count)
+			GameState.Instance.SetObjectVariant(ObjectId, FixedVariant);
 		RefreshVisual();
 	}
 

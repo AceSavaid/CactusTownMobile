@@ -84,6 +84,34 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One
   catch-up event no matter how many days passed.
 
+## Onboarding & the Notice Board
+
+- **Progressive hub** (`House.cs`): a first-time player sees only *Go to Town*,
+  *Settings*, *Ask Sage*. `GameState.FirstRepairDone` reveals *Customise Plant /
+  Mini-Games / Plant Stats / Notices*. (Almanac lives inside Plant Stats, shown
+  after `FirstSectionDone` — endgame, not built yet.)
+- **Sage** the mentor (`scenes/entities/Mentor.tscn`, `Mentor.cs` → `TapInteractable`):
+  a big hatted cactus in Main Square (by the intro cluster) and on the House hub
+  ("Ask Sage" button). Tap → `MentorPanel` shows `MentorTips.Line(GameState)`, a
+  progress-aware nudge toward whatever's next.
+- **Notice Board** (`scenes/entities/NoticeBoard.tscn` → `TapInteractable`;
+  `ui/NoticePanel.tscn`): a prop in Main Square and a *Notices* hub button. Two
+  modes (`Notices.cs`): **tutorial** — a fixed 5-step getting-started list, each
+  claim pays ~15 coins — until every step is claimed, then **daily** — 3
+  challenges chosen deterministically from the EST date, refreshed by
+  `GameState.RefreshDailyNotices()` (called in `GameState._Ready`). Rewards:
+  coins + **seeds** (premium currency, `GameState.Seeds` / `AddSeeds`).
+- **Intro cluster** in `MainSquare.tscn` `%World`: `Sage` + `IntroBoard` +
+  `IntroSign` (a `RepairableObject` with `ExcludeFromCompletion = true` so it's
+  outside decay/section-completion, and `FixedVariant = 1` to swap worn→new on
+  repair). `gridtown.py` leaves `ExcludeFromCompletion` objects and non-`3_obj`
+  World nodes in place, so re-running it is safe.
+- **Progression flags & counters** on `GameState`: `SetFlag`/`HasFlag`
+  (`first_repair`, `gathered`, `customised`, `arcade_win`), `BumpStat`/`GetStat`
+  (`repairs`, `gathers`, `arcade_wins`, `restyles`, `coins_earned`). Hooked from
+  `SetObjectState("fixed")`, `ResourceNode.OnHarvested`, `ArcadeGame.ReportResult`,
+  `EquipPlantItem`, `SetObjectVariant`. Signals: `SeedsChanged`, `ProgressChanged`.
+
 ## Plant customisation & stats
 
 - `PlantCatalog` (`scripts/globals/PlantCatalog.cs`) — every pot / plant / accessory

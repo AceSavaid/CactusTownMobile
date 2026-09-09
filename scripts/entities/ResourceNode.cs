@@ -98,7 +98,10 @@ public partial class ResourceNode : Area2D
 	public void OnHarvested(int amount)
 	{
 		if (amount > 0)
+		{
 			GameState.Instance.AddMaterial(MaterialId, amount);
+			GameState.Instance.RecordGather();
+		}
 
 		_harvestsLeft--;
 		if (IsDepleted)

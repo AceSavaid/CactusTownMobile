@@ -137,7 +137,8 @@ def build(sec):
         return re.sub(r'position = Vector2\([^)]*\)', f'position = Vector2({xy[0]}, {xy[1]})', block, count=1)
     s = re.sub(r'(\[node name="Player" parent="World"[^\]]*\]\n(?:(?!\[node).*\n)*)',
               lambda m: setpos(m.group(1), PLAYER_SPAWN), s, count=1)
-    objs = list(re.finditer(r'\[node name="\w+" parent="World" instance=ExtResource\("3_obj"\)\]\n(?:(?!\[node).*\n)*', s))
+    objs = [m for m in re.finditer(r'\[node name="\w+" parent="World" instance=ExtResource\("3_obj"\)\]\n(?:(?!\[node).*\n)*', s)
+            if "ExcludeFromCompletion = true" not in m.group(0)]  # tutorial props stay put
     parts, cur = [], 0
     for i,m in enumerate(objs):
         parts.append(s[cur:m.start()]); parts.append(setpos(m.group(0), OBJ_SLOTS[i % len(OBJ_SLOTS)])); cur = m.end()

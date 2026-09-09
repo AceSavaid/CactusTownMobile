@@ -69,6 +69,12 @@ public partial class ScreenshotNode : Node
 				GameState.Instance.AddMaterial(m, 20);
 		}
 
+		if (args.Contains("onboarded"))
+		{
+			GameState.Instance.SetObjectState("intro_sign", "fixed");
+			GameState.Instance.SetFlag("gathered");
+		}
+
 		foreach (var arg in args)
 			if (arg.StartsWith("unlock="))
 				GameState.Instance.SetSectionCompletedOnce(arg["unlock=".Length..]);
@@ -179,6 +185,20 @@ public partial class ScreenshotNode : Node
 			menu.Open();
 			if (args.Contains("credits_tab"))
 				menu.GetNode<TabContainer>("%Tabs").CurrentTab = 1;
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		if (args.Contains("notices") && scene.HasNode("%NoticePanel"))
+		{
+			scene.GetNode<NoticePanel>("%NoticePanel").Open();
+			for (var i = 0; i < 4; i++)
+				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
+		}
+
+		if (args.Contains("mentor") && scene.HasNode("%MentorPanel"))
+		{
+			scene.GetNode<MentorPanel>("%MentorPanel").OpenTip();
 			for (var i = 0; i < 4; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}

@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=7 format=3]
 
 [ext_resource type="Script" path="res://scripts/House.cs" id="1_house"]
 [ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="2_hud"]
 [ext_resource type="PackedScene" path="res://ui/PlantView.tscn" id="3_pv"]
 [ext_resource type="PackedScene" path="res://ui/SettingsMenu.tscn" id="4_audio"]
+[ext_resource type="PackedScene" path="res://ui/NoticePanel.tscn" id="5_np"]
+[ext_resource type="PackedScene" path="res://ui/MentorPanel.tscn" id="6_mp"]
 
 [node name="House" type="Control"]
 layout_mode = 3
@@ -94,6 +96,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 40
 text = "Plant Stats"
 
+[node name="NoticesButton" type="Button" parent="Menu"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 116)
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Notices"
+
 [node name="GoToTownButton" type="Button" parent="."]
 unique_name_in_owner = true
 layout_mode = 1
@@ -119,8 +128,24 @@ offset_bottom = 128.0
 theme_override_font_sizes/font_size = 32
 text = "Settings"
 
+[node name="SageButton" type="Button" parent="."]
+unique_name_in_owner = true
+layout_mode = 1
+offset_left = 210.0
+offset_top = 838.0
+offset_right = 560.0
+offset_bottom = 922.0
+theme_override_font_sizes/font_size = 32
+text = "Ask Sage"
+
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]
 
 [node name="SettingsMenu" parent="." instance=ExtResource("4_audio")]
+unique_name_in_owner = true
+
+[node name="NoticePanel" parent="." instance=ExtResource("5_np")]
+unique_name_in_owner = true
+
+[node name="MentorPanel" parent="." instance=ExtResource("6_mp")]
 unique_name_in_owner = true
 

@@ -18,6 +18,8 @@ public partial class GameState : Node
 	[Signal] public delegate void MaterialsChangedEventHandler();
 	[Signal] public delegate void PlantChangedEventHandler();
 	[Signal] public delegate void ObjectsChangedEventHandler();
+	[Signal] public delegate void SeedsChangedEventHandler(int total);
+	[Signal] public delegate void ProgressChangedEventHandler();
 
 	public static GameState Instance { get; private set; } = null!;
 
@@ -28,6 +30,7 @@ public partial class GameState : Node
 		Instance = this;
 		LoadGame();
 		RunTownDecay();
+		RefreshDailyNotices();
 	}
 
 	// --- Wallet -----------------------------------------------------------
@@ -37,6 +40,12 @@ public partial class GameState : Node
 	public void AddCoins(int amount)
 	{
 		_data["coins"] = GetCoins() + amount;
+		if (amount > 0)
+		{
+			var stats = _data.TryGetValue("stats", out var s) ? s.AsGodotDictionary() : new Dictionary();
+			stats["coins_earned"] = (stats.TryGetValue("coins_earned", out var v) ? v.AsInt32() : 0) + amount;
+			_data["stats"] = stats;
+		}
 		EmitSignal(SignalName.CoinsChanged, GetCoins());
 		SaveGame();
 	}
@@ -134,8 +143,11 @@ public partial class GameState : Node
 	public void EquipPlantItem(string itemId)
 	{
 		var item = PlantCatalog.Find(itemId);
-		if (item != null)
-			SetPlantField(PlantCatalog.SlotKey(item.Slot), itemId);
+		if (item == null)
+			return;
+		SetPlantField(PlantCatalog.SlotKey(item.Slot), itemId);
+		if (item.Cost > 0 || item.Id is not ("pot_clay" or "plant_cactus" or "acc_none"))
+			SetFlag("customised");
 	}
 
 	private Array PlantOwned()
@@ -225,9 +237,16 @@ public partial class GameState : Node
 		var entry = objects.TryGetValue(objectId, out var existing)
 			? existing.AsGodotDictionary()
 			: new Dictionary();
+		var wasFixed = entry.TryGetValue("state", out var s) && s.AsString() == "fixed";
 		entry["state"] = state;
 		objects[objectId] = entry;
 		_data["objects"] = objects;
+
+		if (state == "fixed" && !wasFixed)
+		{
+			SetFlag("first_repair");
+			BumpStat("repairs");
+		}
 		SaveGame();
 	}
 
@@ -295,8 +314,11 @@ public partial class GameState : Node
 	public void SetObjectVariant(string objectId, int index)
 	{
 		var entry = ObjectEntry(objectId);
+		var changed = (entry.TryGetValue("variant", out var v) ? v.AsInt32() : 0) != index;
 		entry["variant"] = index;
 		SaveGame();
+		if (changed && index > 0)
+			BumpStat("restyles");
 		EmitSignal(SignalName.ObjectsChanged);
 	}
 
@@ -423,6 +445,131 @@ public partial class GameState : Node
 	public bool IsRegionVisited(string regionId) =>
 		_data["regions"].AsGodotDictionary().ContainsKey(regionId);
 
+	// --- Onboarding & progression -----------------------------------
+
+	/// <summary>Seeds — the premium currency, earned from notices and streak milestones.</summary>
+	public int Seeds => _data.TryGetValue("seeds", out var s) ? s.AsInt32() : 0;
+
+	public void AddSeeds(int amount)
+	{
+		if (amount == 0)
+			return;
+		_data["seeds"] = Seeds + amount;
+		EmitSignal(SignalName.SeedsChanged, Seeds);
+		SaveGame();
+	}
+
+	private Array Flags => _data.TryGetValue("flags", out var f) ? f.AsGodotArray() : new Array();
+
+	public bool HasFlag(string flag) => Flags.Any(x => x.AsString() == flag);
+
+	/// <summary>Set a one-way onboarding flag (idempotent).</summary>
+	public void SetFlag(string flag)
+	{
+		var flags = Flags;
+		if (flags.Any(x => x.AsString() == flag))
+			return;
+		flags.Add(flag);
+		_data["flags"] = flags;
+		SaveGame();
+		EmitSignal(SignalName.ProgressChanged);
+	}
+
+	public int GetStat(string key)
+	{
+		var stats = _data.TryGetValue("stats", out var s) ? s.AsGodotDictionary() : new Dictionary();
+		return stats.TryGetValue(key, out var v) ? v.AsInt32() : 0;
+	}
+
+	public void BumpStat(string key, int by = 1)
+	{
+		var stats = _data.TryGetValue("stats", out var s) ? s.AsGodotDictionary() : new Dictionary();
+		stats[key] = (stats.TryGetValue(key, out var v) ? v.AsInt32() : 0) + by;
+		_data["stats"] = stats;
+		SaveGame();
+		EmitSignal(SignalName.ProgressChanged);
+	}
+
+	/// <summary>Called from a region when a gather mini-game pays out.</summary>
+	public void RecordGather()
+	{
+		SetFlag("gathered");
+		BumpStat("gathers");
+	}
+
+	/// <summary>Called from the arcade when the player wins a round.</summary>
+	public void RecordArcadeWin()
+	{
+		SetFlag("arcade_win");
+		BumpStat("arcade_wins");
+	}
+
+	public bool FirstRepairDone => HasFlag("first_repair");
+	public bool FirstSectionDone => TownSections.All.Any(s => IsSectionCompletedOnce(s.Id));
+
+	// --- Notice board ----------------------------------------------
+
+	private Dictionary NoticeData => _data.TryGetValue("notices", out var n)
+		? n.AsGodotDictionary()
+		: new Dictionary { { "day", "" }, { "claimed", new Array() }, { "snapshot", new Dictionary() } };
+
+	public bool IsNoticeClaimed(string id) =>
+		NoticeData["claimed"].AsGodotArray().Any(x => x.AsString() == id);
+
+	/// <summary>Grant a completed notice's reward once.</summary>
+	public void ClaimNotice(string id, int coins, int seeds)
+	{
+		var notices = NoticeData;
+		var claimed = notices["claimed"].AsGodotArray();
+		if (claimed.Any(x => x.AsString() == id))
+			return;
+		claimed.Add(id);
+		notices["claimed"] = claimed;
+		_data["notices"] = notices;
+		SaveGame();
+		if (coins > 0) AddCoins(coins);
+		if (seeds > 0) AddSeeds(seeds);
+		EmitSignal(SignalName.ProgressChanged);
+	}
+
+	/// <summary>Day-start counter snapshot used to score "…today" daily notices.</summary>
+	public int NoticeSnapshot(string key)
+	{
+		var snap = NoticeData["snapshot"].AsGodotDictionary();
+		return snap.TryGetValue(key, out var v) ? v.AsInt32() : 0;
+	}
+
+	/// <summary>Roll the daily notice set if the EST day changed (no-op in tutorial mode).</summary>
+	public void RefreshDailyNotices()
+	{
+		if (!Notices.TutorialComplete(this))
+			return;
+		var notices = NoticeData;
+		var today = EstToday();
+		if (notices["day"].AsString() == today)
+			return;
+
+		notices["day"] = today;
+		notices["snapshot"] = new Dictionary
+		{
+			{ "repairs", GetStat("repairs") },
+			{ "arcade_wins", GetStat("arcade_wins") },
+			{ "gathers", GetStat("gathers") },
+			{ "restyles", GetStat("restyles") },
+			{ "coins_earned", GetStat("coins_earned") },
+		};
+		// drop yesterday's daily claims; keep the tutorial ones
+		var kept = new Array();
+		foreach (var c in notices["claimed"].AsGodotArray())
+			if (!c.AsString().StartsWith("daily:"))
+				kept.Add(c);
+		notices["claimed"] = kept;
+
+		_data["notices"] = notices;
+		SaveGame();
+		EmitSignal(SignalName.ProgressChanged);
+	}
+
 	// --- Persistence --------------------------------------------------
 
 	public void NewGame()
@@ -499,5 +646,9 @@ public partial class GameState : Node
 		{ "objects", new Dictionary() },
 		{ "regions", new Dictionary() },
 		{ "town", new Dictionary() },
+		{ "seeds", 0 },
+		{ "flags", new Array() },
+		{ "stats", new Dictionary() },
+		{ "notices", new Dictionary { { "day", "" }, { "claimed", new Array() }, { "snapshot", new Dictionary() } } },
 	};
 }
