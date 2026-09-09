@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3]
+[gd_scene load_steps=35 format=3]
 
 [ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
@@ -23,10 +23,17 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/props/door_wood.svg" id="21"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/door_red.svg" id="22"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/door_cottage.svg" id="23"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="bld_house_sage"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="bld_house_clay"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_blue.svg" id="bld_house_blue"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_rose.svg" id="bld_house_rose"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_slate.svg" id="bld_house_slate"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_olive.svg" id="bld_house_olive"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_teal.svg" id="bld_house_teal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/rowhouse_brick.svg" id="bld_rowhouse_brick"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/cottage_sage.svg" id="bld_cottage_sage"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="bld_apartment"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_cream.svg" id="bld_apartment_cream"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="bld_house_sage"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/cottage_rose.svg" id="bld_cottage_rose"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="bld_house_clay"]
 
 [node name="Housing" type="Node2D"]
 script = ExtResource("1_sec")
@@ -101,91 +108,91 @@ color = Color(0.9, 0.86, 0.66, 0.5)
 texture_filter = 1
 position = Vector2(-980, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_house_blue")
+texture = ExtResource("bld_house_rose")
 
 [node name="B1" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-560, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_house_sage")
+texture = ExtResource("bld_house_slate")
 
 [node name="B2" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-140, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_house_clay")
+texture = ExtResource("bld_house_olive")
 
 [node name="B3" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(560, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_house_blue")
+texture = ExtResource("bld_house_teal")
 
 [node name="B4" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(980, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_house_sage")
+texture = ExtResource("bld_rowhouse_brick")
 
 [node name="B5" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-930, -470)
 scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_house_clay")
+texture = ExtResource("bld_cottage_sage")
 
 [node name="B6" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-560, -470)
-scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_house_blue")
+scale = Vector2(1.05, 1.05)
+texture = ExtResource("bld_apartment")
 
 [node name="B7" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(560, -470)
 scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_house_sage")
+texture = ExtResource("bld_apartment_cream")
 
 [node name="B8" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(930, -530)
-scale = Vector2(1.06, 1.06)
-texture = ExtResource("bld_apartment")
+position = Vector2(930, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_house_sage")
 
 [node name="B9" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-1120, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_house_sage")
+texture = ExtResource("bld_cottage_rose")
 
 [node name="B10" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-740, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_house_clay")
+texture = ExtResource("bld_cottage_sage")
 
 [node name="B11" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-360, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_house_blue")
+texture = ExtResource("bld_apartment")
 
 [node name="B12" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(360, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_house_sage")
+texture = ExtResource("bld_apartment_cream")
 
 [node name="B13" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(740, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_house_clay")
+texture = ExtResource("bld_house_sage")
 
 [node name="B14" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(1120, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_house_blue")
+texture = ExtResource("bld_house_clay")
 
 [node name="World" type="Node2D" parent="."]
 unique_name_in_owner = true

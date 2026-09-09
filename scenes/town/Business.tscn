@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3]
+[gd_scene load_steps=34 format=3]
 
 [ext_resource type="Script" path="res://scripts/TownSection.cs" id="1_sec"]
 [ext_resource type="PackedScene" path="res://scenes/entities/Player.tscn" id="2_player"]
@@ -24,8 +24,15 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/props/clock_gold.svg" id="22"]
 [ext_resource type="Texture2D" path="res://assets/sprites/props/clock_blue.svg" id="23"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop.svg" id="bld_shop"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="bld_apartment"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_blue.svg" id="bld_shop_blue"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_green.svg" id="bld_shop_green"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/office_teal.svg" id="bld_office_teal"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/office_slate.svg" id="bld_office_slate"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/office_warm.svg" id="bld_office_warm"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_brick.svg" id="bld_apartment_brick"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_grey.svg" id="bld_apartment_grey"]
 [ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="bld_townhall"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_cream.svg" id="bld_apartment_cream"]
 
 [node name="Business" type="Node2D"]
 script = ExtResource("1_sec")
@@ -105,74 +112,74 @@ texture = ExtResource("bld_shop")
 [node name="B1" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-560, 405)
-scale = Vector2(0.72, 0.72)
-texture = ExtResource("bld_apartment")
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_shop_blue")
 
 [node name="B2" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-140, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_shop")
+texture = ExtResource("bld_shop_green")
 
 [node name="B3" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(560, 405)
-scale = Vector2(0.72, 0.72)
-texture = ExtResource("bld_apartment")
+scale = Vector2(0.78, 0.78)
+texture = ExtResource("bld_office_teal")
 
 [node name="B4" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(980, 405)
 scale = Vector2(0.78, 0.78)
-texture = ExtResource("bld_shop")
+texture = ExtResource("bld_office_slate")
 
 [node name="B5" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-560, -470)
+position = Vector2(-930, -470)
 scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_shop")
+texture = ExtResource("bld_office_warm")
 
 [node name="B6" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-560, -530)
-scale = Vector2(1.24, 1.24)
-texture = ExtResource("bld_apartment")
+position = Vector2(-560, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_office_teal")
 
 [node name="B7" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(560, -530)
-scale = Vector2(1.24, 1.24)
-texture = ExtResource("bld_apartment")
+position = Vector2(560, -470)
+scale = Vector2(0.92, 0.92)
+texture = ExtResource("bld_office_slate")
 
 [node name="B8" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
-position = Vector2(-930, -470)
+position = Vector2(930, -470)
 scale = Vector2(0.92, 0.92)
-texture = ExtResource("bld_shop")
+texture = ExtResource("bld_office_warm")
 
 [node name="B9" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-1120, -170)
 scale = Vector2(1.12, 1.12)
-texture = ExtResource("bld_shop")
+texture = ExtResource("bld_apartment_brick")
 
 [node name="B10" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-740, -170)
-scale = Vector2(1.06, 1.06)
-texture = ExtResource("bld_apartment")
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_apartment_grey")
 
 [node name="B11" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(-360, -170)
-scale = Vector2(1.12, 1.12)
+scale = Vector2(1.14, 1.14)
 texture = ExtResource("bld_townhall")
 
 [node name="B12" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(360, -170)
-scale = Vector2(1.06, 1.06)
-texture = ExtResource("bld_apartment")
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_apartment_cream")
 
 [node name="B13" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
@@ -183,8 +190,8 @@ texture = ExtResource("bld_shop")
 [node name="B14" type="Sprite2D" parent="Backdrop"]
 texture_filter = 1
 position = Vector2(1120, -170)
-scale = Vector2(1.06, 1.06)
-texture = ExtResource("bld_apartment")
+scale = Vector2(1.12, 1.12)
+texture = ExtResource("bld_shop_blue")
 
 [node name="World" type="Node2D" parent="."]
 unique_name_in_owner = true

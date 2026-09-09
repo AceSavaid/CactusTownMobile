@@ -1,13 +1,42 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=38 format=3]
 
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="1"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="2"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_blue.svg" id="3"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop.svg" id="4"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="5"]
-[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="6"]
-
-[sub_resource type="Environment" id="e"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment.svg" id="0"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_blue.svg" id="1"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_brick.svg" id="2"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_cream.svg" id="3"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/apartment_grey.svg" id="4"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/clocktower_brick.svg" id="5"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/clocktower_stone.svg" id="6"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/cottage_rose.svg" id="7"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/cottage_sage.svg" id="8"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/cottage_stone.svg" id="9"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/cottage_thatch.svg" id="10"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_blue.svg" id="11"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_brick.svg" id="12"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_butter.svg" id="13"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_clay.svg" id="14"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_cream.svg" id="15"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_lavender.svg" id="16"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_mint.svg" id="17"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_olive.svg" id="18"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_rose.svg" id="19"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_sage.svg" id="20"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_slate.svg" id="21"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/house_teal.svg" id="22"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/office_slate.svg" id="23"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/office_teal.svg" id="24"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/office_warm.svg" id="25"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/rowhouse_blue.svg" id="26"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/rowhouse_brick.svg" id="27"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/rowhouse_cream.svg" id="28"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/rowhouse_green.svg" id="29"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop.svg" id="30"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_blue.svg" id="31"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_green.svg" id="32"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_orange.svg" id="33"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_plum.svg" id="34"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/shop_teal.svg" id="35"]
+[ext_resource type="Texture2D" path="res://assets/sprites/buildings/townhall.svg" id="36"]
 
 [node name="BuildingPreview" type="Control"]
 layout_mode = 3
@@ -19,45 +48,606 @@ anchor_bottom = 1.0
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-color = Color(0.729, 0.647, 0.478, 1)
+color = Color(0.6, 0.62, 0.5, 1)
 
-[node name="Row" type="HBoxContainer" parent="."]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 40.0
-offset_top = 300.0
-offset_right = -40.0
-offset_bottom = -200.0
-alignment = 1
-theme_override_constants/separation = 24
+[node name="Grid" type="GridContainer" parent="."]
+offset_left = 30.0
+offset_top = 20.0
+offset_right = 1900.0
+offset_bottom = 1060.0
+columns = 8
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 8
 
-[node name="A" type="TextureRect" parent="Row"]
+[node name="C0" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I0" type="TextureRect" parent="Grid/C0"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("0")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L0" type="Label" parent="Grid/C0"]
+layout_mode = 2
+text = "apartment"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C1" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I1" type="TextureRect" parent="Grid/C1"]
+custom_minimum_size = Vector2(230, 230)
 layout_mode = 2
 texture = ExtResource("1")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 6
 
-[node name="B" type="TextureRect" parent="Row"]
+[node name="L1" type="Label" parent="Grid/C1"]
+layout_mode = 2
+text = "apartment_blue"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C2" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I2" type="TextureRect" parent="Grid/C2"]
+custom_minimum_size = Vector2(230, 230)
 layout_mode = 2
 texture = ExtResource("2")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 6
 
-[node name="C" type="TextureRect" parent="Row"]
+[node name="L2" type="Label" parent="Grid/C2"]
+layout_mode = 2
+text = "apartment_brick"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C3" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I3" type="TextureRect" parent="Grid/C3"]
+custom_minimum_size = Vector2(230, 230)
 layout_mode = 2
 texture = ExtResource("3")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 6
 
-[node name="D" type="TextureRect" parent="Row"]
+[node name="L3" type="Label" parent="Grid/C3"]
+layout_mode = 2
+text = "apartment_cream"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C4" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I4" type="TextureRect" parent="Grid/C4"]
+custom_minimum_size = Vector2(230, 230)
 layout_mode = 2
 texture = ExtResource("4")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 6
 
-[node name="E" type="TextureRect" parent="Row"]
+[node name="L4" type="Label" parent="Grid/C4"]
+layout_mode = 2
+text = "apartment_grey"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C5" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I5" type="TextureRect" parent="Grid/C5"]
+custom_minimum_size = Vector2(230, 230)
 layout_mode = 2
 texture = ExtResource("5")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 6
 
-[node name="F" type="TextureRect" parent="Row"]
+[node name="L5" type="Label" parent="Grid/C5"]
+layout_mode = 2
+text = "clocktower_brick"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C6" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I6" type="TextureRect" parent="Grid/C6"]
+custom_minimum_size = Vector2(230, 230)
 layout_mode = 2
 texture = ExtResource("6")
-stretch_mode = 3
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L6" type="Label" parent="Grid/C6"]
+layout_mode = 2
+text = "clocktower_stone"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C7" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I7" type="TextureRect" parent="Grid/C7"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("7")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L7" type="Label" parent="Grid/C7"]
+layout_mode = 2
+text = "cottage_rose"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C8" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I8" type="TextureRect" parent="Grid/C8"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("8")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L8" type="Label" parent="Grid/C8"]
+layout_mode = 2
+text = "cottage_sage"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C9" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I9" type="TextureRect" parent="Grid/C9"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("9")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L9" type="Label" parent="Grid/C9"]
+layout_mode = 2
+text = "cottage_stone"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C10" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I10" type="TextureRect" parent="Grid/C10"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("10")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L10" type="Label" parent="Grid/C10"]
+layout_mode = 2
+text = "cottage_thatch"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C11" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I11" type="TextureRect" parent="Grid/C11"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("11")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L11" type="Label" parent="Grid/C11"]
+layout_mode = 2
+text = "house_blue"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C12" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I12" type="TextureRect" parent="Grid/C12"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("12")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L12" type="Label" parent="Grid/C12"]
+layout_mode = 2
+text = "house_brick"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C13" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I13" type="TextureRect" parent="Grid/C13"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("13")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L13" type="Label" parent="Grid/C13"]
+layout_mode = 2
+text = "house_butter"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C14" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I14" type="TextureRect" parent="Grid/C14"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("14")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L14" type="Label" parent="Grid/C14"]
+layout_mode = 2
+text = "house_clay"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C15" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I15" type="TextureRect" parent="Grid/C15"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("15")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L15" type="Label" parent="Grid/C15"]
+layout_mode = 2
+text = "house_cream"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C16" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I16" type="TextureRect" parent="Grid/C16"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("16")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L16" type="Label" parent="Grid/C16"]
+layout_mode = 2
+text = "house_lavender"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C17" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I17" type="TextureRect" parent="Grid/C17"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("17")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L17" type="Label" parent="Grid/C17"]
+layout_mode = 2
+text = "house_mint"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C18" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I18" type="TextureRect" parent="Grid/C18"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("18")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L18" type="Label" parent="Grid/C18"]
+layout_mode = 2
+text = "house_olive"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C19" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I19" type="TextureRect" parent="Grid/C19"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("19")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L19" type="Label" parent="Grid/C19"]
+layout_mode = 2
+text = "house_rose"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C20" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I20" type="TextureRect" parent="Grid/C20"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("20")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L20" type="Label" parent="Grid/C20"]
+layout_mode = 2
+text = "house_sage"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C21" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I21" type="TextureRect" parent="Grid/C21"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("21")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L21" type="Label" parent="Grid/C21"]
+layout_mode = 2
+text = "house_slate"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C22" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I22" type="TextureRect" parent="Grid/C22"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("22")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L22" type="Label" parent="Grid/C22"]
+layout_mode = 2
+text = "house_teal"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C23" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I23" type="TextureRect" parent="Grid/C23"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("23")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L23" type="Label" parent="Grid/C23"]
+layout_mode = 2
+text = "office_slate"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C24" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I24" type="TextureRect" parent="Grid/C24"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("24")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L24" type="Label" parent="Grid/C24"]
+layout_mode = 2
+text = "office_teal"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C25" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I25" type="TextureRect" parent="Grid/C25"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("25")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L25" type="Label" parent="Grid/C25"]
+layout_mode = 2
+text = "office_warm"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C26" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I26" type="TextureRect" parent="Grid/C26"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("26")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L26" type="Label" parent="Grid/C26"]
+layout_mode = 2
+text = "rowhouse_blue"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C27" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I27" type="TextureRect" parent="Grid/C27"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("27")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L27" type="Label" parent="Grid/C27"]
+layout_mode = 2
+text = "rowhouse_brick"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C28" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I28" type="TextureRect" parent="Grid/C28"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("28")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L28" type="Label" parent="Grid/C28"]
+layout_mode = 2
+text = "rowhouse_cream"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C29" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I29" type="TextureRect" parent="Grid/C29"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("29")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L29" type="Label" parent="Grid/C29"]
+layout_mode = 2
+text = "rowhouse_green"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C30" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I30" type="TextureRect" parent="Grid/C30"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("30")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L30" type="Label" parent="Grid/C30"]
+layout_mode = 2
+text = "shop"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C31" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I31" type="TextureRect" parent="Grid/C31"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("31")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L31" type="Label" parent="Grid/C31"]
+layout_mode = 2
+text = "shop_blue"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C32" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I32" type="TextureRect" parent="Grid/C32"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("32")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L32" type="Label" parent="Grid/C32"]
+layout_mode = 2
+text = "shop_green"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C33" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I33" type="TextureRect" parent="Grid/C33"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("33")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L33" type="Label" parent="Grid/C33"]
+layout_mode = 2
+text = "shop_orange"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C34" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I34" type="TextureRect" parent="Grid/C34"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("34")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L34" type="Label" parent="Grid/C34"]
+layout_mode = 2
+text = "shop_plum"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C35" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I35" type="TextureRect" parent="Grid/C35"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("35")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L35" type="Label" parent="Grid/C35"]
+layout_mode = 2
+text = "shop_teal"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+
+[node name="C36" type="VBoxContainer" parent="Grid"]
+layout_mode = 2
+
+[node name="I36" type="TextureRect" parent="Grid/C36"]
+custom_minimum_size = Vector2(230, 230)
+layout_mode = 2
+texture = ExtResource("36")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="L36" type="Label" parent="Grid/C36"]
+layout_mode = 2
+text = "townhall"
+horizontal_alignment = 1
+theme_override_font_sizes/font_size = 16
+

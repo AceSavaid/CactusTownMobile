@@ -71,8 +71,11 @@ design/    DESIGN.md + reference mockups pasted into chat, saved for context
   Y-sorted) holding ~15 building sprites from `assets/sprites/buildings/` in three
   rows — north front row, a back/landmark row (town hall / apartments), and a
   smaller south row across the street. The `RepairableObject`s + the player sit on
-  the street / sidewalks. Regenerate all six from
-  `scratchpad/gridtown.py` (kept out of the repo — copy back if reworking layout).
+  the street / sidewalks. `tools/buildings.py` generates the ~36-sprite set
+  (houses / shops / apartments from one template each in many colourways, plus
+  cottages / rowhouses / offices / clocktowers). `tools/gridtown.py` regenerates
+  all six scenes, picking from a per-section themed pool (leafy Garden, retail
+  Shopping, offices Business…). Edit those scripts, not the .tscn files.
 - **Decay**: `GameState.RunTownDecay()` (called from `GameState._Ready`, `TownMap`,
   and each section `_Ready`). For every section completed once, on a new EST day
   (`EstToday()`, fixed UTC-5) one fixed object breaks — 25% two, 5% three. One

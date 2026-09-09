@@ -36,41 +36,68 @@ OBJ_SLOTS = [
 ]
 PLAYER_SPAWN = (-40, 340)
 
-# rows: y = Sprite2D position.y (centre). building svgs are ~300-352 tall.
+# rows: y = Sprite2D position.y (centre). building svgs are ~260-384 tall.
 FRONT_Y, FRONT_S = -170, 1.12   # base ~ +30 (just above main street)
 BACK_Y,  BACK_S  = -470, 0.92   # base ~ -220, peeks between front row
 SOUTH_Y, SOUTH_S =  405, 0.78   # base ~ +600, lines the south side of the street
-TALL_Y = -530                   # townhall / big apartment landmarks, back
-
-def F(n, x, s=FRONT_S): return (n, x, FRONT_Y, s)
-def B(n, x, s=BACK_S):  return (n, x, BACK_Y, s)
-def S(n, x, s=SOUTH_S): return (n, x, SOUTH_Y, s)
-def T(n, x, s=1.28):    return (n, x, TALL_Y, s)
 
 FX = [-1120, -740, -360, 360, 740, 1120]
 BX = [-930, -560, 560, 930]
 SX = [-980, -560, -140, 560, 980]
 
-BUILDINGS = {
- "MainSquare": [F("house_clay",FX[0]),F("house_sage",FX[1]),("townhall",FX[2],FRONT_Y,1.14),F("house_blue",FX[3]),F("house_sage",FX[4]),F("house_clay",FX[5]),
-                B("house_blue",BX[0]),B("house_clay",BX[1]),T("apartment",560,1.12),B("house_sage",BX[3]),
-                S("house_sage",SX[0]),S("house_clay",SX[1]),S("shop",SX[2]),S("house_blue",SX[3]),S("house_sage",SX[4])],
- "Garden": [F("house_sage",FX[0]),F("house_clay",FX[1]),F("house_sage",FX[2]),F("house_blue",FX[3]),F("house_clay",FX[4]),F("house_sage",FX[5]),
-            B("house_blue",BX[0]),B("house_sage",BX[1]),B("house_clay",BX[2]),B("house_blue",BX[3]),
-            S("house_clay",SX[0]),S("house_sage",SX[1]),S("house_blue",SX[2]),S("house_sage",SX[3]),S("house_clay",SX[4])],
- "Park": [F("house_blue",FX[0]),F("house_sage",FX[1]),F("house_clay",FX[2]),F("house_sage",FX[3]),F("house_blue",FX[4]),F("house_clay",FX[5]),
-          B("house_sage",BX[0]),T("apartment",-470,1.1),B("house_clay",BX[2]),B("house_sage",BX[3]),
-          S("house_sage",SX[0]),S("house_blue",SX[1]),S("house_clay",SX[2]),S("house_sage",SX[3]),S("house_blue",SX[4])],
- "Shopping": [F("shop",FX[0]),F("house_clay",FX[1]),F("shop",FX[2]),F("shop",FX[3]),F("house_clay",FX[4]),F("shop",FX[5]),
-              B("house_clay",BX[0]),T("apartment",-470,1.16),T("apartment",470,1.16),B("house_clay",BX[3]),
-              S("shop",SX[0]),S("house_clay",SX[1]),S("shop",SX[2]),S("shop",SX[3]),S("house_clay",SX[4])],
- "Housing": [F("house_sage",FX[0]),F("house_clay",FX[1]),F("house_blue",FX[2]),F("house_sage",FX[3]),F("house_clay",FX[4]),F("house_blue",FX[5]),
-             B("house_clay",BX[0]),B("house_blue",BX[1]),B("house_sage",BX[2]),T("apartment",930,1.06),
-             S("house_blue",SX[0]),S("house_sage",SX[1]),S("house_clay",SX[2]),S("house_blue",SX[3]),S("house_sage",SX[4])],
- "Business": [F("shop",FX[0]),F("apartment",FX[1],1.06),("townhall",FX[2],FRONT_Y,1.12),F("apartment",FX[3],1.06),F("shop",FX[4]),F("apartment",FX[5],1.06),
-              B("shop",BX[1]),T("apartment",-560,1.24),T("apartment",560,1.24),B("shop",BX[0]),
-              S("shop",SX[0]),S("apartment",SX[1],0.72),S("shop",SX[2]),S("apartment",SX[3],0.72),S("shop",SX[4])],
+HOUSES  = ["house_sage","house_clay","house_blue","house_brick","house_cream","house_lavender",
+           "house_mint","house_butter","house_rose","house_slate","house_olive","house_teal"]
+COTTAGES = ["cottage_thatch","cottage_stone","cottage_rose","cottage_sage"]
+ROWS     = ["rowhouse_brick","rowhouse_cream","rowhouse_blue","rowhouse_green"]
+SHOPS    = ["shop","shop_blue","shop_green","shop_orange","shop_teal","shop_plum"]
+APARTS   = ["apartment","apartment_brick","apartment_grey","apartment_blue","apartment_cream"]
+OFFICES  = ["office_teal","office_slate","office_warm"]
+
+# per section: a pool to draw the three rows from, and an optional front-centre landmark
+SECTIONS = {
+ "MainSquare": dict(pool=HOUSES+COTTAGES+SHOPS[:2]+ROWS[:2], landmark=("townhall", 1.16)),
+ "Garden":     dict(pool=["cottage_sage","cottage_thatch","cottage_rose","house_mint","house_sage",
+                          "house_olive","house_teal","house_butter","house_cream"], landmark=None),
+ "Park":       dict(pool=["house_sage","house_blue","house_mint","house_teal","house_lavender",
+                          "house_cream","cottage_stone","cottage_sage","house_slate"], landmark=("clocktower_stone", 1.05)),
+ "Shopping":   dict(pool=SHOPS+SHOPS+ROWS+["apartment_cream","house_clay"], landmark=None),
+ "Housing":    dict(pool=HOUSES+ROWS+COTTAGES+["apartment","apartment_cream"], landmark=None),
+ "Business":   dict(pool=OFFICES*2+APARTS+SHOPS[:3], landmark=("townhall", 1.14)),
 }
+
+def _fill(pool, xs, seed, y, scale):
+    """deterministic pick from pool per x-slot, no two adjacent the same."""
+    out, prev = [], None
+    for i, x in enumerate(xs):
+        h = (seed * 2654435761 + i * 40503) & 0xffffffff
+        cand = pool[h % len(pool)]
+        if cand == prev:
+            cand = pool[(h + 1) % len(pool)]
+        prev = cand
+        out.append((cand, x, y, scale))
+    return out
+
+def _seed(text):
+    v = 2166136261
+    for c in text:
+        v = ((v ^ ord(c)) * 16777619) & 0xffffffff
+    return v
+
+def buildings_for(sec):
+    cfg = SECTIONS[sec]
+    pool = cfg["pool"]
+    sd = _seed(sec)
+    front = _fill(pool, FX, sd,        FRONT_Y, FRONT_S)
+    back  = _fill(pool, BX, sd ^ 0x55, BACK_Y,  BACK_S)
+    south = _fill(pool, SX, sd ^ 0xAA, SOUTH_Y, SOUTH_S)
+    if cfg["landmark"]:
+        name, sc = cfg["landmark"]
+        front[2] = (name, FX[2], FRONT_Y, sc)          # front-centre landmark
+    else:
+        back[1] = ("apartment", BX[1], BACK_Y, 1.05)   # a taller block anchors the back row
+    return south + back + front   # south renders first (behind), then back, then front
+
+BUILDINGS = {sec: buildings_for(sec) for sec in SECTIONS}
 
 def build(sec):
     p = os.path.join(ROOT, "scenes", "town", sec + ".tscn")
