@@ -22,14 +22,15 @@ public partial class SettingsMenu : Control
 		"[center]Thanks for playing.[/center]";
 
 	private VolumeStepper _master = null!, _music = null!, _sfx = null!;
-	private CheckButton _mute = null!;
+	private Button _mute = null!;
 
 	public override void _Ready()
 	{
 		_master = GetNode<VolumeStepper>("%MasterStepper");
 		_music = GetNode<VolumeStepper>("%MusicStepper");
 		_sfx = GetNode<VolumeStepper>("%SfxStepper");
-		_mute = GetNode<CheckButton>("%MuteToggle");
+		_mute = GetNode<Button>("%MuteToggle");
+		_mute.TooltipText = "Mute all audio";
 		GetNode<RichTextLabel>("%CreditsText").Text = Credits;
 
 		_master.LevelChanged += level => Audio.Instance?.SetBusVolume("Master", level / (float)VolumeStepper.Steps);

@@ -175,7 +175,16 @@ public partial class ScreenshotNode : Node
 
 		if (args.Contains("audio_settings") || args.Contains("settings"))
 		{
-			scene.GetNode<SettingsMenu>("%SettingsMenu").Open();
+			var menu = scene.GetNode<SettingsMenu>("%SettingsMenu");
+			menu.Open();
+			if (args.Contains("muted"))
+			{
+				var mute = menu.GetNode<Button>("%MuteToggle");
+				mute.ButtonPressed = true;
+				mute.EmitSignal(BaseButton.SignalName.Toggled, true);
+			}
+			if (args.Contains("credits_tab"))
+				menu.GetNode<TabContainer>("%Tabs").CurrentTab = 1;
 			for (var i = 0; i < 4; i++)
 				await ToSignal(GetTree(), SceneTree.SignalName.ProcessFrame);
 		}

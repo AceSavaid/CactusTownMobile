@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3]
+[gd_scene load_steps=9 format=3]
 
 [ext_resource type="Script" path="res://ui/SettingsMenu.cs" id="1_sm"]
 [ext_resource type="PackedScene" path="res://ui/VolumeStepper.tscn" id="2_vs"]
@@ -12,6 +12,32 @@ corner_radius_top_left = 18
 corner_radius_top_right = 18
 corner_radius_bottom_right = 18
 corner_radius_bottom_left = 18
+
+[sub_resource type="StyleBoxFlat" id="mute_normal"]
+bg_color = Color(0.22, 0.27, 0.23, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="mute_hover"]
+bg_color = Color(0.27, 0.33, 0.28, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
+
+[sub_resource type="StyleBoxFlat" id="mute_pressed"]
+bg_color = Color(0.4, 0.24, 0.22, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.85, 0.5, 0.45, 1)
+corner_radius_top_left = 22
+corner_radius_top_right = 22
+corner_radius_bottom_right = 22
+corner_radius_bottom_left = 22
 
 [node name="SettingsMenu" type="Control"]
 layout_mode = 3
@@ -90,16 +116,28 @@ theme_override_constants/margin_bottom = 24
 
 [node name="VBox" type="VBoxContainer" parent="Panel/Margin/VBox/Tabs/Audio"]
 layout_mode = 2
-theme_override_constants/separation = 26
+theme_override_constants/separation = 30
 
-[node name="MuteToggle" type="CheckButton" parent="Panel/Margin/VBox/Tabs/Audio/VBox"]
-unique_name_in_owner = true
+[node name="MuteRow" type="CenterContainer" parent="Panel/Margin/VBox/Tabs/Audio/VBox"]
 layout_mode = 2
-theme_override_colors/icon_normal_color = Color(0.9, 0.92, 0.95, 1)
-theme_override_constants/h_separation = 16
-theme_override_font_sizes/font_size = 32
+
+[node name="MuteToggle" type="Button" parent="Panel/Margin/VBox/Tabs/Audio/VBox/MuteRow"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(176, 176)
+layout_mode = 2
+toggle_mode = true
+theme_override_colors/icon_normal_color = Color(0.88, 0.91, 0.95, 1)
+theme_override_colors/icon_hover_color = Color(0.95, 0.97, 1, 1)
+theme_override_colors/icon_pressed_color = Color(0.97, 0.83, 0.8, 1)
+theme_override_colors/icon_hover_pressed_color = Color(1, 0.88, 0.85, 1)
+theme_override_constants/icon_max_width = 104
+theme_override_styles/normal = SubResource("mute_normal")
+theme_override_styles/hover = SubResource("mute_hover")
+theme_override_styles/pressed = SubResource("mute_pressed")
+theme_override_styles/hover_pressed = SubResource("mute_pressed")
+theme_override_styles/focus = SubResource("mute_normal")
 icon = ExtResource("3_snd")
-text = "Mute everything"
+expand_icon = true
 
 [node name="MasterRow" type="HBoxContainer" parent="Panel/Margin/VBox/Tabs/Audio/VBox"]
 layout_mode = 2
