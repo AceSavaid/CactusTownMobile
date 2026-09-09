@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3]
+[gd_scene load_steps=17 format=3]
 
 [ext_resource type="Script" path="res://scripts/House.cs" id="1_house"]
 [ext_resource type="PackedScene" path="res://ui/CoinHud.tscn" id="2_hud"]
@@ -12,6 +12,7 @@
 [ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_stats.svg" id="10_ic3"]
 [ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_notices.svg" id="11_ic4"]
 [ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_town.svg" id="12_ic5"]
+[ext_resource type="PackedScene" path="res://ui/HubQuest.tscn" id="13_hq"]
 
 [sub_resource type="StyleBoxFlat" id="plaque"]
 bg_color = Color(0.541, 0.361, 0.208, 1)
@@ -207,13 +208,17 @@ text = "Settings"
 
 [node name="HubTip" parent="." instance=ExtResource("6_ht")]
 unique_name_in_owner = true
-anchor_top = 1.0
-anchor_bottom = 1.0
 offset_left = 48.0
-offset_top = -420.0
+offset_top = 120.0
 offset_right = 700.0
-offset_bottom = -150.0
-grow_vertical = 0
+offset_bottom = 356.0
+
+[node name="HubQuest" parent="." instance=ExtResource("13_hq")]
+unique_name_in_owner = true
+offset_left = 48.0
+offset_top = 384.0
+offset_right = 700.0
+offset_bottom = 512.0
 
 [node name="CoinHud" parent="." instance=ExtResource("2_hud")]
 

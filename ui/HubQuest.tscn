@@ -1,0 +1,84 @@
+[gd_scene load_steps=4 format=3]
+
+[ext_resource type="Script" path="res://ui/HubQuest.cs" id="1_hq"]
+[ext_resource type="Texture2D" path="res://assets/sprites/hub/ic_notices.svg" id="2_ic"]
+
+[sub_resource type="StyleBoxFlat" id="card"]
+bg_color = Color(0.34, 0.45, 0.3, 0.94)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0.24, 0.34, 0.2, 0.55)
+corner_radius_top_left = 16
+corner_radius_top_right = 16
+corner_radius_bottom_right = 16
+corner_radius_bottom_left = 16
+shadow_color = Color(0, 0, 0, 0.14)
+shadow_size = 9
+shadow_offset = Vector2(0, 4)
+
+[node name="HubQuest" type="Button"]
+offset_right = 640.0
+offset_bottom = 150.0
+theme_override_styles/normal = SubResource("card")
+theme_override_styles/hover = SubResource("card")
+theme_override_styles/pressed = SubResource("card")
+theme_override_styles/focus = SubResource("card")
+script = ExtResource("1_hq")
+
+[node name="Margin" type="MarginContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+theme_override_constants/margin_left = 24
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 24
+theme_override_constants/margin_bottom = 16
+
+[node name="Row" type="HBoxContainer" parent="Margin"]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/separation = 18
+
+[node name="Icon" type="TextureRect" parent="Margin/Row"]
+custom_minimum_size = Vector2(56, 56)
+layout_mode = 2
+size_flags_vertical = 1
+mouse_filter = 2
+texture = ExtResource("2_ic")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Text" type="VBoxContainer" parent="Margin/Row"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="QHeading" type="Label" parent="Margin/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.75, 0.86, 0.66, 1)
+theme_override_font_sizes/font_size = 22
+text = "Getting Started"
+
+[node name="QBody" type="Label" parent="Margin/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.97, 0.97, 0.94, 1)
+theme_override_font_sizes/font_size = 27
+text = "Fix the welcome sign"
+autowrap_mode = 3
+
+[node name="QReward" type="Label" parent="Margin/Row/Text"]
+unique_name_in_owner = true
+layout_mode = 2
+mouse_filter = 2
+theme_override_colors/font_color = Color(0.8, 0.88, 0.7, 1)
+theme_override_font_sizes/font_size = 21
+text = "+15 coins"

@@ -18,16 +18,13 @@ public static class MentorTips
 			return step.Id switch
 			{
 				"tut:sign" =>
-					"Welcome to Cactus Town! Head out through Go to Town — the Notice Board " +
-					"in the square shows your first task: mend the old welcome sign by me.",
+					"Head into town and mend the old welcome sign by me. The Notice Board there lists what it needs.",
 				"tut:gather" =>
-					"Nice work on the sign. Now visit a material region — Forest, Cave, River " +
-					"or Flower Field, reached from the Town map — and gather a few times.",
+					"Now try a material region from the Town map — chop, mine or pick, and bring some back.",
 				"tut:custom" =>
-					"You've earned some coins. Open Customise Plant and treat yourself to a " +
-					"new pot or a little hat.",
+					"You've a few coins. Give your plant a new pot or hat in Customise Plant.",
 				"tut:arcade" =>
-					"There are games in the house. Open Mini-Games and win a round — it pays coins.",
+					"Pop into Mini-Games and win a round — it pays a coin or three.",
 				"tut:section" =>
 					RestoreLine(g),
 				_ => "Keep at it — the town's looking brighter already.",
